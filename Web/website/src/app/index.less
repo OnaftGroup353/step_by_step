@@ -31,6 +31,9 @@ a {
 		text-decoration: none;
 	}
 }
+.center {
+	text-align: center;
+}
 button {
 	min-width: 160px;
 	height: 38px;
@@ -93,7 +96,45 @@ header.main-header {
 	}
 }
 .home {
-	
+	.content {
+		// min-height: calc(~"100vh - 92px - 84px");	
+		background: #DAFFDA;
+		position: relative;
+		.wrapper {
+			background: #fff;
+			height: 100%;
+			min-height: calc(~"100vh - 92px - 84px");
+		}
+		.about {
+			padding: 40px;
+			h3 {
+				margin-top: 20px;
+			}
+		}
+		.news {
+			padding: 80px 40px 50px 40px;
+			ul {
+				text-align: center;
+				li {
+					width: 300px;
+					display: inline-block;
+					img {
+						width: 120px;
+						height: 120px;
+					}
+					p.title {
+						margin-top: 10px;
+						font-size: 18px;
+					}
+				}
+			}
+		}
+	}
+	footer.main-footer {
+		padding: 20px;
+		height: 84px;
+		background: #EAE1CC;
+	}
 }
 
 
