@@ -13,8 +13,152 @@
 
 
 * {
-	font-size: Helvetica;
+	font-size: Arial Helvetica;
+	margin: 0;
+	padding: 0;
 }
+h1,h2,h3,h4 {
+	margin: 0;
+}
+a {
+	text-decoration: none;
+	outline: none !important;
+	&:hover {
+		text-decoration: none;
+		cursor: pointer;
+	}
+	&:focus {
+		text-decoration: none;
+	}
+}
+button {
+	min-width: 160px;
+	height: 38px;
+	border-radius: 5px;
+	border: none;
+	font-weight: 100;
+	font-size: 16px;
+	letter-spacing: .5px;
+	outline: none !important;
+	padding: 0 20px;
+	&.green {
+		background: #78cf1a;
+		box-shadow: 0 2px 0 0 #539A0B;
+		color: #fff;
+		&:hover {
+			background: #5EA214;
+			box-shadow: 0 2px 0 0 #3C6B0C;
+		}
+	}
+}
+input {
+	height: 38px;
+	border: 1px solid #acacac;
+	padding: 10px;
+	border-radius: 5px;
+	outline: none !important;
+	font-size: 16px;
+}
+label {
+	font-weight: 400;
+}
+ul {
+	list-style: none;
+}
+.wrapper {
+	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+}
+.home {
+	header.main-header {
+		background: #E3F2FA;
+		height: 92px;
+		border-bottom: 1px solid #8c8c8c;
+		ul {
+			padding-top: 30px;
+			float: right;
+			li {
+				margin-right: 30px;
+				display: inline-block;
+				
+				a {
+					color: #313131;
+					font-size: 18px;
+					font-weight: 400;
+					&:hover {
+						color: #77b;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+.modal-dialog {
+	margin-top: 100px;
+}
+.modal-content {
+	border: none;
+	box-shadow: 0 0 5px 2px rgba(0,0,0,0.2);
+}
+.modal-wrapper {
+	.cancel {
+		position: absolute;
+		font-size: 40px;
+		opacity: 0.8;
+		right: 20px;
+		cursor: pointer;
+		&:hover {
+			opacity: 0.6;
+		}
+	}
+	width: 600px;
+	.modal-head {
+		padding: 20px 30px;
+		h2 {
+			font-size: 18px;
+			margin-bottom: 5px;
+		}
+		h3 {
+			font-size: 14px;
+		}
+		
+	}
+	.modal-body {
+		background: #efefef;
+		padding: 10px 30px;
+		box-shadow: 0 -2px 2px 0 rgba(0,0,0,.5);
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		padding-bottom: 40px;
+		input{
+			float:right;
+			width: 328px;
+		}
+		.wrap {
+			width: 100%;
+			margin-top: 20px;
+			position: relative;
+			height: 40px;
+			label {
+				float: left;
+			}
+		}
+		button {
+			float: right;
+		}
+
+	}
+}
+
+
 
 
 /**
