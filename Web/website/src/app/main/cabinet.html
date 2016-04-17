@@ -1,0 +1,23 @@
+<div class="cabinet">
+	<div class="aside">
+		<p class="title">Мои методички</p>
+		<ul>
+			
+
+			<li ng-repeat="book in books" ng-click="$state.go('cabinet.bookInfo', {id: book.id})">
+				<p>Направление: <span class="bold">{{book.direction}}</span></p>	
+				<p>Название: <span class="bold">{{book.name}}</span></p>
+				<p>Дата: <span class="bold">{{formatDate(book.modified)}}</span></p>
+			</li>
+
+		</ul>
+	</div>
+	<div class="ui-view content">
+		<div class="no-select" ng-if="$state.is('cabinet')">
+			<img src="assets/images/empty_book.png" alt="">
+			<p>Вы не выбрали ни одной методички</p>
+
+		</div>
+	</div>
+	
+</div>

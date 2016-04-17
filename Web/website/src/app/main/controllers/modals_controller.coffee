@@ -4,11 +4,16 @@ angular.module "articleApp"
     $scope.cancel = () ->
         $modalInstance.dismiss 'cancel'
     $scope.login = ()->
-      console.log "login here"
       if $scope.user.login == 'admin' && $scope.user.password == '123'
-        localStorage.setItem("articleToken", "g90uh0fguh0s9ugh09su5h")
+        localStorage.setItem("articleToken", "a_g90uh0fguh0s9ugh09su5h")
         $scope.cancel()
-        $state.go('admin')    
+        $state.go('admin')
+
+      if $scope.user.login == 'user' && $scope.user.password == '123'
+        localStorage.setItem("articleToken", "u_g90uh0fguh0s9ugh09su5h")
+        $scope.cancel()
+        $state.go('cabinet')    
+        
   .controller "registerModalCtrl", ($scope, $rootScope, $state, $server, $modal, $modalInstance) ->
     $scope.cancel = () ->
       $modalInstance.dismiss 'cancel'

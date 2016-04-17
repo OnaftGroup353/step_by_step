@@ -28,3 +28,11 @@ angular.module "articleApp"
           }
         return
 
+    $scope.logout = ()->
+      delete localStorage.articleToken
+      $state.go("index")
+
+    $scope.formatDate = (timestamp)->
+      return moment(timestamp).format("DD/MM/YYYY")
+
+

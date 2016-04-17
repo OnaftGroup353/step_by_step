@@ -24,7 +24,16 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-
+  <header class="main-header">
+    <div class="wrapper">
+      <div class="logo"><a ui-sref="index">Методички Online</a></div>
+      <ul>
+        <li><a href="" ng-click="showModal('login')" ng-if="$state.is('index')">Вход</a></li>
+        <li><a href="" ng-click="showModal('register')" ng-if="$state.is('index')">Регистрация</a></li>
+        <li><a href="" ng-click="logout()" ng-if="$state.includes('cabinet') || $state.includes('admin')">Выход</a></li>
+      </ul>
+    </div>  
+  </header>
     <div ui-view class="application"></div>
 
 
