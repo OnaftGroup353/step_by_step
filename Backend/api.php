@@ -14,7 +14,10 @@
 			"getUserInfo" 					=> "user.php",
 			"insertUser" 					=> "user.php",
 			"updateUser" 					=> "user.php",
-			"getArticleTypes" 				=> "articles_types.php"
+			"getArticleTypes" 				=> "articles_types.php",
+			"getArticleById" 				=> "articles.php",
+			"getAllArticles" 				=> "articles.php",
+			"createArticle" 				=> "articles.php"
 		);
 		
 		public function __construct()
