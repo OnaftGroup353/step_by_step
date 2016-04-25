@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 24 2016 г., 20:50
+-- Время создания: Апр 25 2016 г., 22:15
 -- Версия сервера: 5.6.26-log
 -- Версия PHP: 5.6.12
 
@@ -173,17 +173,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `social_network_id` text NOT NULL,
   `social_network_type` bigint(20) NOT NULL DEFAULT '1',
   `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `session` text,
   PRIMARY KEY (`id`),
   KEY `social_network_type` (`social_network_type`),
   KEY `scope_id` (`scope_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `scope_id`, `first_name`, `middle_name`, `last_name`, `interest`, `position`, `social_network_id`, `social_network_type`, `banned`) VALUES
-(3, 'test', 'test', 3, '', '', '', '', '', '', 1, 0);
+INSERT INTO `users` (`id`, `email`, `password`, `scope_id`, `first_name`, `middle_name`, `last_name`, `interest`, `position`, `social_network_id`, `social_network_type`, `banned`, `session`) VALUES
+(3, 'test', 'test', 3, '', '', '', '', '', '', 1, 0, '397561ed80acd8ba1126179bca4b5f5931aa70d43c65b7ad4213552d5861f73fa97de612eccbc87e4b5ce2fe28308fd9f2a7baf3');
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
