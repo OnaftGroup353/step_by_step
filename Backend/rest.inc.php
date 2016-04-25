@@ -78,29 +78,27 @@ class REST {
     }
 
     private function inputs()
-    {
-		/*
+    {	
 		switch($this->get_request_method()){
             case "POST":
             case "GET":
             case "DELETE":
             case "PUT":
-				parse_str(file_get_contents("php://stdin"),$this->_request);
-                $this->_request = $this->cleanInputs($this->_request);
+                parse_str(file_get_contents("php://input"),$req);
+                $req = $this->cleanInputs($req);
+				foreach	($req as $k => $v)
+					$this->_request = $k;
                 break;
             default:
                 $this->response('',406);
                 break;
         }
-		*/
-		
+		/*
         switch($this->get_request_method()){
             case "POST":
                 $this->_request = $this->cleanInputs($_POST);
                 break;
             case "GET":
-                $this->_request = $this->cleanInputs($_GET);
-                break;
             case "DELETE":
                 $this->_request = $this->cleanInputs($_GET);
                 break;
@@ -112,8 +110,18 @@ class REST {
                 $this->response('',406);
                 break;
         }
-		
+		*/
     }
+	
+	public static function checkString($param)
+	{
+		while (strrpos($param, "'"))
+		{
+			$param = preg_replace("/\'/", "«", $param, 1);
+			$param = preg_replace("/\'/", "»", $param, 1);
+		}
+		return $param;
+	}
 	
 	private function cleanInputs( $data ) {
 		$clean_input = array();
@@ -131,7 +139,7 @@ class REST {
 		return $clean_input;
 	}
 	
-	private function send_error($error, $code)
+	public function send_error($error, $code)
 	{
 		$data = array(error => $error);
 		$this->response(json_encode($data), $code, "text");
@@ -139,7 +147,6 @@ class REST {
 
     private function set_headers($format){
         header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
-        //header("Content-Type:".$this->_content_type);
         if($format =='json')
         {
             header("Content-Type:".$this->json_content_type);
