@@ -8,7 +8,7 @@
 
     function createArticle() {
         global $api;
-        $api -> _request = json_decode($api->_request);
+        $api -> _request = json_decode($api->_request);		
         $caption = $api->_request->caption;
         $article_type_id = $api->_request->article_type_id;
         $content = $api->_request->content;
@@ -59,10 +59,13 @@
         $api->response('No Content!',204, "text");
     }
 
-    function getArticleById($id)
+    function getArticleById()
     {
         global $api;
-        $id = intval($id);
+		$api -> _request = json_decode($api->_request);
+		if (!isset($api->_request->id))
+			$api->send_error("Bad request!", 400);
+        $id = intval($api->_request->id);
         if($id >= 0)
         {
             $query = "SELECT distinct id, 

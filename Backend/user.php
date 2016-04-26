@@ -271,7 +271,7 @@ function update_user_password()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',400, "text");
+	$api->response('Internal Server Error',500, "text");
 }
 
 function update_user_ban()
@@ -298,7 +298,7 @@ function update_user_ban()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',400, "text");
+	$api->response('Internal Server Error',500, "text");
 }
 
 function update_user_scope()
@@ -323,7 +323,7 @@ function update_user_scope()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',400, "text");
+	$api->response('Internal Server Error',500, "text");
 }
 
 function update_user_email()
@@ -358,10 +358,10 @@ function update_user_email()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',400, "text");
+	$api->response('Internal Server Error',500, "text");
 }
 
-private function update_user($req)
+function update_user($req)
 {
 	/*
 		{
@@ -395,5 +395,7 @@ private function update_user($req)
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',400, "text");
+	$api->response('Internal Server Error',500, "text");
 }
+
+?>
