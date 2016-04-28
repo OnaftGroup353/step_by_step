@@ -1,13 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Aleksandr
- * Date: 25.04.2016
- * Time: 22:55
- */
 
+	/*! \fn createArticle()
+		\brief
+			creates new article
+		
+			public method
+		
+			<b>Request</b>
+			
+			{
+				"caption": "caption",
+				"article_type_id": "1",
+				"content": "content",
+				"update_date": "update_date",
+				"previous_version_article_id": "122",
+				"isdeleted": "0"
+			}
+			
+			<b>Response</b>
+			
+			{
+				"id": "123"
+			}
+		
+	*/
     function createArticle() {
         global $api;
+		if (count($api->_request) == 0)
+			$api->send_error("Bad Request!", 400);
         $api -> _request = json_decode($api->_request);		
         $caption = $api->_request->caption;
         $article_type_id = $api->_request->article_type_id;
@@ -38,6 +58,38 @@
         $api->response('Internal Server Error', 500, "text");
     }
 
+	/*! \fn getAllArticles()
+		\brief
+			returns all articles
+		
+			public method
+		
+			<b>Request</b>
+			
+			Empty
+			
+			<b>Response</b>
+			
+			[{
+				"id": "123",
+				"caption": "caption",
+				"article_type_id": "1",
+				"content": "content",
+				"update_date": "update_date",
+				"previous_version_article_id": "122",
+				"isdeleted": "0"
+			},
+			{
+				"id": "123",
+				"caption": "caption",
+				"article_type_id": "1",
+				"content": "content",
+				"update_date": "update_date",
+				"previous_version_article_id": "122",
+				"isdeleted": "0"
+			}]
+		
+	*/
     function getAllArticles()
     {
         global $api;
@@ -59,9 +111,36 @@
         $api->response('No Content!',204, "text");
     }
 
+	/*! \fn getArticleById()
+		\brief
+			returns article by id
+		
+			public method
+		
+			<b>Request</b>
+			
+			{
+				"id": "1"
+			}
+			
+			<b>Response</b>
+			
+			{
+				"id": "123",
+				"caption": "caption",
+				"article_type_id": "1",
+				"content": "content",
+				"update_date": "update_date",
+				"previous_version_article_id": "122",
+				"isdeleted": "0"
+			}
+		
+	*/
     function getArticleById()
     {
         global $api;
+		if (count($api->_request) == 0)
+			$api->send_error("Bad Request!", 400);
 		$api -> _request = json_decode($api->_request);
 		if (!isset($api->_request->id))
 			$api->send_error("Bad request!", 400);

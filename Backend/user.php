@@ -1,4 +1,13 @@
 <?php
+
+
+/*! \fn checkEmailInDatabase($email)
+	\brief checks user with specified email in database
+	
+			private method
+	\param $email user email
+	\return true if user with $email not exist
+*/
 function checkEmailInDatabase($email) // true if user with $email not exist
 {
 	global $api;
@@ -8,23 +17,39 @@ function checkEmailInDatabase($email) // true if user with $email not exist
 	return $res["cou"] == 0;
 }
 
-function login()
-{
-	/*
+/*! \fn login()
+	\brief
+		public method
 	
+		<b>Request</b>
+		
+		To log in with token:
+		
 		{
 			"token": "token"
 		}
 		
-		||
+		To log in with email:
 	
 		{
 			"email": "email",
 			"password": "password"
 		}
 		
-	*/
-	global $api;			
+		<b>Response</b>
+		
+		{
+			"token": "token",
+			"id": "id",
+			"email": "email",
+			"scope_id": "scope_id"
+		}
+*/
+function login()
+{
+	global $api;		
+	if (count($api->_request) == 0)
+		$api->send_error("Bad Request!", 400);
 	$api->_request = json_decode($api->_request);
 	if (isset($api->_request->token))
 	{
@@ -40,7 +65,8 @@ function login()
 		$_SESSION["user_id"] = $res["id"];	
 		$_SESSION["token"] = $token;	
 		$_SESSION["scope_id"] = $res["scope_id"];
-		$api->response(json_encode($res), 200, "json");
+		$response = array("token" => $token, "id" => $_SESSION["user_id"], "email" => $res["email"], "scope_id" => $_SESSION["scope_id"]);
+		$api->response(json_encode($response), 200, "json");
 	}
 	if (!isset($api->_request->email, $api->_request->password))
 		$api->send_error("Bad Request!", 400);
@@ -71,18 +97,29 @@ function login()
 	$_SESSION["scope_id"] = $res["scope_id"];
 	$query="UPDATE users SET `session`='$token' where `email`='$email'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-	$response = array("token" => $token);
+	$response = array("token" => $token, "id" => $_SESSION["user_id"], "email" => $res["email"], "scope_id" => $_SESSION["scope_id"]);
 	$api->response(json_encode($response), 200, "json");
 }
 
-function logout()
-{
-	/*
+/*! \fn logout()
+	\brief
+		public method
+	
+		<b>Request</b>
+		
 		{
 			"token": "token"
 		}
-	*/
-	global $api;			
+		
+		<b>Response</b>
+		
+		OK
+*/
+function logout()
+{
+	global $api;		
+	if (count($api->_request) == 0)
+		$api->send_error("Bad Request!", 400);
 	$api->_request = json_decode($api->_request);
 	session_start();
 	if (!isset($_SESSION["token"]))
@@ -98,14 +135,33 @@ function logout()
 	$query="UPDATE users SET session=NULL WHERE id='$id'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	session_destroy();
-	$api->response("OK", 200, "json");
+	$api->response("OK", 200, "text");
 }
 
+/*! \fn registrationCheckEmail()
+	\brief
+		public method
+	
+		Check available email when registering new user
+	
+		<b>Request</b>
+	
+		{
+			"email": "email"
+		}
+		
+		<b>Response</b>
+		
+		{
+			"aviable": "true"
+		}
+*/
 function registrationCheckEmail() 
 {
 	global $api;
+	if (count($api->_request) == 0)
+		$api->send_error("Bad Request!", 400);
 	$api->_request = json_decode($api->_request);
-	
 	if (!isset($api->_request->email))
 		$api->send_error("Bad Request!", 400);
 	$email = $api->_request->email;
@@ -115,25 +171,61 @@ function registrationCheckEmail()
 		send_error("Invalid email!", 400);
 	$res = array('aviable' => checkEmailInDatabase($email));
 	$this->response(json_encode($res), 200, "json");
-	/*
-		{
-			"aviable": "true"
-		}
-		
-		"true" is email is aviable
-		"false" if email is not aviable
-	*/
 }
 
-function getUserInfo()
-{	
-	/*
+/*! \fn getUserInfo()
+	\brief
+		public method
+	
+		<b>Request</b>
+	
 		{
 			"id": "123"
 		}
-	*/
-
+		
+		<b>Response</b>
+		
+		Return when looking a user profile
+		
+		{
+			"id": "123",    
+			"scope_id": "1",
+			"scope_name": "User",
+			"first_name": "first_name",
+			"middle_name": "middle_name",
+			"last_name": "last_name",
+			"interest": "interest",
+			"position": "position",
+			"social_network_id": "123411231231",
+			"social_network_type": "social_network_type",
+			"banned": "0"
+		}
+		
+		<b>OR</b>
+		
+		Return in personal cabinet
+		
+		{
+			"id": "123",  
+			"email": "email",
+			"scope_id": "1",
+			"scope_name": "User",
+			"first_name": "first_name",
+			"middle_name": "middle_name",
+			"last_name": "last_name",
+			"interest": "interest",
+			"position": "position",
+			"social_network_id": "123411231231",
+			"social_network_type": "social_network_type",
+			"banned": "0"
+		}
+		
+*/
+function getUserInfo()
+{	
 	global $api;
+	if (count($api->_request) == 0)
+		$api->send_error("Bad Request!", 400);
 	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->id))
 		$api->send_error("Bad Request!", 400);
@@ -155,18 +247,30 @@ function getUserInfo()
 	send_error("Invalid user!", 204);
 }
 
-function insertUser()
-{
-	/*
+/*! \fn insertUser()
+	\brief
+		public method
+	
+		<b>Request</b>
+	
 		{
 			"email": "mail@example.com",
 			"password": "password"
 		}
-	*/
-	
+		
+		<b>Response</b>
+		
+		{
+			"id": "123"
+		}
+		
+*/
+function insertUser()
+{
 	global $api;
+	if (count($api->_request) == 0)
+		$api->send_error("Bad Request!", 400);
 	$api->_request = json_decode($api->_request);
-	
 	if (!isset($api->_request->email, $api->_request->password))
 		send_error("Bad Request!", 400);
 	$email = $api->_request->email;
@@ -196,47 +300,40 @@ function insertUser()
 	$api->response('Internal Server Error', 500, "text");
 }
 
-function updateUser()
-{
-	global $api;
-	$api->_request = json_decode($api->_request);
+/*! \fn updateUser()
+	\brief
+		public method
 	
-	/*
+		<b>Request</b>
+		
+		User changes password
+		
 		{
 			"password": "password"
 		}
-	*/
-	if (isset($api->_reques->password))
-		update_user_password();
-	
-	/*
+		
+		Moderator banning user
+		
 		{
 			"id": "1", 
 			"banned": "0"
 		}
-	*/
-	if (isset($api->_reques->banned))
-		update_user_ban();
-	
-	/*
+		
+		User changes password
+		
 		{
 			"email": "email"
 		}
-	*/
-	if (isset($api->_reques->email))
-		update_user_email();
-	
-	/*
+		
+		Administrator changes user scope
+		
 		{
 			"id": "1", 
 			"scope_id": "1"
 		}
-	*/	
-	if (isset($api->_reques->scope_id))
-		update_user_scope();
-	
-	
-	/*
+		
+		User changes his personal information
+		
 		{
 			"first_name": "first_name", 
 			"middle_name": "middle_name", 
@@ -246,10 +343,34 @@ function updateUser()
 			"social_network_id": "social_network_id", 
 			"social_network_type": "1"
 		}
-	*/
+		
+		<b>Response</b>
+		
+		OK
+		
+*/
+function updateUser()
+{
+	global $api;
+	if (count($api->_request) == 0)
+		$api->send_error("Bad Request!", 400);
+	$api->_request = json_decode($api->_request);
+	if (isset($api->_reques->password))
+		update_user_password();
+	if (isset($api->_reques->banned))
+		update_user_ban();
+	if (isset($api->_reques->email))
+		update_user_email();
+	if (isset($api->_reques->scope_id))
+		update_user_scope();
 	update_user();
 }
 
+/*! \fn update_user_password()
+	\brief changes user password
+	
+		private method		
+*/
 function update_user_password()
 {
 	/*
@@ -274,6 +395,11 @@ function update_user_password()
 	$api->response('Internal Server Error',500, "text");
 }
 
+/*! \fn update_user_ban()
+	\brief ban/unban user
+	
+		private method		
+*/
 function update_user_ban()
 {
 	/*
@@ -294,6 +420,14 @@ function update_user_ban()
 	$banned = intval($api->_request->banned);
 	if ($banned != 0 || $banned != 1)
 		$api->send_error("Bad Request!", 400);
+	$query="SELECT scope_id FROM users WHERE id=$id";
+	$r = $api->db_conn->query($query) or die($api->db_conn->error);
+	if($r->num_rows == 0) 
+		$api->send_error("Invalid user!", 400);
+	$res = $r->fetch_assoc();
+	$scope_id = $res["scope_id"];
+	if ($_SESSION["scope_id"] < $scope_id)
+		$api->send_error("Permission denied!", 400);
 	$query="UPDATE users SET `banned`='$banned' WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
@@ -301,6 +435,11 @@ function update_user_ban()
 	$api->response('Internal Server Error',500, "text");
 }
 
+/*! \fn update_user_scope()
+	\brief change user scope
+	
+		private method		
+*/
 function update_user_scope()
 {
 	/*
@@ -326,6 +465,11 @@ function update_user_scope()
 	$api->response('Internal Server Error',500, "text");
 }
 
+/*! \fn update_user_email()
+	\brief change user email
+	
+		private method		
+*/
 function update_user_email()
 {
 	/*
@@ -361,7 +505,12 @@ function update_user_email()
 	$api->response('Internal Server Error',500, "text");
 }
 
-function update_user($req)
+/*! \fn update_user()
+	\brief change user information
+	
+		private method		
+*/
+function update_user()
 {
 	/*
 		{
