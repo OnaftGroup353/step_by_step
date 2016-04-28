@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><HEAD></HEAD><BODY>
+<OBJECT type="text/site properties">
+<param name="FrameName" value="right">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Data Structures"><param name="Local" value="annotated.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Data Structures"><param name="Local" value="annotated.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="API"><param name="Local" value="class_a_p_i.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="__construct"><param name="Local" value="class_a_p_i.html#a095c5d389db211932136b53f25f39685"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="get_method_location"><param name="Local" value="class_a_p_i.html#a2e83132d17d0ce3b3326ecb8b8ec3200"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="processApi"><param name="Local" value="class_a_p_i.html#a5256a2bfab817182afd1ca0058471883"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$data"><param name="Local" value="class_a_p_i.html#a6efc15b5a2314dd4b5aaa556a375c6d6"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$db_conn"><param name="Local" value="class_a_p_i.html#a8373acc3bad14fe2ecd7b2fc8d31d5ac"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$methods"><param name="Local" value="class_a_p_i.html#a802753499268a04da139bd6e6ef89b35"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="REST"><param name="Local" value="class_r_e_s_t.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="__construct"><param name="Local" value="class_r_e_s_t.html#a095c5d389db211932136b53f25f39685"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="get_referer"><param name="Local" value="class_r_e_s_t.html#a54fdd07a8d140a8498793daafb6bff24"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="get_request_method"><param name="Local" value="class_r_e_s_t.html#a9487a1abbac81a14340dc4414e33c563"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="response"><param name="Local" value="class_r_e_s_t.html#a430c9309289d56410e881298d7854417"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="send_error"><param name="Local" value="class_r_e_s_t.html#ac59247516461f8efd7b8957d48d9f4b7"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$_allow"><param name="Local" value="class_r_e_s_t.html#a0214996999758a934d4926c598a87f2b"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$_request"><param name="Local" value="class_r_e_s_t.html#a32025a6741fef48cd13e5fd0430838ce"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$json_content_type"><param name="Local" value="class_r_e_s_t.html#ade850fd0bb962d10fc361469fb8b432f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$xml_content_type"><param name="Local" value="class_r_e_s_t.html#a5c0e1c9f73a900c1a32f89ba04801a70"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Data Structure Index"><param name="Local" value="classes.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Class Hierarchy"><param name="Local" value="hierarchy.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="REST"><param name="Local" value="class_r_e_s_t.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="API"><param name="Local" value="class_a_p_i.html"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Data Fields"><param name="Local" value="functions.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="All"><param name="Local" value="functions.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Functions"><param name="Local" value="functions_func.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Variables"><param name="Local" value="functions_vars.html"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Files"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="File List"><param name="Local" value="files.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="api.php"><param name="Local" value="api_8php.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="API"><param name="Local" value="class_a_p_i.html"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="__construct"><param name="Local" value="class_a_p_i.html#a095c5d389db211932136b53f25f39685"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="get_method_location"><param name="Local" value="class_a_p_i.html#a2e83132d17d0ce3b3326ecb8b8ec3200"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="processApi"><param name="Local" value="class_a_p_i.html#a5256a2bfab817182afd1ca0058471883"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$data"><param name="Local" value="class_a_p_i.html#a6efc15b5a2314dd4b5aaa556a375c6d6"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$db_conn"><param name="Local" value="class_a_p_i.html#a8373acc3bad14fe2ecd7b2fc8d31d5ac"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$methods"><param name="Local" value="class_a_p_i.html#a802753499268a04da139bd6e6ef89b35"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="$api"><param name="Local" value="api_8php.html#afce321e6f53c241037f871b50680cf1c"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="articles.php"><param name="Local" value="articles_8php.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="createArticle"><param name="Local" value="articles_8php.html#a39be781156cc145573f121d8020e4285"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="getAllArticles"><param name="Local" value="articles_8php.html#a1e4db47fd78b5b9edeb93c7c8d395cb6"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="getArticleById"><param name="Local" value="articles_8php.html#abf7c2c7bde71de930c69f2120ca63a2a"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="articles_types.php"><param name="Local" value="articles__types_8php.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="get_article_type_id"><param name="Local" value="articles__types_8php.html#ad987b5d8677264ac9f59b5cfe18e8312"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="get_article_types"><param name="Local" value="articles__types_8php.html#ae49fef440f5c3e0b3ef71ffc9675122a"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="getArticleTypes"><param name="Local" value="articles__types_8php.html#a06865c03fea4b0fdf01b9aa8c3bd98c1"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="db_connection.php"><param name="Local" value="db__connection_8php.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="getDBConnection"><param name="Local" value="db__connection_8php.html#a5f37503a5fa316e6664d8f487caac938"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DB"><param name="Local" value="db__connection_8php.html#a002c9e0914e76f1d582bcd6a51299ea2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DB_PASSWORD"><param name="Local" value="db__connection_8php.html#a4dca144fafcc7bd3f71cb5778afcdd13"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DB_SERVER"><param name="Local" value="db__connection_8php.html#a046861af9c950733d95478526a7e19ae"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DB_USER"><param name="Local" value="db__connection_8php.html#a1d1d99f8e08f387d84fe9848f3357156"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="rest.inc.php"><param name="Local" value="rest_8inc_8php.html"><param name="ImageNumber" value="11"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="REST"><param name="Local" value="class_r_e_s_t.html"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="__construct"><param name="Local" value="class_r_e_s_t.html#a095c5d389db211932136b53f25f39685"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="get_referer"><param name="Local" value="class_r_e_s_t.html#a54fdd07a8d140a8498793daafb6bff24"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="get_request_method"><param name="Local" value="class_r_e_s_t.html#a9487a1abbac81a14340dc4414e33c563"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="response"><param name="Local" value="class_r_e_s_t.html#a430c9309289d56410e881298d7854417"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="send_error"><param name="Local" value="class_r_e_s_t.html#ac59247516461f8efd7b8957d48d9f4b7"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$_allow"><param name="Local" value="class_r_e_s_t.html#a0214996999758a934d4926c598a87f2b"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$_request"><param name="Local" value="class_r_e_s_t.html#a32025a6741fef48cd13e5fd0430838ce"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$json_content_type"><param name="Local" value="class_r_e_s_t.html#ade850fd0bb962d10fc361469fb8b432f"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="$xml_content_type"><param name="Local" value="class_r_e_s_t.html#a5c0e1c9f73a900c1a32f89ba04801a70"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="user.php"><param name="Local" value="user_8php.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="checkEmailInDatabase"><param name="Local" value="user_8php.html#a4ad33f152efdcb08cad6d8d54c8ad070"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="getUserInfo"><param name="Local" value="user_8php.html#a7e7999c3a04f08ffcc5e237fd28a6bc7"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="insertUser"><param name="Local" value="user_8php.html#ac304bfe1c229d98c62b31a988dbe1d5f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="login"><param name="Local" value="user_8php.html#aa311da27ba5706f5710cea7706c8eae1"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="logout"><param name="Local" value="user_8php.html#a082405d89acd6835c3a7c7a08a7adbab"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="registrationCheckEmail"><param name="Local" value="user_8php.html#afe246399df67adcbd9539fbc84a3a86b"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="update_user"><param name="Local" value="user_8php.html#a7f1763515b3fd74be9a9e64e9265d0b3"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="update_user_ban"><param name="Local" value="user_8php.html#a1ec819d2e322493c1d5177094b3696fe"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="update_user_email"><param name="Local" value="user_8php.html#a8e3578e1a486e4b8e04bb15ae4bed6f4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="update_user_password"><param name="Local" value="user_8php.html#a1b0d8dae9dc994331d9509cf6ff2593a"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="update_user_scope"><param name="Local" value="user_8php.html#a2dabe46b6123e310929d51641f0eec9e"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="updateUser"><param name="Local" value="user_8php.html#a93ddd4367f5fc412452a9af558804713"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Globals"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="All"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Functions"><param name="Local" value="globals_func.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Variables"><param name="Local" value="globals_vars.html"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+</UL>
+</BODY>
+</HTML>
