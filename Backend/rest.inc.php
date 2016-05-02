@@ -147,6 +147,7 @@ class REST {
 
     private function set_headers($format){
         header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
+		header('Access-Control-Allow-Origin: *');
         if($format =='json')
         {
             header("Content-Type:".$this->json_content_type);
