@@ -41,22 +41,21 @@ function checkEmailInDatabase($email) // true if user with $email not exist
 		{
 			"token": "token",
 			"id": "id",
-			"email": "email",
-			"scope_id": "scope_id"
+			"scope": "scope_name"
 		}
 */
 function login()
 {
 	global $api;		
 	if (count($api->_request) == 0)
-		$api->send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$api->_request = json_decode($api->_request);
 	if (isset($api->_request->token))
 	{
 		$token = $api->_request->token;
 		if (strrpos($token, "'"))
 			$api->send_error("Invalid session!", 400);
-		$query="SELECT id, email, session, scope_id FROM users WHERE session='$token'";
+		$query="SELECT u.id, u.email, u.password, u.scope_id, s.name as scope_name FROM users as u inner join scope as s on u.scope_id=s.id WHERE session='$token'";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error);
 		if($r->num_rows == 0) 
 			$api->response("Invalid session", 400, "text");
@@ -65,11 +64,11 @@ function login()
 		$_SESSION["user_id"] = $res["id"];	
 		$_SESSION["token"] = $token;	
 		$_SESSION["scope_id"] = $res["scope_id"];
-		$response = array("token" => $token, "id" => $_SESSION["user_id"], "email" => $res["email"], "scope_id" => $_SESSION["scope_id"]);
+		$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
 		$api->response(json_encode($response), 200, "json");
 	}
 	if (!isset($api->_request->email, $api->_request->password))
-		$api->send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$email = $api->_request->email;
 	$password = $api->_request->password;
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)) 	
@@ -80,7 +79,7 @@ function login()
 		$api->send_error("Invalid email!", 400);
 	if (strrpos($password, "'"))
 		$api->send_error("Invalid password!", 400);
-	$query="SELECT id, email, password, scope_id FROM users WHERE email='$email'";
+	$query="SELECT u.id, u.email, u.password, u.scope_id, s.name as scope_name FROM users as u inner join scope as s on u.scope_id=s.id WHERE email='$email'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	if($r->num_rows == 0) 
 		$api->send_error("Incorrect email!", 400);
@@ -97,7 +96,7 @@ function login()
 	$_SESSION["scope_id"] = $res["scope_id"];
 	$query="UPDATE users SET `session`='$token' where `email`='$email'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-	$response = array("token" => $token, "id" => $_SESSION["user_id"], "email" => $res["email"], "scope_id" => $_SESSION["scope_id"]);
+	$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
 	$api->response(json_encode($response), 200, "json");
 }
 
