@@ -71,8 +71,8 @@ function login()
 		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$email = $api->_request->email;
 	$password = $api->_request->password;
-	if(filter_var($email, FILTER_VALIDATE_EMAIL)) 	
-		$api->send_error("Invalid email!", 400);
+	//if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 	
+	//	$api->send_error("Invalid email!", 400);
 	if (strrpos($email, "'"))
 		$api->send_error("Invalid email!", 400);
 	if (checkEmailInDatabase($email, $api))
@@ -232,6 +232,7 @@ function getUserInfo()
 	if ($id >= 0)
 	{
 		session_start();
+	$api->send_error($_SESSION["user_id"], 200);
 		if (isset($_SESSION["user_id"]))
 			if ($_SESSION["user_id"] == $id)
 				$query="SELECT u.id, u.email, u.scope_id, s.name as scope_name, u.first_name, u.middle_name, u.last_name, u.interest, u.position, u.social_network_id, u.social_network_type, u.banned FROM users as u inner join scope as s on u.scope_id=s.id  WHERE u.id=$id";
@@ -266,12 +267,12 @@ function getUserInfo()
 */
 function insertUser()
 {
-	global $api;
+	global $api;	
 	if (count($api->_request) == 0)
-		$api->send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->email, $api->_request->password))
-		$api->send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$email = $api->_request->email;
 	$password = $api->_request->password;
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 	
@@ -352,15 +353,15 @@ function updateUser()
 {
 	global $api;
 	if (count($api->_request) == 0)
-		$api->send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$api->_request = json_decode($api->_request);
-	if (isset($api->_reques->password))
+	if (isset($api->_request->password))
 		update_user_password();
-	if (isset($api->_reques->banned))
+	if (isset($api->_request->banned))
 		update_user_ban();
-	if (isset($api->_reques->email))
+	if (isset($api->_request->email))
 		update_user_email();
-	if (isset($api->_reques->scope_id))
+	if (isset($api->_request->scope_id))
 		update_user_scope();
 	update_user();
 }
@@ -414,11 +415,11 @@ function update_user_ban()
 	if ($_SESSION["scope_id"] < 2)
 		$api->send_error("Permission denied!", 400);
 	if (!isset($api->_request->id, $api->_request->banned))
-		$api->send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$id = intval($api->_request->id);
 	$banned = intval($api->_request->banned);
-	if ($banned != 0 || $banned != 1)
-		$api->send_error("Bad Request!", 400);
+	if ($banned != 0 && $banned != 1)
+		$api->send_error("Bad Request!"." ".__LINE__, 400);
 	$query="SELECT scope_id FROM users WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if($r->num_rows == 0) 
@@ -525,7 +526,7 @@ function update_user()
 	global $api;
 	session_start();
 	if (!isset($_SESSION["user_id"]))
-		$api->send_error("Not authorized!", 400);
+		$api->send_error("Not authorized!"." ".__LINE__, 400);
 	
 	if (!isset($api->_request->first_name, $api->_request->middle_name, $api->_request->last_name, 
 				$api->_request->interest, $api->_request->position, $api->_request->social_network_id, 
@@ -533,12 +534,12 @@ function update_user()
 		$api->send_error("Bad Request!", 400);
 	$id = intval($_SESSION["user_id"]);
 	$social_network_type = intval($api->_request->social_network_type);
-	$first_name = $this->checkString($api->_request->first_name);
-	$middle_name = $this->checkString($api->_request->middle_name);
-	$last_name = $this->checkString($api->_request->last_name);
-	$interest = $this->checkString($api->_request->interest);
-	$position = $this->checkString($api->_request->position);
-	$social_network_id = $this->checkString($api->_request->social_network_id);
+	$first_name = $api->checkString($api->_request->first_name);
+	$middle_name = $api->checkString($api->_request->middle_name);
+	$last_name = $api->checkString($api->_request->last_name);
+	$interest = $api->checkString($api->_request->interest);
+	$position = $api->checkString($api->_request->position);
+	$social_network_id = $api->checkString($api->_request->social_network_id);
 	$query="UPDATE users SET `first_name`='$first_name', `middle_name`='$middle_name', `last_name`='$last_name', `interest`='$interest', `position`='$position', `social_network_id`='$social_network_id' WHERE id='$id'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)

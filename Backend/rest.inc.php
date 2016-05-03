@@ -84,10 +84,13 @@ class REST {
             case "GET":
             case "DELETE":
             case "PUT":
-                parse_str(file_get_contents("php://input"),$req);
+                //parse_str(file_get_contents("php://input"),$req);
+				$req = array("0" => file_get_contents("php://input"));
                 $req = $this->cleanInputs($req);
+				
+				//$this->response(json_encode($req),406);
 				foreach	($req as $k => $v)
-					$this->_request = $k;
+					$this->_request = $v;
                 break;
             default:
                 $this->response('',406);
