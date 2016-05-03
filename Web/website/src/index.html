@@ -28,8 +28,9 @@
     <div class="wrapper">
       <div class="logo"><a ui-sref="index">Методички Online</a></div>
       <ul>
-        <li><a href="" ng-click="showModal('login')" ng-if="$state.is('index')">Вход</a></li>
+        <li><a href="" ng-click="enter()" ng-if="$state.is('index')">Вход</a></li>
         <li><a href="" ng-click="showModal('register')" ng-if="$state.is('index')">Регистрация</a></li>
+        <li><a href="" ng-click="$state.go($state.current.name.split('.')[0]+'.'+'profile')" ng-if="$state.includes('cabinet') || $state.includes('admin')">Мой профиль</a></li>
         <li><a href="" ng-click="logout()" ng-if="$state.includes('cabinet') || $state.includes('admin')">Выход</a></li>
       </ul>
     </div>  

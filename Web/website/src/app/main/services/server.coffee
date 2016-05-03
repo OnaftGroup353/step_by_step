@@ -10,6 +10,8 @@ angular.module "articleApp"
 
     methods = [  
       'login',
+      'insertUser',
+      'logout'
       
     ]
 

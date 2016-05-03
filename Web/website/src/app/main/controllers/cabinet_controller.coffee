@@ -1,11 +1,14 @@
 angular.module "articleApp"
   .controller "cabinetCtrl", ($scope, $rootScope, $state, $server, $modal) ->
-   
-    if localStorage.articleToken != "u_g90uh0fguh0s9ugh09su5h"
-      $scope.logout()
 
-     # Заглушка
-     $scope.books = [
+    $server.login {token: localStorage.token}, (data)->
+        console.log data
+        if data.error
+            $scope.logout()
+
+    console.log $state.current.name,123
+    # Заглушка
+    $scope.books = [
      	{
      		id: 1
      		direction: "Компьютерные науки"
@@ -18,6 +21,6 @@ angular.module "articleApp"
      		name: "4 курс пособие для курсовых работ"
      		modified: 1460910831000
      	}
-     ]
+    ]
     
 

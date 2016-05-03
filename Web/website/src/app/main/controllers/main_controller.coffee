@@ -28,10 +28,25 @@ angular.module "articleApp"
             data: data,
           }
         return
+    $scope.enter = ()->
+      if !localStorage.token
+        $rootScope.showModal('login')
+      else
+        $server.login {token: localStorage.token}, (data)->
+          if data.error
+            $rootScope.showModal('login')
+          else
+            console.log data
+            if data.scope == "User"
+              $state.go("cabinet")
+            else
+              if data.scope == "Moderator" || data.scope=="Administrator"
+                $state.go("admin")
 
     $scope.logout = ()->
-      delete localStorage.articleToken
-      $state.go("index")
+      $server.logout {token:localStorage.token }, (data)->
+        delete localStorage.token
+        $state.go("index")
 
     $scope.formatDate = (timestamp)->
       return moment(timestamp).format("DD/MM/YYYY")

@@ -34,4 +34,12 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
         templateUrl: 'app/main/bookInfo.html',
         controller: 'bookInfoCtrl'
 
+      .state 'cabinet.profile',
+        url: '/profile',
+        templateUrl: 'app/main/profile.html'
+
+      .state 'admin.profile',
+        url: '/profile',
+        templateUrl: 'app/main/profile.html'
+
   ]

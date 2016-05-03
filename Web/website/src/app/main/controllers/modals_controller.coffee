@@ -7,21 +7,45 @@ angular.module "articleApp"
       $server.login {email:$scope.user.login, password: $scope.user.password}, (data)->
         console.log data
         if data.error
-          console.log "fail login"
-
-      if false
-        if $scope.user.login == 'admin' && $scope.user.password == '123'
-          localStorage.setItem("articleToken", "a_g90uh0fguh0s9ugh09su5h")
+          alert(data.error)
+        else
           $scope.cancel()
-          $state.go('admin')
+          localStorage.token = data.token
+          console.log data.scope
+          if data.scope == "User"
+            $state.go("cabinet")
+          else
+            if data.scope == "Moderator" || data.scope=="Administrator"
+              $state.go("admin")
 
-        if $scope.user.login == 'user' && $scope.user.password == '123'
-          localStorage.setItem("articleToken", "u_g90uh0fguh0s9ugh09su5h")
-          $scope.cancel()
-          $state.go('cabinet')    
+
+
+          
         
   .controller "registerModalCtrl", ($scope, $rootScope, $state, $server, $modal, $modalInstance) ->
     $scope.cancel = () ->
       $modalInstance.dismiss 'cancel'
-    $scope.login = ()->
-      console.log "register here"    
+    $scope.register = ()->
+      console.log "register here"
+      if $scope.user.password != $scope.user.password2
+        alert("Пароли не совпадают")
+      else
+        if $scope.user.password.length < 3
+          alert("Длина пароля не менее 3 символов")
+        else 
+          $server.insertUser $scope.user, (data)->
+            console.log data
+            if !data.error
+              $server.login $scope.user, (data)->
+                console.log data
+                if data.error
+                  alert(data.error)
+                else
+                  $scope.cancel()
+                  localStorage.token = data.token
+                  if data.scope == "User"
+                    $state.go("cabinet")
+                  else
+                    if data.scope == "Moderator" || data.scope=="Administrator"
+                      $state.go("admin")
+
