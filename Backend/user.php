@@ -280,7 +280,7 @@ function insertUser()
 		send_error("Invalid email!", 400);
 	if (strrpos($password, "'"))
 		send_error("Invalid password!", 400);
-	if (!checkEmail($email))
+	if (!checkEmailInDatabase($email))
 		send_error("This email already in use!", 400);
 	
 	/*
@@ -318,7 +318,7 @@ function insertUser()
 			"banned": "0"
 		}
 		
-		User changes password
+		User changes email
 		
 		{
 			"email": "email"
