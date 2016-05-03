@@ -25,14 +25,16 @@ angular.module "articleApp"
             'sessionidcors': localStorage.getItem "token"
           },
           data: JSON.stringify(data),
-          dataType: 'json'
+          dataType: 'json',
+          crossDomain: true,
+
         }
 
         request.done (data)->
-          callback(data.err, data.data)
+          callback(data)
 
         request.fail (xhr)->
-         console.log "server error"
+         callback(xhr.responseJSON)
           
 
     for method in methods
