@@ -58,7 +58,7 @@ function login()
 		$query="SELECT u.id, u.email, u.password, u.scope_id, s.name as scope_name FROM users as u inner join scope as s on u.scope_id=s.id WHERE session='$token'";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error);
 		if($r->num_rows == 0) 
-			$api->response("Invalid session", 400, "text");
+			$api->send_error("Invalid session", 400);
 		$res = $r->fetch_assoc();
 		session_start();
 		$_SESSION["user_id"] = $res["id"];	
@@ -243,7 +243,7 @@ function getUserInfo()
 			$api->response(json_encode($res), 200, "json");
 		}
 	}
-	send_error("Invalid user!", 204);
+	$api->send_error("Invalid user!", 204);
 }
 
 /*! \fn insertUser()
@@ -271,17 +271,17 @@ function insertUser()
 		$api->send_error("Bad Request!", 400);
 	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->email, $api->_request->password))
-		send_error("Bad Request!", 400);
+		$api->send_error("Bad Request!", 400);
 	$email = $api->_request->email;
 	$password = $api->_request->password;
-	if(filter_var($email, FILTER_VALIDATE_EMAIL)) 	
-		send_error("Invalid email!", 400);
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 	
+		$api->send_error("Invalid email!", 400);
 	if (strrpos($email, "'"))
-		send_error("Invalid email!", 400);
+		$api->send_error("Invalid email!", 400);
 	if (strrpos($password, "'"))
-		send_error("Invalid password!", 400);
+		$api->send_error("Invalid password!", 400);
 	if (!checkEmailInDatabase($email))
-		send_error("This email already in use!", 400);
+		$api->send_error("This email already in use!", 400);
 	
 	/*
 	??????????????????????????????????????????????????????????????????????????????????????????????????????????????
@@ -293,10 +293,10 @@ function insertUser()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 	{
-		$res = array('id' => $api->db_con->insert_id);
+		$res = array('id' => $api->db_conn->insert_id);
 		$api->response(json_encode($res), 200, "json");
 	}
-	$api->response('Internal Server Error', 500, "text");
+	$api->send_error('Internal Server Error', 500);
 }
 
 /*! \fn updateUser()
@@ -391,7 +391,7 @@ function update_user_password()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',500, "text");
+	$api->send_error('Internal Server Error',500);
 }
 
 /*! \fn update_user_ban()
@@ -431,7 +431,7 @@ function update_user_ban()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',500, "text");
+	$api->send_error('Internal Server Error',500);
 }
 
 /*! \fn update_user_scope()
@@ -461,7 +461,7 @@ function update_user_scope()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',500, "text");
+	$api->send_error('Internal Server Error',500);
 }
 
 /*! \fn update_user_email()
@@ -483,12 +483,12 @@ function update_user_email()
 	if (!isset($api->_request->email))
 		$api->send_error("Bad Request!", 400);
 	$email = $api->_request->email;
-	if(filter_var($email, FILTER_VALIDATE_EMAIL)) 	
-		send_error("Invalid email!", 400);
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 	
+		$api->send_error("Invalid email!", 400);
 	if (strrpos($email, "'"))
-		send_error("Invalid email!", 400);
+		$api->send_error("Invalid email!", 400);
 	if (!checkEmail($email))
-		send_error("This email already in use!", 400);
+		$api->send_error("This email already in use!", 400);
 	$id = $_SESSION["user_id"];
 	
 	/*
@@ -501,7 +501,7 @@ function update_user_email()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',500, "text");
+	$api->send_error('Internal Server Error',500);
 }
 
 /*! \fn update_user()
@@ -543,7 +543,7 @@ function update_user()
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
 		$api->response("OK", 200, "text");
-	$api->response('Internal Server Error',500, "text");
+	$api->send_error('Internal Server Error',500);
 }
 
 ?>
