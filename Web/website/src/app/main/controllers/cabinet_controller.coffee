@@ -7,7 +7,7 @@ angular.module "articleApp"
             $scope.logout()
         else
             $server.getUserInfo {id: data.id}, (data2)->
-                $scope.user = data2 
+                $scope.user = data2
 
     console.log $state.current.name,123
     # Заглушка
@@ -26,6 +26,11 @@ angular.module "articleApp"
      	}
     ]
     $scope.submitProfile = ()->
+        delete $scope.user.banned
+        delete $scope.user.scope_name
+        delete $scope.user.scope_id
+        delete $scope.user.id
+        
         
         $scope.user.social_network_id = 1
         $scope.user.social_network_type = 1
