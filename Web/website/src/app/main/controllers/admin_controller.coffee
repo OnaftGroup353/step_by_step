@@ -1,7 +1,8 @@
 angular.module "articleApp"
   .controller "adminCtrl", ($scope, $rootScope, $state, $server, $modal) ->
    
-    if localStorage.articleToken != "a_g90uh0fguh0s9ugh09su5h"
-      $scope.logout()
-    
+    $server.login {token: localStorage.token}, (data)->
+        console.log data
+        if data.error
+            $scope.logout()
 
