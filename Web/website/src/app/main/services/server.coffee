@@ -11,7 +11,9 @@ angular.module "articleApp"
     methods = [  
       'login',
       'insertUser',
-      'logout'
+      'logout',
+      'updateUser',
+      'getUserInfo'
       
     ]
 
