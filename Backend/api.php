@@ -14,6 +14,7 @@
 			"getUserInfo" 					=> "user.php",
 			"insertUser" 					=> "user.php",
 			"updateUser" 					=> "user.php",
+			"confirmEmail" 					=> "user.php",
 			"getArticleTypes" 				=> "articles_types.php",
 			"getArticleById" 				=> "articles.php",
 			"getAllArticles" 				=> "articles.php",
