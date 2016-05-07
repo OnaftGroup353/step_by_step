@@ -4,11 +4,15 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
     $rootScope.$state = $state
     $rootScope.$stateParams = $stateParams
   ]
-  .config ['$routeProvider', '$locationProvider', '$stateProvider', '$urlRouterProvider',
-  ($routeProvider, $locationProvider, $stateProvider, $urlRouterProvider) ->
-
+  .config ['$routeProvider', '$locationProvider', '$stateProvider', '$urlRouterProvider','$httpProvider'
+  ($routeProvider, $locationProvider, $stateProvider, $urlRouterProvider, $httpProvider) ->
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
     $urlRouterProvider.when('','/index')
     $urlRouterProvider.otherwise ($injector, $location) ->
+      console.log "herte"
       $location = "404"
 
     $stateProvider

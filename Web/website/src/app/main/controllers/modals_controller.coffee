@@ -17,6 +17,17 @@ angular.module "articleApp"
           else
             if data.scope == "Moderator" || data.scope=="Administrator"
               $state.go("admin")
+    window.ulog = (token)->
+      $.get ("http://ulogin.ru/token.php?token="+token), (data)->
+        console.log data
+        $server.login data, (data)->
+          if !data.error
+            localStorage.token = data.token
+            $state.go('cabinet')
+          else
+            alert("Не удалось войти")
+
+       
 
 
 

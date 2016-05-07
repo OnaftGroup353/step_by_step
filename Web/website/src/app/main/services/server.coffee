@@ -20,7 +20,7 @@ angular.module "articleApp"
     addMethod = (methodName) ->
       api[methodName] = (data, callback) ->
         domain = 'localhost'
-
+        #domain = 'api.m-creater.s-host.net'
         request = $.ajax {
           url: 'http://'+domain+'/'+methodName,
           method: 'POST',
@@ -28,9 +28,11 @@ angular.module "articleApp"
           headers: {
             'sessionidcors': localStorage.getItem "token"
           },
+          
+        
           data: JSON.stringify(data),
           dataType: 'json',
-          crossDomain: true,
+          crossDomain: true
 
         }
 
@@ -38,7 +40,8 @@ angular.module "articleApp"
           callback(data)
 
         request.fail (xhr)->
-         callback(xhr.responseJSON)
+
+          callback(xhr.responseJSON || {error:"empty server response"})
           
 
     for method in methods
