@@ -19,20 +19,17 @@ angular.module "articleApp"
 
     addMethod = (methodName) ->
       api[methodName] = (data, callback) ->
-        domain = 'localhost'
-        #domain = 'api.m-creater.s-host.net'
+        #domain = 'localhost'
+        domain = 'api.m-creater.s-host.net'
         request = $.ajax {
           url: 'http://'+domain+'/'+methodName,
           method: 'POST',
-          contentType: "application/json;charset=utf-8",
-          headers: {
-            'sessionidcors': localStorage.getItem "token"
-          },
-          
-        
+          #contentType: "application/json;charset=utf-8",
+          #headers: {
+          #  'sessionidcors': localStorage.getItem "token",
+          #},
           data: JSON.stringify(data),
-          dataType: 'json',
-          crossDomain: true
+          dataType: 'json'
 
         }
 

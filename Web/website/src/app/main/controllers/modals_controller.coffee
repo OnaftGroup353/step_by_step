@@ -25,7 +25,7 @@ angular.module "articleApp"
             localStorage.token = data.token
             $state.go('cabinet')
           else
-            alert("Не удалось войти")
+            console.log "Не удалось войти"
 
        
 
