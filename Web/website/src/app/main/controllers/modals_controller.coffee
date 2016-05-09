@@ -18,14 +18,35 @@ angular.module "articleApp"
             if data.scope == "Moderator" || data.scope=="Administrator"
               $state.go("admin")
     window.ulog = (token)->
-      $.get ("http://ulogin.ru/token.php?token="+token), (data)->
-        console.log data
+
+      request = $.ajax {
+          url: "http://ulogin.ru/token.php?token="+token,
+          method: 'GET',
+          dataType: 'jsonp'
+
+        }
+
+      request.done (data)->
+        console.log 'data', data
         $server.login data, (data)->
           if !data.error
             localStorage.token = data.token
             $state.go('cabinet')
           else
             console.log "Не удалось войти"
+
+      request.fail (xhr)->
+        console.log xhr.responseJSON
+        #callback(xhr.responseJSON || {error:"empty server response"})
+      
+      #$.get ("http://ulogin.ru/token.php?token="+token), (data)->
+       # console.log data
+        #$server.login data, (data)->
+        #  if !data.error
+        #    localStorage.token = data.token
+        #    $state.go('cabinet')
+        #  else
+        #    console.log "Не удалось войти"
 
        
 
