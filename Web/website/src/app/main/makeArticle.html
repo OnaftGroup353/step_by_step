@@ -70,7 +70,11 @@
 		
 	</table>
   </div>
-	<button ng-click="addChapter();"></button>
+	<div class="box table-of-contents">
+	<h2>Список литературы</h2>
+    <input ng-repeat='lit in book.literatures' ng-model='lit'>
+	<button class="green" ng-click="addLiterature()">+</button>
+  </div>
 	
 	
 </div>
