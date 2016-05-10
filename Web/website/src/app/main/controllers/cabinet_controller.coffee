@@ -4,7 +4,8 @@ angular.module "articleApp"
     $server.login {token: localStorage.token}, (data)->
         console.log data
         if data.error
-            $scope.logout()
+		    
+            #$scope.logout()
         else
             $server.getUserInfo {id: data.id}, (data2)->
                 $scope.user = data2

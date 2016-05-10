@@ -277,6 +277,93 @@ header.main-header {
 		margin-top: 40px;
 	}
 }
+.make-article {
+	width: 600px;
+	margin: 0 auto;
+	padding: 40px;
+	.box {
+		border: 1px solid #878787;
+		box-shadow: 0 0 2px 0 rgba(0,0,0,.6);
+		border-radius: 12px;
+		margin-bottom: 30px;
+		padding: 20px;
+		h2 {
+			text-align: center;
+		}
+		table {
+			tr {
+				td {
+					padding: 20px 0;
+					&:first-child {
+						width: 200px;
+					}
+				}
+			}
+		}
+	}
+	@toolHeight: 40px;
+	#toolbar {
+		height: @toolHeight;
+		width: 100vw;
+		position: fixed;
+		background: #eee;
+		border: 1px solid #888;
+		border-radius: 5px;
+		top: 0;
+		left: 0;
+		p {
+			margin: 0;
+		}
+		>ul {
+		 >li {
+			float: left;
+			padding: 0 40px;
+			
+			cursor: pointer;
+			display: inline-block;
+			height: @toolHeight - 2px;
+			line-height: @toolHeight;
+			border-right: 1px solid #888;
+			&:hover {
+				
+			}
+			&:last-child {
+				border-right: 0;
+			}
+			&#add-chapter {
+				color: #78cf1a;
+				font-size: 60px;
+				padding: 0 40px;
+				
+			}
+			>ul {
+				display: none;
+				
+				position: absolute;
+				
+				margin-left: -42px;
+				margin-top: -2px;
+				li {
+					display: inline-block;
+					text-align: center;
+					background: #cacaca;
+					width: 140px;
+					&:hover {
+						background: #aaa;
+					}
+				}
+				&.active {
+					display: block;
+				}
+			}
+			
+		 }
+		}
+	}
+}
+
+
+
 
 /**
 *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject

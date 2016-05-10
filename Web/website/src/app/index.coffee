@@ -32,6 +32,10 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
         url: '/cabinet',
         templateUrl: 'app/main/cabinet.html',
         controller: 'cabinetCtrl'
+      .state 'makeArticle',
+        url: '/article',
+        templateUrl: 'app/main/makeArticle.html',
+        controller: 'MakeArticleCtrl'
 
       .state 'cabinet.bookInfo',
         url: '/book{id}',

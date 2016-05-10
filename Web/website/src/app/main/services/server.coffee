@@ -19,6 +19,7 @@ angular.module "articleApp"
 
     addMethod = (methodName) ->
       api[methodName] = (data, callback) ->
+        data=JSON.parse(JSON.stringify(data))
         #domain = 'localhost'
         domain = 'api.m-creater.s-host.net'
         request = $.ajax {

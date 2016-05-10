@@ -1,0 +1,76 @@
+﻿<div class="make-article">
+	<div id="toolbar">
+		<ul>
+			<li id="add-chapter" ng-click="addChapter()">+</li>
+			<li ng-click="textShow=!textShow">
+				<p>Текст</p>
+				<ul ng-class="{'active': textShow}">
+					<li ng-click="book.text='text'">Текст</li>
+					<li ng-click="book.text='code'">Код</li>
+				</ul>
+			</li>
+			<li ng-click="mediaShow=!mediaShow">
+				<p>Мультимедиа</p>
+				<ul ng-class="{'active': mediaShow}">
+					<li ng-click="book.media='picture'">Картинка</li>
+					<li ng-click="book.media='video'">Видео</li>
+					<li ng-click="book.media='audio'">аудио</li>
+
+				</ul>
+			</li>
+			<li>+</li>
+			<li>+</li>
+			<li>+</li>
+		</ul>
+	</div>
+  <div class="box header">
+	<h2>Заголовок </h2>
+    <table>
+		<tr>
+			<td>Название</td>
+			<td><input type="text" ng-model='book.name'></td>
+		</tr>
+		<tr>
+			<td>Дата</td>
+			<td><p  ng-bind='book.date'></p></td>
+		</tr>
+		<tr>
+			<td>Автор</td>
+			<td><p type="text" ng-bind='book.author'></p></td>
+		</tr>
+
+	</table>
+  </div>
+  
+  <div class="box table-of-contents">
+	<h2>Содержание</h2>
+    <table>
+		<tr>
+			<td>Заголовок .......................</td>
+			<td>1</td>
+		</tr>
+		<tr ng-repeat="title in book.chapters">
+			<td>.......................</td>
+			<td><input type="text" ng-model='title.page'></td>
+		</tr>
+		
+	</table>
+  </div>
+  <div class="box chapter">
+	<h2>Раздел</h2>
+    <table>
+		<tr>
+			<td>Заголовок .......................</td>
+			<td>1</td>
+		</tr>
+		<tr ng-repeat="title in book.chapters">
+			<td>.......................</td>
+			<td><input type="text" ng-model='title.page'></td>
+		</tr>
+		
+	</table>
+  </div>
+	<button ng-click="addChapter();"></button>
+	
+	
+</div>

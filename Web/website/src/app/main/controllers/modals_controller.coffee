@@ -23,12 +23,12 @@ angular.module "articleApp"
           url: "http://ulogin.ru/token.php?token="+token,
           method: 'GET',
           dataType: 'jsonp'
-
+          
         }
 
       request.done (data)->
-        console.log 'data', data
-        $server.login data, (data)->
+        console.log 'data2', JSON.parse(data)
+        $server.login JSON.parse(data), (data)->
           if !data.error
             localStorage.token = data.token
             $state.go('cabinet')

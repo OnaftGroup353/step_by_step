@@ -50,5 +50,13 @@ angular.module "articleApp"
 
     $scope.formatDate = (timestamp)->
       return moment(timestamp).format("DD/MM/YYYY")
+      
+    $scope.getTranslate = (text)->
+        console.log text
+        voc = {
+           'code':'код'
+           'text':'текст'
+        }
+        return voc[text] || ''
 
 
