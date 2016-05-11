@@ -10,7 +10,7 @@
 *  The list of variables are listed here bower_components/bootstrap/less/variables.less
 */
 
-
+@minWidth: 500px;
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 } 
@@ -19,8 +19,12 @@
 	margin: 0;
 	padding: 0;
 }
-h1,h2,h3,h4 {
+
+h1,h2,h3,h4,p {
 	margin: 0;
+}
+.w100 {
+	width: 100%;
 }
 a {
 	text-decoration: none;
@@ -74,9 +78,10 @@ ul {
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
-	min-width: 768px;
+	min-width: @minWidth;
 }
 header.main-header {
+	min-width: @minWidth;
 	background: #E3F2FA;
 	height: 92px;
 	border-bottom: 1px solid #8c8c8c;
@@ -113,6 +118,12 @@ header.main-header {
 		}
 	}
 }
+footer.main-footer {
+	min-width: @minWidth;
+	padding: 20px;
+	height: 84px;
+	background: #EAE1CC;
+}
 .home {
 	.content {
 		// min-height: calc(~"100vh - 92px - 84px");	
@@ -148,17 +159,15 @@ header.main-header {
 			}
 		}
 	}
-	footer.main-footer {
-		padding: 20px;
-		height: 84px;
-		background: #EAE1CC;
-	}
+	
 }
 
 
 
 
-
+.application {
+	min-height: calc(~"100vh - 176px");
+}
 
 
 .modal-dialog {
@@ -287,6 +296,7 @@ header.main-header {
 		border-radius: 12px;
 		margin-bottom: 30px;
 		padding: 20px;
+		position: relative;
 		h2 {
 			text-align: center;
 		}
@@ -300,9 +310,65 @@ header.main-header {
 				}
 			}
 		}
+		&.header, &.chapter {
+			.edit {
+				
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				// border: 1px solid #313131;
+				box-shadow: 0 0 1px 0 rgba(0,0,0,.8);
+				border-radius: 50%;
+
+				background: #fff url(../assets/images/edit.png);
+				background-repeat: no-repeat;
+				background-size: 30px;
+				top: -20px;
+				left: -20px;
+				background-position: 5px;
+				cursor: pointer;
+				&.active {
+					background: #fff url(../assets/images/done.png);
+					background-repeat: no-repeat;
+					background-size: 30px;
+					background-position: 5px;
+				}
+			}
+			.close {
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				// border: 1px solid #313131;
+				opacity: .8;
+				border-radius: 50%;
+
+				background:url(../assets/images/close.png);
+				background-repeat: no-repeat;
+				background-size: 36px;
+				top: 3px;
+				right: 8px;
+				background-position: 5px;
+				cursor: pointer;
+			}
+		}
+		&.chapter {
+			&.active {
+				border: 1px solid #09900D;
+				box-shadow: 0 0 4px 2px #09900D;
+			}
+		}
+		input.chapter-title {
+			display: block;
+			margin: 0 auto;
+		}
+		img.image-box {
+			width: 160px;
+		}
 	}
 	@toolHeight: 40px;
 	#toolbar {
+
+		z-index: 2;
 		height: @toolHeight;
 		width: 100vw;
 		position: fixed;
@@ -358,6 +424,34 @@ header.main-header {
 			}
 			
 		 }
+		}
+	}
+	.link-picker {
+		position: fixed;
+		width: 520px;
+		padding: 40px;
+		height: 180px;
+		background: #fff;
+		border: 1px solid #acacac;
+		box-shadow: 0 0 2px 50000px rgba(0,0,0,0.6), 0 0 12px 2px #595A5D;
+		top: 200px;
+		border-radius: 5px;
+		z-index: 3;
+		.close {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			// border: 1px solid #313131;
+			opacity: .8;
+			border-radius: 50%;
+
+			background:url(../assets/images/close.png);
+			background-repeat: no-repeat;
+			background-size: 36px;
+			top: 3px;
+			right: 8px;
+			background-position: 5px;
+			cursor: pointer;
 		}
 	}
 }

@@ -13,7 +13,8 @@ angular.module "articleApp"
       'insertUser',
       'logout',
       'updateUser',
-      'getUserInfo'
+      'getUserInfo',
+      'createManual'
       
     ]
 

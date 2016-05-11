@@ -1,4 +1,4 @@
-angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate', 'ui.date']
+angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate', 'ui.date', 'ngResource','ngSanitize']
   .run ['$rootScope', '$state', '$stateParams', '$timeout', ($rootScope,   $state,   $stateParams, $timeout) ->
 
     $rootScope.$state = $state
@@ -14,13 +14,13 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
     $urlRouterProvider.otherwise ($injector, $location) ->
       console.log "herte"
       $location = "404"
-
+    $locationProvider.html5Mode(true)
     $stateProvider
       .state '404',
         url:'/404',
         templateUrl: "app/main/404.html"
       .state 'index',
-        url: '/index',
+        url: '/',
         templateUrl: "app/main/index.html"
 
       .state 'admin',
@@ -49,5 +49,9 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
       .state 'admin.profile',
         url: '/profile',
         templateUrl: 'app/main/profile.html'
+
+      .state 'university',
+        url: '/university',
+        templateUrl: 'app/main/university.html'
 
   ]

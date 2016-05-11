@@ -60,3 +60,14 @@ angular.module "articleApp"
         return voc[text] || ''
 
 
+
+    $scope.objectLength = (obj)->
+      res = 0
+      for i of obj
+        res++
+      return res
+
+
+
+
+

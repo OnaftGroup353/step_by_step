@@ -5,16 +5,16 @@
 			<li ng-click="textShow=!textShow">
 				<p>Текст</p>
 				<ul ng-class="{'active': textShow}">
-					<li ng-click="book.text='text'">Текст</li>
-					<li ng-click="book.text='code'">Код</li>
+					<li ng-click="book.text='text';addText()">Текст</li>
+					<li ng-click="book.text='code';addCode()">Код</li>
 				</ul>
 			</li>
 			<li ng-click="mediaShow=!mediaShow">
 				<p>Мультимедиа</p>
 				<ul ng-class="{'active': mediaShow}">
-					<li ng-click="book.media='picture'">Картинка</li>
-					<li ng-click="book.media='video'">Видео</li>
-					<li ng-click="book.media='audio'">аудио</li>
+					<li ng-click="book.media='picture';picturePick=true;">Картинка</li>
+					<li ng-click="book.media='video';videoPick=true;">Видео</li>
+					<li ng-click="book.media='audio';addAudio()">аудио</li>
 
 				</ul>
 			</li>
@@ -24,19 +24,23 @@
 		</ul>
 	</div>
   <div class="box header">
+  	<div class="edit" ng-click="editHeader = !editHeader" ng-class="{'active': editHeader}"></div>
 	<h2>Заголовок </h2>
     <table>
 		<tr>
 			<td>Название</td>
-			<td><input type="text" ng-model='book.name'></td>
+			<td>
+				<input ng-show="editHeader" type="text" ng-model='book.header.name'>
+				<p ng-show="!editHeader">{{book.header.name}}</p>
+			</td>
 		</tr>
 		<tr>
 			<td>Дата</td>
-			<td><p  ng-bind='book.date'></p></td>
+			<td>{{formatDate(book.header.date)}}</td>
 		</tr>
 		<tr>
 			<td>Автор</td>
-			<td><p type="text" ng-bind='book.author'></p></td>
+			<td><p type="text" ng-bind='book.header.author'></p></td>
 		</tr>
 
 	</table>
@@ -46,35 +50,74 @@
 	<h2>Содержание</h2>
     <table>
 		<tr>
-			<td>Заголовок .......................</td>
+			<td>Заголовок</td>
 			<td>1</td>
 		</tr>
-		<tr ng-repeat="title in book.chapters">
-			<td>.......................</td>
-			<td><input type="text" ng-model='title.page'></td>
+		<tr ng-repeat="chapter in book.chapters track by $index">
+			<td>{{chapter.name}}</td>
+			<td>{{$index+2}}</td>
 		</tr>
 		
 	</table>
   </div>
-  <div class="box chapter">
-	<h2>Раздел</h2>
+  <div class="box chapter" ng-repeat="chapter in book.chapters track by $index" ng-click="chooseChapter($index)" ng-class="{'active':$index==activeChapter}">
+  	<div class="edit" ng-click="edit = !edit" ng-class="{'active': edit}"></div>
+  	<div class="close" ng-click="deleteChapter($index)"></div>
+	<h2 ng-show="!edit">{{chapter.name}}</h2>
+	<input ng-show="edit" type="text" class="chapter-title" ng-model="chapter.name">
     <table>
-		<tr>
-			<td>Заголовок .......................</td>
-			<td>1</td>
-		</tr>
-		<tr ng-repeat="title in book.chapters">
-			<td>.......................</td>
-			<td><input type="text" ng-model='title.page'></td>
+		<tr ng-repeat="pr in chapter" >
+			<td ng-if="pr.type=='text'">
+				<input ng-show="edit" type="text" ng-model="pr.key">
+				<p ng-if="!edit" >{{pr.key}}</p>
+			</td>
+			<td ng-if="pr.type=='text'">
+				<input ng-show="edit" type="text" ng-model="pr.data">
+				<p ng-show="!edit" >{{pr.data}}</p>
+			</td>
+
+
+
+			<td ng-if="pr.type=='picture'">
+				<input ng-show="edit" type="text" ng-model="pr.title">
+				<p ng-show="!edit" >{{pr.title}}</p>
+			</td>
+			<td ng-if="pr.type=='picture'">
+				<img class="image-box" ng-src="{{pr.link}}">
+			</td>
+
+
+			<td ng-if="pr.type=='video'">
+				<input ng-show="edit" type="text" ng-model="pr.title">
+				<p ng-show="!edit" >{{pr.title}}</p>
+			</td>
+			<td ng-if="pr.type=='video'">
+				<iframe width="200" height="160" src="{{trustSrc(pr.link)}}" frameborder="0" allowfullscreen></iframe>
+			</td>
+
+
 		</tr>
 		
 	</table>
   </div>
 	<div class="box table-of-contents">
 	<h2>Список литературы</h2>
-    <input ng-repeat='lit in book.literatures' ng-model='lit'>
-	<button class="green" ng-click="addLiterature()">+</button>
+    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
+    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a>
+	
   </div>
 	
-	
+	<div class="link-picker" ng-show="picturePick">
+		<div class="close" ng-click="picturePick=false;"></div>
+		<p>Введите ссылку фотографии</p>
+		<input type="text" ng-model="link">
+		<button class="green" ng-click="addPicture(link);picturePick=false">Добавить</button>
+	</div>
+	<div class="link-picker" ng-show="videoPick">
+		<div class="close" ng-click="videoPick=false;"></div>
+		<p>Введите ссылку Видео</p>
+		<input type="text" ng-model="link">
+		<button class="green" ng-click="addVideo(link);videoPick=false">Добавить</button>
+	</div>
+	<button class="green" ng-click="createManual()">Создать</button>
 </div>

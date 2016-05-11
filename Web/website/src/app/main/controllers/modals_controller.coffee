@@ -81,3 +81,5 @@ angular.module "articleApp"
                     if data.scope == "Moderator" || data.scope=="Administrator"
                       $state.go("admin")
 
+
+
