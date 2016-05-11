@@ -2,14 +2,14 @@
 	<div id="toolbar">
 		<ul>
 			<li id="add-chapter" ng-click="addChapter()">+</li>
-			<li ng-click="textShow=!textShow">
+			<li ng-click="textShow=!textShow;mediaShow=false">
 				<p>Текст</p>
 				<ul ng-class="{'active': textShow}">
 					<li ng-click="book.text='text';addText()">Текст</li>
 					<li ng-click="book.text='code';addCode()">Код</li>
 				</ul>
 			</li>
-			<li ng-click="mediaShow=!mediaShow">
+			<li ng-click="mediaShow=!mediaShow;textShow=false;">
 				<p>Мультимедиа</p>
 				<ul ng-class="{'active': mediaShow}">
 					<li ng-click="book.media='picture';picturePick=true;">Картинка</li>
@@ -65,15 +65,14 @@
   	<div class="close" ng-click="deleteChapter($index)"></div>
 	<h2 ng-show="!edit">{{chapter.name}}</h2>
 	<input ng-show="edit" type="text" class="chapter-title" ng-model="chapter.name">
-    <table>
+    <table class="w100">
 		<tr ng-repeat="pr in chapter" >
 			<td ng-if="pr.type=='text'">
-				<input ng-show="edit" type="text" ng-model="pr.key">
-				<p ng-if="!edit" >{{pr.key}}</p>
-			</td>
-			<td ng-if="pr.type=='text'">
-				<input ng-show="edit" type="text" ng-model="pr.data">
-				<p ng-show="!edit" >{{pr.data}}</p>
+				<input ng-show="edit" class="w100"  style="margin-bottom: 20px;" placeholder="Введите зоголовок (можно оставить пустым)" type="text" ng-model="pr.key">
+				<p ng-if="!edit" class="center">{{pr.key}}</p>
+
+				<textarea  class="w100" ng-show="edit" type="text" placeholder="Введите текст" ng-model="pr.data"></textarea>
+				<p ng-show="!edit" class="center">{{pr.data}}</p>
 			</td>
 
 

@@ -68,6 +68,7 @@ angular.module "articleApp"
 
 
     $scope.createManual = ()->
+      console.log "data: ", JSON.stringify($scope.book,null,4), $scope.book,
       $server.createManual $scope.book, (data)->
         console.log data
     updateBook = setInterval ()->
