@@ -1,9 +1,8 @@
 <?php
  	require_once("rest.inc.php");
-	require_once("db_connection.php");
-	
-	class API extends REST {
-	
+	require_once("db_connection.php");
+	class API extends REST 
+	{
 		public $data = "";
 		public $db_conn = null;
 		
@@ -19,35 +18,33 @@
 			"getArticleById" 				=> "articles.php",
 			"getAllArticles" 				=> "articles.php",
 			"createArticle" 				=> "articles.php"
-		);
-		
+		);
 		public function __construct()
 		{
 			parent::__construct();
 			$this->dbConnect();
 		}
 		
+		private function dbConnect(){
+			$this->db_conn = getDBConnection();
+		}
 		public function get_method_location($name)
 		{
 			foreach ($this->methods as $k => $v)
 				if ($k == $name)
 					return $v;
 			return null;
-		}
-		
-		private function dbConnect(){
-			$this->db_conn = getDBConnection();
-		}
-		
-		public function processApi(){
+		}	
+		public function processApi()
+		{
 			//$func = strtolower(trim(str_replace("/","",$_REQUEST['x'])));
 			$func = trim(str_replace("/","",$_REQUEST['x']));
 			$location = $this->get_method_location($func);
-			if($location != null){			
+			if($location != null){	
 				require_once($location);
 				$func();
 			}
-			$this->response('',404, "text");
+			$this->send_error(104);
 		}
 		
 		private function json($data){
@@ -55,8 +52,7 @@
 				return json_encode($data);
 			}
 		}
-	}
-	
+	}
 	$api = new API;
 	$api->processApi();
 ?>

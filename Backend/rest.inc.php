@@ -26,6 +26,28 @@ class REST {
         echo $data;
         exit;
     }
+	
+	private function get_error($code)
+	{
+        $errors = array(
+            100 => 'Internal Server Error',
+            101 => 'Bad Request',
+            102 => 'Not authorized',
+			103 => 'No Content',
+            104 => 'Not Found',
+			105 => 'Permission denied',
+			106 => 'Invalid social network',
+			107 => 'Not Acceptable',
+            200 => 'Invalid confirmation code',
+            201 => 'Invalid email',
+            202 => 'This email already in use',
+            203 => 'Invalid user',
+            204 => 'Invalid password',
+            205 => 'Invalid session',
+            206 => 'Invalid uid'
+        );
+        return array("error" => $code, "message" => $errors[$code]);
+    }
 
     private function get_status_message(){
         $status = array(
@@ -81,19 +103,14 @@ class REST {
     {	
 		switch($this->get_request_method()){
             case "POST":
-            case "GET":
-            case "DELETE":
-            case "PUT":
                 //parse_str(file_get_contents("php://input"),$req);
 				$req = array("0" => file_get_contents("php://input"));
                 $req = $this->cleanInputs($req);
-				
-				//$this->response(json_encode($req),406);
 				foreach	($req as $k => $v)
 					$this->_request = $v;
                 break;
             default:
-                $this->response('',406);
+                $this->send_error(107);
                 break;
         }
 		/*
@@ -142,15 +159,15 @@ class REST {
 		return $clean_input;
 	}
 	
-	public function send_error($error, $code)
+	public function send_error($code)
 	{
-		$data = array(error => $error);
-		$this->response(json_encode($data), $code, "text");
+		$data = $this->get_error($code);
+		$this->response(json_encode($data), 400, "text");
 	}
 
     private function set_headers($format){
         header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
-		header('Access-Control-Allow-Origin: *');
+		//header('Access-Control-Allow-Origin: *');
         if($format =='json')
         {
             header("Content-Type:".$this->json_content_type);
