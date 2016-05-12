@@ -23,7 +23,8 @@
 			"getManuals" 					=> "manuals.php",
 			"getManualsByUserId" 			=> "manuals.php",
 			"deleteManualById" 				=> "manuals.php",
-			"getManualById" 				=> "manuals.php"
+			"getManualById" 				=> "manuals.php",
+			"updateManual" 					=> "manuals.php"
 		);
 
 		public function __construct()
