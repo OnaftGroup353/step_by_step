@@ -20,6 +20,14 @@
 	padding: 0;
 }
 
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	/* Отступ снизу, по высоте футера */
+	margin-bottom: 0px !important;
+}
 h1,h2,h3,h4,p {
 	margin: 0;
 }
@@ -120,7 +128,9 @@ footer.main-footer {
 	min-width: @minWidth;
 	padding: 10px;
 	min-height: 45px;
-	
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 	background: #043b05;
 	p {
 				color: #f1f4fd;
@@ -176,7 +186,11 @@ footer.main-footer {
 
 
 .application {
-	min-height: calc(~"100vh - 176px");
+	//min-height: calc(~"100vh - 176px");
+	height:100%;
+	background: #72ba3b;
+	margin-bottom: 0px !important;
+	position:relative;
 }
 
 
@@ -472,7 +486,11 @@ footer.main-footer {
 		}
 	}
 }
-
+.errpage{
+background: #72ba3b;
+width:100%;
+height:100%;
+}
 
 
 
