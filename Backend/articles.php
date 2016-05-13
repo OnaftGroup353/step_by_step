@@ -35,7 +35,7 @@
         $update_date = $api->_request->update_date;
         $previous_version_article_id = $api->_request->previous_version_article_id;
         $isdeleted = $api->_request->isdeleted;
-        $query="INSERT INTO users (
+        $query="INSERT INTO articles (
             'caption', 
             'article_type_id', 
             'content', 
@@ -52,7 +52,7 @@
         $r = $api->db_conn->query($query) or die($api->db_conn->error);
         if ($r)
         {
-            $res = array('id' => $api->db_con->insert_id);
+            $res = array('id' => $api->db_conn->insert_id);
             $api->response(json_encode($res), 200, "json");
         }
         $api->response('Internal Server Error', 500, "text");
