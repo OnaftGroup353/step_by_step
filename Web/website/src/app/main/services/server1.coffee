@@ -8,20 +8,19 @@ angular.module "articleApp"
       ))
       return if matches then decodeURIComponent(matches[1]) else undefined
 
-    methods = [
+    methods = [  
       'login',
       'insertUser',
       'logout',
       'updateUser',
       'getUserInfo',
       'createManual'
-
+      
     ]
 
     addMethod = (methodName) ->
       api[methodName] = (data, callback) ->
         data=JSON.parse(JSON.stringify(data))
-        data.token = localStorage.getItem "token"
         #domain = 'localhost'
         domain = 'api.m-creater.s-host.net'
         request = $.ajax {
@@ -42,7 +41,7 @@ angular.module "articleApp"
         request.fail (xhr)->
 
           callback(xhr.responseJSON || {error:"empty server response"})
-
+          
 
     for method in methods
       addMethod method
