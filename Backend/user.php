@@ -9,21 +9,14 @@ function checkEmailInDatabase($email) // true if user with $email not exist
 }
 function login()
 {
-	
-	global $api;		
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
-	$api->_request = json_decode($api->_request);
+	global $api;
 	if (isset($api->_request->token))
-		loginToken();
+		if ($api->_request->token != null)
+			loginToken();
 	if (isset($api->_request->password))
 		loginEmail();
 	if (isset($api->_request->uid))
-	{
 		loginSocial();
-		$api->send_error(102);
-	}
-		
 	$api->send_error(100);
 }
 
@@ -54,20 +47,16 @@ function loginSocial()
 		$api->send_error(106);
 	$query="SELECT u.id, u.email, u.password, u.scope_id, s.name as scope_name FROM users as u inner join scope as s on u.scope_id=s.id WHERE `social_network_id`='$uid' AND `social_network_type`='$network_id'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-	if ($r->num_rows != 0)
+	if ($r->num_rows > 0)
 	{
 		$res = $r->fetch_assoc();
-		session_start();
 		$length = 20;
 		$time = microtime(true);
 		$id = $res["id"];
 		$token = bin2hex(openssl_random_pseudo_bytes($length)).md5($time).md5($id);
-		$_SESSION["user_id"] = $id;
-		$_SESSION["token"] = $token;
-		$_SESSION["scope_id"] = $res["scope_id"];
 		$query="UPDATE users SET `session`='$token' where `social_network_id`='$uid' AND `social_network_type`='$network_id'";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-		$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
+		$response = array("token" => $token, "id" => $id, "scope" => $res["scope_name"]);
 		$api->response(json_encode($response), 200, "json");
 	}
 	$query="SELECT id FROM users WHERE email='$email'";
@@ -84,17 +73,13 @@ function loginSocial()
 			if ($r->num_rows != 0)
 			{
 				$res = $r->fetch_assoc();
-				session_start();
 				$length = 20;
 				$time = microtime(true);
 				$id = $res["id"];
 				$token = bin2hex(openssl_random_pseudo_bytes($length)).md5($time).md5($id);
-				$_SESSION["user_id"] = $id;
-				$_SESSION["token"] = $token;
-				$_SESSION["scope_id"] = $res["scope_id"];
 				$query="UPDATE users SET `session`='$token' where `social_network_id`='$uid' AND `social_network_type`='$network_id'";
 				$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-				$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
+				$response = array("token" => $token, "id" => $id, "scope" => $res["scope_name"]);
 				$api->response(json_encode($response), 200, "json");
 			}
 		}
@@ -111,17 +96,13 @@ function loginSocial()
 		if ($r->num_rows != 0)
 		{
 			$res = $r->fetch_assoc();
-			session_start();
 			$length = 20;
 			$time = microtime(true);
 			$id = $res["id"];
 			$token = bin2hex(openssl_random_pseudo_bytes($length)).md5($time).md5($id);
-			$_SESSION["user_id"] = $id;
-			$_SESSION["token"] = $token;
-			$_SESSION["scope_id"] = $res["scope_id"];
 			$query="UPDATE users SET `session`='$token' where `social_network_id`='$uid' AND `social_network_type`='$network_id'";
 			$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-			$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
+			$response = array("token" => $token, "id" => $id, "scope" => $res["scope_name"]);
 			$api->response(json_encode($response), 200, "json");
 		}
 		$api->send_error(100);
@@ -150,17 +131,13 @@ function loginEmail()
 	$res = $r->fetch_assoc();
 	if (!password_verify($password, $res["password"]))
 		$api->send_error(204);
-	session_start();
 	$length = 20;
 	$time = microtime(true);
 	$id = $res["id"];
 	$token = bin2hex(openssl_random_pseudo_bytes($length)).md5($time).md5($id);
-	$_SESSION["user_id"] = $id;
-	$_SESSION["token"] = $token;
-	$_SESSION["scope_id"] = $res["scope_id"];
 	$query="UPDATE users SET `session`='$token' where `email`='$email'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-	$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
+	$response = array("token" => $token, "id" => $id, "scope" => $res["scope_name"]);
 	$api->response(json_encode($response), 200, "json");
 }
 
@@ -175,34 +152,22 @@ function loginToken()
 	if($r->num_rows == 0) 
 		$api->send_error(205);
 	$res = $r->fetch_assoc();
-	session_start();
-	$_SESSION["user_id"] = $res["id"];	
-	$_SESSION["token"] = $token;	
-	$_SESSION["scope_id"] = $res["scope_id"];
-	$response = array("token" => $token, "id" => $_SESSION["user_id"], "scope" => $res["scope_name"]);
+	$response = array("token" => $token, "id" => $res["id"], "scope" => $res["scope_name"]);
 	$api->response(json_encode($response), 200, "json");
 }
 
 function logout()
 {
 	global $api;
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
-	$api->_request = json_decode($api->_request);
-	session_start();
-	if (!isset($_SESSION["token"]))
-		$api->send_error(205);
 	if (!isset($api->_request->token))
+		$api->send_error(101);
+	if ($api->_request->token == null)
 		$api->send_error(205);
 	$token = $api->_request->token;
 	if (strrpos($token, "'"))
-		$api->send_error(205);	
-	if ($_SESSION["token"] != $token)
 		$api->send_error(205);
-	$id = $_SESSION["user_id"];
-	$query="UPDATE users SET session=NULL WHERE id='$id'";
+	$query="UPDATE users SET session=NULL WHERE `session`='$token'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
-	session_destroy();
 	$api->response("OK", 200, "text");
 }
 
@@ -227,9 +192,6 @@ function logout()
 function registrationCheckEmail() 
 {
 	global $api;
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
-	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->email))
 		$api->send_error(101);
 	$email = $api->_request->email;
@@ -292,22 +254,23 @@ function registrationCheckEmail()
 function getUserInfo()
 {	
 	global $api;
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
-	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->id))
 		$api->send_error(101);
 	$id = intval($api->_request->id);
 	if ($id >= 0)
 	{
-		session_start();
-		if (isset($_SESSION["user_id"]))
-			if ($_SESSION["user_id"] == $id)
+		if (isset($api->_request->token))
+			if ($api->_request->token != null)
+				if (strrpos($api->_request->token, "'") == -1)
+					$session = $api->getSessionData($api->_request->token);
+		if (isset($session))
+			if ($session["user_id"] == $id)
 				$query="SELECT u.id, u.email, u.scope_id, s.name as scope_name, u.first_name, u.middle_name, u.last_name, u.interest, u.position, u.social_network_id, u.social_network_type, u.banned FROM users as u inner join scope as s on u.scope_id=s.id  WHERE u.id=$id";
 		if (!isset($query))
 			$query="SELECT u.id, u.scope_id, s.name as scope_name, u.first_name, u.middle_name, u.last_name, u.interest, u.position, u.social_network_id, u.social_network_type, u.banned FROM users as u inner join scope as s on u.scope_id=s.id  WHERE u.id=$id";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error);
-		if($r->num_rows > 0) {
+		if($r->num_rows > 0) 
+		{
 			$res = $r->fetch_assoc();
 			$api->response(json_encode($res), 200, "json");
 		}
@@ -336,9 +299,6 @@ function getUserInfo()
 function insertUser()
 {
 	global $api;
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
-	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->email, $api->_request->password))
 		$api->send_error(101);
 	$email = $api->_request->email;
@@ -418,8 +378,10 @@ function insertUser()
 function updateUser()
 {
 	global $api;
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
+	if (!isset($api->_request->token))
+		$api->send_error(205);
+	if ($api->_request->token == null)
+		$api->send_error(205);
 	if (isset($api->_request->password))
 		update_user_password();
 	if (isset($api->_request->banned))
@@ -449,10 +411,8 @@ function update_user_password()
 	$password = $api->_request->password;
 	if (strrpos($password, "'"))
 		$api->send_error(204);
-	session_start();
-	if (!isset($_SESSION["user_id"]))
-		$api->send_error(102);
-	$id = $_SESSION["user_id"];
+	$session = $api->getSessionData($api->_request->token);
+	$id = $session["user_id"];
 	$query="UPDATE users SET `password`='$password' WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
@@ -474,13 +434,11 @@ function update_user_ban()
 		}
 	*/
 	global $api;
-	session_start();
-	if (!isset($_SESSION["user_id"]))
-		$api->send_error(102);
-	if ($_SESSION["scope_id"] < 2)
-		$api->send_error(105);
 	if (!isset($api->_request->id, $api->_request->banned))
 		$api->send_error(101);
+	$session = $api->getSessionData($api->_request->token);
+	if ($session["scope_id"] < 2)
+		$api->send_error(105);
 	$id = intval($api->_request->id);
 	$banned = intval($api->_request->banned);
 	if ($banned != 0 && $banned != 1)
@@ -491,7 +449,7 @@ function update_user_ban()
 		$api->send_error(203);
 	$res = $r->fetch_assoc();
 	$scope_id = $res["scope_id"];
-	if ($_SESSION["scope_id"] < $scope_id)
+	if ($session["scope_id"] < $scope_id)
 		$api->send_error(105);
 	$query="UPDATE users SET `banned`='$banned' WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
@@ -514,13 +472,11 @@ function update_user_scope()
 		}
 	*/
 	global $api;
-	session_start();
-	if (!isset($_SESSION["user_id"]))
-		$api->send_error(102);
-	if ($_SESSION["scope_id"] < 3)
-		$api->send_error(105);
 	if (!isset($api->_request->id, $api->_request->scope_id))
 		$api->send_error(101);
+	$session = $api->getSessionData($api->_request->token);
+	if ($session["scope_id"] < 3)
+		$api->send_error(105);
 	$id = intval($api->_request->id);
 	$scope_id = intval($api->_request->scope_id);
 	$query="UPDATE users SET `scope_id`='$scope_id' WHERE id=$id";
@@ -543,9 +499,7 @@ function update_user_email()
 		}
 	*/
 	global $api;
-	session_start();
-	if (!isset($_SESSION["user_id"]))
-		$api->send_error(102);
+	$session = $api->getSessionData($api->_request->token);
 	if (!isset($api->_request->email))
 		$api->send_error(101);
 	$email = $api->_request->email;
@@ -555,7 +509,7 @@ function update_user_email()
 		$api->send_error(201);
 	if (!checkEmail($email))
 		$api->send_error(202);
-	$id = $_SESSION["user_id"];
+	$id = $session["user_id"];
 	$length = 20;
 	$time = microtime(true);
 	$confirmationCode = bin2hex(openssl_random_pseudo_bytes($length)).md5($time);
@@ -618,14 +572,12 @@ function update_user()
 		}
 	*/
 	global $api;
-	session_start();
-	if (!isset($_SESSION["user_id"]))
-		$api->send_error(102);
+	$session = $api->getSessionData($api->_request->token);
 	if (!isset($api->_request->first_name, $api->_request->middle_name, $api->_request->last_name, 
 				$api->_request->interest, $api->_request->position, $api->_request->social_network_id, 
 				$api->_request->social_network_type))
 		$api->send_error(101);
-	$id = intval($_SESSION["user_id"]);
+	$id = intval($session["user_id"]);
 	$social_network_type = intval($api->_request->social_network_type);
 	$first_name = $api->checkString($api->_request->first_name);
 	$middle_name = $api->checkString($api->_request->middle_name);

@@ -108,6 +108,9 @@ class REST {
                 $req = $this->cleanInputs($req);
 				foreach	($req as $k => $v)
 					$this->_request = $v;
+				if (trim(json_encode($this->_request)) == "\"\"")
+					$this->send_error(101);
+				$this->_request = json_decode($this->_request);
                 break;
             default:
                 $this->send_error(107);

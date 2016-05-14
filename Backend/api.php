@@ -15,10 +15,6 @@
 			"insertUser" 					=> "user.php",
 			"updateUser" 					=> "user.php",
 			"confirmEmail" 					=> "user.php",
-			"getArticleTypes" 				=> "articles_types.php",
-			"getArticleById" 				=> "articles.php",
-			"getAllArticles" 				=> "articles.php",
-			"createArticle" 				=> "articles.php",
 			"createManual" 					=> "manuals.php",
 			"getManuals" 					=> "manuals.php",
 			"getManualsByUserId" 			=> "manuals.php",
@@ -61,6 +57,19 @@
 			if(is_array($data)){
 				return json_encode($data);
 			}
+		}
+		
+		public function getSessionData($token)
+		{
+			$query="SELECT id as `user_id`, `scope_id`, `session` as `token` FROM users WHERE `session`='$token'";
+			$r = $this->db_conn->query($query) or die($this->db_conn->error." ".__LINE__);
+			if ($r->num_rows > 0)
+			{
+				$res = $r->fetch_assoc();
+				$session = array("user_id" => $res["user_id"], "token" => $res["token"], "scope_id" => $res["scope_id"]);
+				return $session;
+			}
+			$this->send_error(205);
 		}
 	}
 

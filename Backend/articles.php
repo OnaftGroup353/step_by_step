@@ -24,7 +24,8 @@
 			}
 		
 	*/
-    function createArticle() {
+    function createArticle() 
+	{
         global $api;
 		if (count($api->_request) == 0)
 			$api->send_error("Bad Request!", 400);
