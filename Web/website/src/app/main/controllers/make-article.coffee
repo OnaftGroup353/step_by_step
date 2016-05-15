@@ -3,40 +3,57 @@ angular.module "articleApp"
 
     $scope.trustSrc = (src)->
       return $sce.trustAsResourceUrl(src)
+    $scope.chooseChapter = (index)->
+      $scope.activeChapter = index
     $scope.addChapter = ()->
       $scope.book.chapters.push({name: 'Раздел'})
+      $scope.chooseChapter($scope.book.chapters.length-1)
     $scope.addLiterature = (link)->
+      if link.length==0
+        return
+      if link.indexOf("http") == -1
+        link = "http://"+link
       $scope.$apply ()->
         $scope.book.literatures.push(link)
+
+    $scope.addTags = (tag)->
+      $scope.$apply ()->
+        $scope.book.tags.push(tag)
     $scope.addText = ()->
       
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
-      $scope.book.chapters[$scope.activeChapter][ind]={type:'text', key: '', data:''}
+      $scope.book.chapters[$scope.activeChapter][ind]={type:'text', title: '', data:''}
 
     $scope.addCode = ()->
       
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
-      $scope.book.chapters[$scope.activeChapter][ind]={type:'text', key: '', data:''}
+      $scope.book.chapters[$scope.activeChapter][ind]={type:'text', title: '', data:''}
 
     $scope.addPicture = (link)->
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
-      $scope.book.chapters[$scope.activeChapter][ind]={type:'picture', link: link, title:'Картинка'}
+      $scope.book.chapters[$scope.activeChapter][ind]={type:'picture', data: link, title:'Картинка'}
 
     $scope.addVideo = (link)->
-      
+      # https://www.youtube.com/embed/O-aPXj33qKA
+      # https://www.youtube.com/watch?v=O-aPXj33qKA
+      if link.length == 0
+        return
+      if link.indexOf("youtube")!=-1 && link.indexOf("embed")==-1
+        id = link.split('=')[1]
+        link = "https://www.youtube.com/embed/"+id
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
-      $scope.book.chapters[$scope.activeChapter][ind]={type:'video', link: link, title: 'Видео'}
+      $scope.book.chapters[$scope.activeChapter][ind]={type:'video', data: link, title: 'Видео'}
 
     $scope.addAudio = ()->
       
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
-      $scope.book.chapters[$scope.activeChapter][ind]={type:'text', key: '', data:''}
+      $scope.book.chapters[$scope.activeChapter][ind]={type:'audio', title: 'Аудио', data:''}
 
 
     $scope.deleteChapter = (index)->
       $scope.book.chapters.splice(index,1)
-    $scope.chooseChapter = (index)->
-      $scope.activeChapter = index
+    
 
     if localStorage.article
       $scope.book = JSON.parse(localStorage.article)
@@ -45,6 +62,7 @@ angular.module "articleApp"
         date: moment().valueOf()
         chapters: []
         literatures: []
+        tags: []
         header: {}
         tableOfContents: {}
         metadata: {}
@@ -65,6 +83,20 @@ angular.module "articleApp"
            
         }
         return voc[text] || ''
+
+
+
+
+    $scope.moveDown = (i) ->
+      temp = $scope.book.chapters[i]
+      $scope.book.chapters[i] = $scope.book.chapters[i+1]
+      $scope.book.chapters[i+1] = temp
+
+    $scope.moveUp = (i) ->
+      temp = $scope.book.chapters[i]
+      $scope.book.chapters[i] = $scope.book.chapters[i-1]
+      $scope.book.chapters[i-1] = temp
+
 
 
     $scope.createManual = ()->

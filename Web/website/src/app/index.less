@@ -32,7 +32,7 @@ h1,h2,h3,h4,p {
 	margin: 0;
 }
 .w100 {
-	width: 100%;
+	width: 100% !important;
 }
 a {
 	text-decoration: none;
@@ -331,6 +331,7 @@ footer.main-footer {
 					&:first-child {
 						width: 200px;
 					}
+
 				}
 			}
 		}
@@ -381,6 +382,15 @@ footer.main-footer {
 				background-position: 5px;
 				cursor: pointer;
 			}
+			.controls {
+				position: absolute;
+				span {
+					font-size: 30px;
+					cursor: pointer;
+				}
+				top: 6px;
+				right: 50px;
+			}
 		}
 		&.chapter {
 			&.active {
@@ -393,7 +403,7 @@ footer.main-footer {
 			margin: 0 auto;
 		}
 		img.image-box {
-			width: 160px;
+			width: 200px;
 		}
 	}
 	@toolHeight: 40px;
