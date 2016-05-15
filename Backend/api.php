@@ -6,7 +6,7 @@
 	{
 		public $data = "";
 		public $db_conn = null;
-		
+
 		public $methods = array(
 			"login" 						=> "user.php",
 			"logout" 						=> "user.php",
@@ -21,6 +21,7 @@
 			"deleteManualById" 				=> "manuals.php",
 			"getManualById" 				=> "manuals.php",
 			"updateManual" 					=> "manuals.php",
+			"articleSearch"					=> "manuals.php",
 			"addFavorite" 					=> "favorites.php",
 			"deleteFavorite" 				=> "favorites.php",
 			"getMyFavorites" 				=> "favorites.php"

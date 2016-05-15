@@ -486,6 +486,44 @@ function getArticleTree($id)
 	return NULL;
 }
 
+function articleSearch($name) {
+	global $api;
+	$query="SELECT ma.`id`, a.`caption`, a.`content`, ma.`article_number`, a.`article_type_id`, at.`name` as `article_type`, a.`previous_version_article_id`,
+	ma.`parent_article_id`, ma.`iscurrent` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_types` as at ON
+	at.`id`=a.`article_type_id` WHERE a.`name` like '%'".$name."%''";
+	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+	if ($r)
+		if($r->num_rows > 0)
+		{
+			$res = $r->fetch_assoc();
+
+			switch(intval($res["article_type_id"]))
+			{
+				case "1":
+				case "2":
+				case "8":
+					$art = createArticleClass($res);
+					$query2="SELECT ma.`id`, a.`caption`, a.`content`, ma.`article_number`, a.`article_type_id`, at.`name` as `article_type`, a.`previous_version_article_id`, ma.`parent_article_id`, ma.`iscurrent` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_types` as at ON at.`id`=a.`article_type_id` WHERE ma.`parent_article_id`=".$id."";
+					$r2 = $api->db_conn->query($query2) or die($api->db_conn->error." ".__LINE__);
+					if ($r2)
+						if($r2->num_rows > 0)
+						{
+							while($res2 = $r2->fetch_assoc())
+							{
+								$ch = articleSearch($res2["name"]);
+								$art->child_articles[] = $ch;
+							}
+						}
+					break;
+				default:
+					$art = createArticleClass($res);
+					break;
+			}
+			return $art;
+		}
+	return NULL;
+}
+
 function createArticleClass($res)
 {
 	$r = new article;
