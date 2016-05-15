@@ -30,6 +30,7 @@ angular.module "articleApp"
         console.log 'data2', JSON.parse(data)
         $server.login JSON.parse(data), (data)->
           if !data.error
+            $scope.cancel()
             localStorage.token = data.token
             $state.go('cabinet')
           else

@@ -1,6 +1,7 @@
 angular.module "articleApp"
   .controller "cabinetCtrl", ($scope, $rootScope, $state, $server, $modal) ->
     $scope.user= {}
+    $scope.search = {}
     $server.login {token: localStorage.token}, (data)->
         console.log data
         if data.error
@@ -36,6 +37,11 @@ angular.module "articleApp"
         $scope.user.social_network_id = 1
         $scope.user.social_network_type = 1
         $server.updateUser $scope.user, (data)->
+            console.log data
+
+
+    $scope.articleSearch = ()->
+        $server.articleSearch {name: $scope.search.name}, (data)->
             console.log data
     
 

@@ -14,7 +14,8 @@ angular.module "articleApp"
       'logout',
       'updateUser',
       'getUserInfo',
-      'createManual'
+      'createManual',
+      'articleSearch'
 
     ]
 
