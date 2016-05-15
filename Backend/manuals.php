@@ -415,6 +415,12 @@ function updateManual()
 		$literatures_article_article_id = createManualArticle($literatures_article_article);
 		$j++;
 	}
+	if ($iscurrent)
+	{
+		$query="
+		UPDATE `favorite_manuals` SET `article_id`=".$manual_article_article_id." WHERE `article_id`=".$manual_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+	}
 	$api->response("OK", 200, "text");
 	
     /*

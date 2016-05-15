@@ -20,7 +20,10 @@
 			"getManualsByUserId" 			=> "manuals.php",
 			"deleteManualById" 				=> "manuals.php",
 			"getManualById" 				=> "manuals.php",
-			"updateManual" 					=> "manuals.php"
+			"updateManual" 					=> "manuals.php",
+			"addFavorite" 					=> "favorites.php",
+			"deleteFavorite" 				=> "favorites.php",
+			"getMyFavorites" 				=> "favorites.php"
 		);
 
 		public function __construct()
