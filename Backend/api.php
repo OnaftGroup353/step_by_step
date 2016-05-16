@@ -22,6 +22,7 @@
 			"getManualById" 				=> "manuals.php",
 			"updateManual" 					=> "manuals.php",
 			"articleSearch"					=> "manuals.php",
+			"getManualVersions"				=> "manuals.php",
 			"addFavorite" 					=> "favorites.php",
 			"deleteFavorite" 				=> "favorites.php",
 			"getMyFavorites" 				=> "favorites.php"

@@ -346,27 +346,43 @@ function getLiterature($id)
 function getManualVersions()
 {
 	global $api;
-	$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`id`=".$id;
-	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-	if($r->num_rows > 0)
+    if (!isset($api->_request->id))
+        $api->send_error(101);
+    $id = $api->_request->id;
+	$s_id = $id;
+	do
 	{
-		while($res = $r->fetch_assoc()) 
+		$query="SELECT ma.`id`, a.`article_type_id`, a.`id` as `article_id`, a.`previous_version_article_id`, UNIX_TIMESTAMP(a.`update_date`) as `date`, a.`caption` FROM `manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id` WHERE ma.`id`=".$s_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		$res = $r->fetch_assoc();
+		$manual = (object) array("id" => $res["id"], "date" => $res["date"], "caption" => $res["caption"]);
+		$ress[$res["date"]] = $manual;
+		$query="SELECT ma.`id`, a.`article_type_id`, a.`id` as `article_id`, a.`previous_version_article_id`, UNIX_TIMESTAMP(a.`update_date`) as `date`, a.`caption` FROM `manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id` WHERE ma.`id`=".$res["previous_version_article_id"];
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		if ($r->num_rows > 0)
 		{
-			$main_author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => "1");
-			$ress[$res["author_id"]] = $main_author;
-			while($res["previous_version_article_id"] != null)
-			{
-				$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`previous_version_article_id`=".$res["previous_version_article_id"];
-				$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-				$main_author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => "0");
-				if (!isset($ress[$res["author_id"]]))
-					$ress[$res["author_id"]] = $main_author;
-			}
+			$res = $r->fetch_assoc();
+			$s_id = $res["id"];
 		}
-	}
+	} while ($r->num_rows > 0);
+	$s_id = $id;
+	do
+	{
+		$query="SELECT ma.`id`, a.`article_type_id`, a.`id` as `article_id`, a.`previous_version_article_id`, UNIX_TIMESTAMP(a.`update_date`) as `date`, a.`caption` FROM `manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id` WHERE a.`previous_version_article_id`=".$s_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		if ($r->num_rows == 0)
+			break;
+		$res = $r->fetch_assoc();
+		$s_id = $res["id"];
+		$query="SELECT ma.`id`, a.`article_type_id`, a.`id` as `article_id`, a.`previous_version_article_id`, UNIX_TIMESTAMP(a.`update_date`) as `date`, a.`caption` FROM `manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id` WHERE ma.`id`=".$s_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		$res = $r->fetch_assoc();
+		$manual = (object) array("id" => $res["id"], "date" => $res["date"], "caption" => $res["caption"]);
+		$ress[$res["date"]] = $manual;
+	} while ($r->num_rows > 0);
 	foreach ($ress as $k => $v)
 		$resss[] = $v;
-	return $resss;
+	$api->response(json_encode($resss), 200, "json");
 }
 
 function updateManual()
@@ -467,7 +483,7 @@ function updateManual()
 	}
 	foreach ($tags as $v)
 	{
-		$query = "INSERT INTO `manual_tags` (`manual_id`, `tag`) VALUES (".$manual_article_article_id.", '".$v."')";
+		$query = "INSERT INTO `manual_tags` (`manual_id`, `tag`) VALUES (".$manual_article_article_id.", '".$v->tag."')";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	}
 	$api->response("OK", 200, "text");
