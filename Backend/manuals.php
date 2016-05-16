@@ -21,16 +21,16 @@ function createManual()
 	if ($api->_request->token == null)
 		$api->send_error(101);
     if (!isset($api->_request->date, $api->_request->chapters, $api->_request->literatures
-        , $api->_request->header, $api->_request->tableOfContents, $api->_request->metadata))
+        , $api->_request->header))
         $api->send_error(101);
+	$session = $api->getSessionData($api->_request->token);
     $date = $api->_request->date;
     $chapters = $api->_request->chapters;
     $literatures = $api->_request->literatures;
     $header = $api->_request->header;
-    $tableOfContents = $api->_request->tableOfContents;
-    $metadata = $api->_request->metadata;
+	$tags = $api->_request->tags;
 	$manual_article = (object) array("caption" => $header->name, "article_type_id" => "1", "content" => "", "previous_version_article_id" => "NULL");
-	$manual_article_id = createArticle($manual_article);
+	$manual_article_id = createArticle($manual_article, $session["user_id"]);
 	if ($manual_article_id == -1)
 		$api->send_error(100);
 	$manual_article_article = (object) array("article_id" => $manual_article_id, "parent_article_id" => "NULL", "article_number" => "0", "iscurrent" => "1");
@@ -41,7 +41,7 @@ function createManual()
 	foreach ($chapters as $v)
 	{
 		$chapter_article = (object) array("caption" => $v->name, "article_type_id" => "2", "content" => "", "previous_version_article_id" => "NULL");
-		$chapter_article_id = createArticle($chapter_article);
+		$chapter_article_id = createArticle($chapter_article, $session["user_id"]);
 		$chapter_article_article = (object) array("article_id" => $chapter_article_id, "parent_article_id" => $manual_article_article_id, "article_number" => $i, "iscurrent" => "1");
 		$chapter_article_article_id = createManualArticle($chapter_article_article);
 		for ($j = 1; isset($v->$j); $j++)
@@ -51,7 +51,7 @@ function createManual()
 				continue;
 			
 			$chapter_article_n = (object) array("caption" => $v->$j->title, "article_type_id" => $type, "content" => $v->$j->data, "previous_version_article_id" => "NULL");
-			$chapter_article_n_id = createArticle($chapter_article_n);
+			$chapter_article_n_id = createArticle($chapter_article_n, $session["user_id"]);
 
 			$chapter_article_article_n = (object) array("article_id" => $chapter_article_n_id, "parent_article_id" => $chapter_article_article_id, "article_number" => $j, "iscurrent" => "1");
 			$chapter_article_article_n_id = createManualArticle($chapter_article_article_n);
@@ -59,17 +59,22 @@ function createManual()
 		$i++;
 	}
 	$literatures_article_p = (object) array("caption" => "", "article_type_id" => "9", "content" => "", "previous_version_article_id" => "NULL");
-	$literatures_article_p_id = createArticle($literatures_article_p);
+	$literatures_article_p_id = createArticle($literatures_article_p, $session["user_id"]);
 	$literatures_article_p_article = (object) array("article_id" => $literatures_article_p_id, "parent_article_id" => $manual_article_article_id, "article_number" => $i, "iscurrent" => "1");
 	$literatures_article_p_article_id = createManualArticle($literatures_article_p_article);
 	$j = 1;
 	foreach ($literatures as $v)
 	{
 		$literatures_article = (object) array("caption" => "", "article_type_id" => "8", "content" => $v, "previous_version_article_id" => "NULL");
-		$literatures_article_id = createArticle($literatures_article);
+		$literatures_article_id = createArticle($literatures_article, $session["user_id"]);
 		$literatures_article_article = (object) array("article_id" => $literatures_article_id, "parent_article_id" => $literatures_article_p_article_id, "article_number" => $j, "iscurrent" => "1");
 		$literatures_article_article_id = createManualArticle($literatures_article_article);
 		$j++;
+	}
+	foreach ($tags as $v)
+	{
+		$query = "INSERT INTO `manual_tags` (`manual_id`, `tag`) VALUES (".$manual_article_article_id.", '".$v."')";
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	}
 	$api->response("OK", 200, "text");
     /*
@@ -79,10 +84,10 @@ function createManual()
 		"text": "code",
 		"media": "picture"
 	}
-     */
+    */
 }
 
-function createArticle($article)
+function createArticle($article, $user_id)
 {
 	global $api;
 	$caption = $article->caption;
@@ -92,8 +97,6 @@ function createArticle($article)
 	$query="INSERT INTO articles (`caption`, `article_type_id`, `content`, `previous_version_article_id`) VALUES ('$caption', '$article_type_id', '$content', '$previous_version_article_id')";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	$res_id = $r ? $api->db_conn->insert_id : -1;
-	$session = $api->getSessionData($api->_request->token);
-	$user_id = $session["user_id"];
 	$query="INSERT INTO article_authors (`article_id`, `author_id`) VALUES (".$res_id.", ".$user_id.")";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	return $res_id;
@@ -229,31 +232,42 @@ function getManualById()
     $tableOfContents = (object) array();
     $metadata = (object) array();
 	$authors = getAuthors($id);
-	$res = (object) array("id" => $id, "date" => $date, "header" => $header, "chapters" => $chapters, "literatures" => $literatures, "tableOfContents" => $tableOfContents, "metadata" => $metadata, "authors" => $authors);
+	
+	$query="SELECT t.`id`, t.`tag` FROM `manual_tags` as t WHERE `manual_id`=".$id."";
+	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+	while($row = $r->fetch_assoc())
+		$tags[] = (object) array("id" => $row["id"], "tag" => $row["tag"]);
+	$res = (object) array("id" => $id, "date" => $date, "header" => $header, "chapters" => $chapters, "literatures" => $literatures, "tags" => $tags, "authors" => $authors);
 	$api->response(json_encode($res), 200, "json");
 }
 
 function getAuthors($id)
 {
 	global $api;
-	$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`id`=".$id;
-	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-	if($r->num_rows > 0)
+	
+	$s_id = $id;
+	do
 	{
-		while($res = $r->fetch_assoc()) 
+		$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`article_id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`id`=".$s_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		$res = $r->fetch_assoc();
+		$author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => $res["article_type_id"] == 1 ? "1" : "0");
+		$ress[$res["author_id"]] = $author;
+		
+		$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`article_id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`parent_article_id`=".$s_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		$res = $r->fetch_assoc();
+		$author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => $res["article_type_id"] == 1 ? "1" : "0");
+		$ress[$res["author_id"]] = $author;
+		
+		$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`id`=".$s_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+		if ($r->num_rows > 0)
 		{
-			$main_author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => "1");
-			$ress[$res["author_id"]] = $main_author;
-			while($res["previous_version_article_id"] != null)
-			{
-				$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`previous_version_article_id`=".$res["previous_version_article_id"];
-				$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
-				$main_author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => "0");
-				if (!isset($ress[$res["author_id"]]))
-					$ress[$res["author_id"]] = $main_author;
-			}
+			$res = $r->fetch_assoc();
+			$s_id = $res["author_id"];
 		}
-	}
+	} while ($r->num_rows > 0);
 	foreach ($ress as $k => $v)
 		$resss[] = $v;
 	return $resss;
@@ -329,6 +343,32 @@ function getLiterature($id)
 	return $ress;
 }
 
+function getManualVersions()
+{
+	global $api;
+	$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`id`=".$id;
+	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+	if($r->num_rows > 0)
+	{
+		while($res = $r->fetch_assoc()) 
+		{
+			$main_author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => "1");
+			$ress[$res["author_id"]] = $main_author;
+			while($res["previous_version_article_id"] != null)
+			{
+				$query="SELECT ma.`id`, a.`article_type_id`, u.`id` as `author_id`, u.`first_name`, u.`middle_name`, u.`last_name`, a.`id` as `article_id`, a.`previous_version_article_id` FROM ((`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`id`=a.`id`) INNER JOIN `users` as u ON aa.`author_id`=u.`id` WHERE ma.`previous_version_article_id`=".$res["previous_version_article_id"];
+				$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+				$main_author = (object) array("user_id" => $res["author_id"], "first_name" => $res["first_name"], "middle_name" => $res["middle_name"], "last_name" => $res["last_name"], "is_creator" => "0");
+				if (!isset($ress[$res["author_id"]]))
+					$ress[$res["author_id"]] = $main_author;
+			}
+		}
+	}
+	foreach ($ress as $k => $v)
+		$resss[] = $v;
+	return $resss;
+}
+
 function updateManual()
 {
     global $api;
@@ -337,7 +377,7 @@ function updateManual()
 	if ($api->_request->token == null)
         $api->send_error(101);
     if (!isset($api->_request->date, $api->_request->chapters, $api->_request->literatures
-        , $api->_request->header, $api->_request->tableOfContents, $api->_request->metadata))
+        , $api->_request->header))
         $api->send_error(101);
 	$session = $api->getSessionData($api->_request->token);
 	$date = $api->_request->date;
@@ -345,8 +385,7 @@ function updateManual()
     $chapters = $api->_request->chapters;
     $literatures = $api->_request->literatures;
     $header = $api->_request->header;
-    $tableOfContents = $api->_request->tableOfContents;
-    $metadata = $api->_request->metadata;
+    $tags = $api->_request->tags;
 	$iscurrent = "0";
 	$manual_id = getManualByArticleId(intval($id));
 	if ($manual_id == -1)
@@ -366,15 +405,20 @@ function updateManual()
 	if ($r)
 		if ($r->num_rows > 0)
 			while ($res = $r->fetch_assoc())
+			{
+				$main_author_id = $res["author_id"];
 				if ($res["author_id"] == $session["user_id"])
 					$iscurrent = "1";
+			}
+	
 	if ($iscurrent == "1")
 	{
 		$query="UPDATE `manual_articles` SET `iscurrent`='0' WHERE `id`=".$manual_id;
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	}
 	$manual_article = (object) array("caption" => $header->name, "article_type_id" => "1", "content" => "", "previous_version_article_id" => $manual_id);	
-	$manual_article_id = createArticle($manual_article);
+	$manual_article_id = createArticle($manual_article, $main_author_id);
+	
 	if ($manual_article_id == -1)
 		$api->send_error(100);
 	$manual_article_article = (object) array("article_id" => $manual_article_id, "parent_article_id" => "NULL", "article_number" => "0", "iscurrent" => $iscurrent);
@@ -385,7 +429,7 @@ function updateManual()
 	foreach ($chapters as $v)
 	{
 		$chapter_article = (object) array("caption" => $v->name, "article_type_id" => "2", "content" => "", "previous_version_article_id" => "NULL");
-		$chapter_article_id = createArticle($chapter_article);
+		$chapter_article_id = createArticle($chapter_article, $session["user_id"]);
 		$chapter_article_article = (object) array("article_id" => $chapter_article_id, "parent_article_id" => $manual_article_article_id, "article_number" => $i, "iscurrent" => "1");
 		$chapter_article_article_id = createManualArticle($chapter_article_article);
 		for ($j = 1; isset($v->$j); $j++)
@@ -395,7 +439,7 @@ function updateManual()
 				continue;
 			
 			$chapter_article_n = (object) array("caption" => $v->$j->title, "article_type_id" => $type, "content" => $v->$j->data, "previous_version_article_id" => "NULL");
-			$chapter_article_n_id = createArticle($chapter_article_n);
+			$chapter_article_n_id = createArticle($chapter_article_n, $session["user_id"]);
 
 			$chapter_article_article_n = (object) array("article_id" => $chapter_article_n_id, "parent_article_id" => $chapter_article_article_id, "article_number" => $j, "iscurrent" => "1");
 			$chapter_article_article_n_id = createManualArticle($chapter_article_article_n);
@@ -403,14 +447,14 @@ function updateManual()
 		$i++;
 	}
 	$literatures_article_p = (object) array("caption" => "", "article_type_id" => "9", "content" => "", "previous_version_article_id" => "NULL");
-	$literatures_article_p_id = createArticle($literatures_article_p);
+	$literatures_article_p_id = createArticle($literatures_article_p, $session["user_id"]);
 	$literatures_article_p_article = (object) array("article_id" => $literatures_article_p_id, "parent_article_id" => $manual_article_article_id, "article_number" => $i, "iscurrent" => "1");
 	$literatures_article_p_article_id = createManualArticle($literatures_article_p_article);
 	$j = 1;
 	foreach ($literatures as $v)
 	{
 		$literatures_article = (object) array("caption" => "", "article_type_id" => "8", "content" => $v->data, "previous_version_article_id" => "NULL");
-		$literatures_article_id = createArticle($literatures_article);
+		$literatures_article_id = createArticle($literatures_article, $session["user_id"]);
 		$literatures_article_article = (object) array("article_id" => $literatures_article_id, "parent_article_id" => $literatures_article_p_article_id, "article_number" => $j, "iscurrent" => "1");
 		$literatures_article_article_id = createManualArticle($literatures_article_article);
 		$j++;
@@ -419,6 +463,11 @@ function updateManual()
 	{
 		$query="
 		UPDATE `favorite_manuals` SET `article_id`=".$manual_article_article_id." WHERE `article_id`=".$manual_id;
+		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
+	}
+	foreach ($tags as $v)
+	{
+		$query = "INSERT INTO `manual_tags` (`manual_id`, `tag`) VALUES (".$manual_article_article_id.", '".$v."')";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	}
 	$api->response("OK", 200, "text");
@@ -485,6 +534,7 @@ function getArticleTree($id)
 		}
 	return NULL;
 }
+
 
 function articleSearch($name) {
 	global $api;
