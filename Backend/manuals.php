@@ -117,7 +117,7 @@ function createManualArticle($manual_article)
 function getManuals()
 {
 	global $api;
-	$query="SELECT ma.`id`, a.`caption`, a.`update_date` as `date` FROM `manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id` WHERE (`parent_article_id` is NULL) AND (ma.`isdeleted`=0) ORDER BY a.`update_date` DESC";
+	$query="SELECT ma.`id`, a.`caption`, UNIX_TIMESTAMP(a.`update_date`) as `date` FROM `manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id` WHERE (`parent_article_id` is NULL) AND (ma.`iscurrent`='1') AND (ma.`isdeleted`=0) ORDER BY a.`update_date` DESC";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	if($r->num_rows > 0) 
 	{
@@ -132,10 +132,10 @@ function getManuals()
 function getManualsByUserId()
 {
 	global $api;
-    if (!isset($api->_request->user_id))
+    if (!isset($api->_request->id))
         $api->send_error(101);
-	$user_id = $api->_request->user_id;
-	$query="SELECT ma.`id`, a.`caption`, ma.`update_date` as `date` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`article_id`=a.`id` WHERE (`parent_article_id` is NULL) AND (aa.`author_id`=".$user_id.") AND (ma.`isdeleted`=0) ORDER BY ma.`update_date` DESC";
+	$user_id = $api->_request->id;
+	$query="SELECT ma.`id`, a.`caption`, UNIX_TIMESTAMP(a.`update_date`) as `date` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_authors` as aa ON aa.`article_id`=a.`id` WHERE (`parent_article_id` is NULL) AND (ma.`iscurrent`='1') AND (ma.`isdeleted`=0) AND (aa.`author_id`=".$user_id.") AND (ma.`isdeleted`=0) ORDER BY ma.`update_date` DESC";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	if($r->num_rows > 0) 
 	{
@@ -552,11 +552,14 @@ function getArticleTree($id)
 }
 
 
-function articleSearch($name) {
+function articleSearch() {
 	global $api;
+	if (!isset($api->_request->name))
+		$api->send_error(101);
+	$name = $api->_request->name;
 	$query="SELECT ma.`id`, a.`caption`, a.`content`, ma.`article_number`, a.`article_type_id`, at.`name` as `article_type`, a.`previous_version_article_id`,
 	ma.`parent_article_id`, ma.`iscurrent` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_types` as at ON
-	at.`id`=a.`article_type_id` WHERE a.`name` like '%'".$name."%''";
+	at.`id`=a.`article_type_id` WHERE a.`caption` like '%".$name."%'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	if ($r)
 		if($r->num_rows > 0)
@@ -569,7 +572,7 @@ function articleSearch($name) {
 				case "2":
 				case "8":
 					$art = createArticleClass($res);
-					$query2="SELECT ma.`id`, a.`caption`, a.`content`, ma.`article_number`, a.`article_type_id`, at.`name` as `article_type`, a.`previous_version_article_id`, ma.`parent_article_id`, ma.`iscurrent` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_types` as at ON at.`id`=a.`article_type_id` WHERE ma.`parent_article_id`=".$id."";
+					$query2="SELECT ma.`id`, a.`caption`, a.`content`, ma.`article_number`, a.`article_type_id`, at.`name` as `article_type`, a.`previous_version_article_id`, ma.`parent_article_id`, ma.`iscurrent` FROM (`manual_articles` as ma INNER JOIN `articles` as a ON ma.`article_id`=a.`id`) INNER JOIN `article_types` as at ON at.`id`=a.`article_type_id` WHERE ma.`parent_article_id`=".$res["id"]."";
 					$r2 = $api->db_conn->query($query2) or die($api->db_conn->error." ".__LINE__);
 					if ($r2)
 						if($r2->num_rows > 0)
@@ -587,7 +590,7 @@ function articleSearch($name) {
 			}
 			return $art;
 		}
-	return NULL;
+	$api->response(json_encode($art), 200, "json");
 }
 
 function createArticleClass($res)
