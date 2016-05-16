@@ -32,8 +32,20 @@
       <ul>
         <li><a href="" ng-click="enter()" ng-if="$state.is('index')">Вход</a></li>
         <li><a href="" ng-click="showModal('register')" ng-if="$state.is('index')">Регистрация</a></li>
+        <li>
+          <div class="search">
+            
+            <form  ng-submit="articleSearch()">
+              <input type="text" ng-model="search.name">
+              <span class="glyphicon glyphicon-search" type="submit"></span>
+            </form>
+        </div>
+        </li>
+        <!-- <li><a href="" ui-sref='articles'>Все методички</a></li> -->
+        <li><a href="" ui-sref='makeArticle'>Создать методичку</a></li>
         <li><a href="" ng-click="$state.go($state.current.name.split('.')[0]+'.'+'profile')" ng-if="$state.includes('cabinet') || $state.includes('admin')">Мой профиль</a></li>
         <li><a href="" ng-click="logout()" ng-if="$state.includes('cabinet') || $state.includes('admin')">Выход</a></li>
+
       </ul>
     </div>  
   </header>

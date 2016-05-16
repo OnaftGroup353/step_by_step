@@ -3,6 +3,8 @@ angular.module "articleApp"
 
     $scope.trustSrc = (src)->
       return $sce.trustAsResourceUrl(src)
+
+
     $scope.chooseChapter = (index)->
       $scope.activeChapter = index
     $scope.addChapter = ()->
@@ -55,6 +57,21 @@ angular.module "articleApp"
       $scope.book.chapters.splice(index,1)
     
 
+    $scope.createEmptyArticle = ()->
+      $scope.book = {
+        date: moment().valueOf()
+        chapters: []
+        literatures: []
+        tags: []
+        header: {}
+        tableOfContents: {}
+        metadata: {}
+      }
+      $scope.addChapter()
+      localStorage.article = JSON.stringify($scope.book)
+
+
+
     if localStorage.article
       $scope.book = JSON.parse(localStorage.article)
     if !$scope.book
@@ -70,7 +87,9 @@ angular.module "articleApp"
       $scope.addChapter()
     window.s = $scope
     
-    
+    $scope.deteleArticle = ()->
+       $scope.createEmptyArticle()
+
     $scope.activeChapter = 0
     $scope.getTranslate = (text)->
         console.log text
@@ -103,6 +122,8 @@ angular.module "articleApp"
       console.log "data: ", JSON.stringify($scope.book,null,4), $scope.book,
       $server.createManual $scope.book, (data)->
         console.log data
+        $scope.deteleArticle()
+        $state.go("cabinet")
     updateBook = setInterval ()->
       localStorage.article = JSON.stringify($scope.book)
     ,5000

@@ -15,8 +15,10 @@ angular.module "articleApp"
       'updateUser',
       'getUserInfo',
       'createManual',
-      'articleSearch'
-
+      'articleSearch',
+      'getManuals',
+      'getManualById',
+      'getManualsByUserId'
     ]
 
     addMethod = (methodName) ->

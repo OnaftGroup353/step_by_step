@@ -2,31 +2,23 @@ angular.module "articleApp"
   .controller "cabinetCtrl", ($scope, $rootScope, $state, $server, $modal) ->
     $scope.user= {}
     $scope.search = {}
+
+
+
+    
     $server.login {token: localStorage.token}, (data)->
-        console.log data
+        console.log data, data.id
         if data.error
 		    
             #$scope.logout()
         else
+            $scope.getManualsByUserId(data.id)
             $server.getUserInfo {id: data.id}, (data2)->
                 $scope.user = data2
 
     console.log $state.current.name,123
     # Заглушка
-    $scope.books = [
-     	{
-     		id: 1
-     		direction: "Компьютерные науки"
-     		name: "3 курс Лабораторные работы"
-     		modified: 1460930831000
-     	}
-     	{
-     		id: 2
-     		direction: "Компьютерные науки"
-     		name: "4 курс пособие для курсовых работ"
-     		modified: 1460910831000
-     	}
-    ]
+
     $scope.submitProfile = ()->
         delete $scope.user.banned
         delete $scope.user.scope_name
@@ -43,5 +35,31 @@ angular.module "articleApp"
     $scope.articleSearch = ()->
         $server.articleSearch {name: $scope.search.name}, (data)->
             console.log data
+
+
+    $scope.getManuals = ()->
+        $server.getManuals {}, (data)->
+            console.log data
+            $scope.$apply ()->
+                $scope.books = data
+                for book in $scope.books
+                    book.date = +book.date * 1000
+
+    $scope.getManualById = (id)->
+        $server.getManualById {id: id}, (data)->
+            console.log data
+
+    
+
+    $scope.getManualsByUserId = (id)->
+        $server.getManualsByUserId {id: id}, (data)->
+            console.log data
+            $scope.$apply ()->
+                $scope.books = data
+                for book in $scope.books
+                    book.date = +book.date * 1000
+
+
+
     
 

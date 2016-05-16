@@ -4,6 +4,7 @@ angular.module "articleApp"
     $scope.cancel = () ->
         $modalInstance.dismiss 'cancel'
     $scope.login = ()->
+      delete localStorage.token
       $server.login {email:$scope.user.login, password: $scope.user.password}, (data)->
         console.log data
         if data.error
@@ -27,6 +28,7 @@ angular.module "articleApp"
         }
 
       request.done (data)->
+        delete localStorage.token
         console.log 'data2', JSON.parse(data)
         $server.login JSON.parse(data), (data)->
           if !data.error
@@ -66,6 +68,7 @@ angular.module "articleApp"
         if $scope.user.password.length < 3
           alert("Длина пароля не менее 3 символов")
         else 
+          delete localStorage.token
           $server.insertUser $scope.user, (data)->
             console.log data
             if !data.error

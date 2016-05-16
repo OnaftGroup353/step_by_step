@@ -5,20 +5,14 @@
 			
 
 			<li ng-repeat="book in books" ng-click="$state.go('cabinet.bookInfo', {id: book.id})">
-				<p>Направление: <span class="bold">{{book.direction}}</span></p>	
-				<p>Название: <span class="bold">{{book.name}}</span></p>
-				<p>Дата: <span class="bold">{{formatDate(book.modified)}}</span></p>
+				<p>Название: <span class="bold">{{book.caption}}</span></p>
+				<p>Дата: <span class="bold">{{formatDate(book.date)}}</span></p>
 			</li>
-
+			
 		</ul>
+		<button class="green" ng-click="$state.go('makeArticle')">Создать методичку</button>
 	</div>
-	<div class="search">
-		<p>Поиск</p>
-		<form  ng-submit="articleSearch()">
-			<input type="text" ng-model="search.name">
-			<button class="green" type="submit">Найти</button>
-		</form>
-	</div>
+	
 	<div class="ui-view content">
 		<div class="no-select" ng-if="$state.is('cabinet')">
 			<img src="assets/images/empty_book.png" alt="">

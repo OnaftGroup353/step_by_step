@@ -188,7 +188,7 @@ footer.main-footer {
 .application {
 	min-height: calc(~"100vh - 90px");
 	//height:100%;
-	background: #72ba3b;
+	background: #E8E8E8;
 	margin-bottom: 0px !important;
 	position:relative;
 }
@@ -253,9 +253,23 @@ footer.main-footer {
 .bold {
 	font-weight: bold;
 }
+.search {
+	position: relative;
+	margin-top: -4px;
+	span {
+		position: absolute;
+		right: 20px;
+		top: 8px;
+		cursor: pointer;
+	}
+	input {
+		height: 30px;
+	}
+}
 .cabinet {
 	.aside {
 		float: left;
+		text-align: center;
 		// border-right: 1px solid #cacaca;
 		box-shadow: 2px -1px 2px 0 rgba(100,100,100,.5);
 		width: 300px;
@@ -267,6 +281,7 @@ footer.main-footer {
 		}
 		min-height: calc(~"100vh - 110px");
 		ul {
+			text-align: left;
 			li {
 				padding: 5px 20px;
 				border-bottom: 1px solid #acacac;

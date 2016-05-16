@@ -12,13 +12,13 @@
 			<li ng-click="mediaShow=!mediaShow;textShow=false;">
 				<p>Мультимедиа</p>
 				<ul ng-class="{'active': mediaShow}">
-					<li ng-click="book.media='picture';picturePick=true;">Картинка</li>
-					<li ng-click="book.media='video';videoPick=true;">Видео</li>
+					<li ng-click="book.media='picture';picturePick=true;link=''">Картинка</li>
+					<li ng-click="book.media='video';videoPick=true;link=''">Видео</li>
 					<li ng-click="book.media='audio';addAudio()">аудио</li>
 
 				</ul>
 			</li>
-			<li>+</li>
+			<li ng-click="deteleArticle()">Очистить все</li>
 			<li>+</li>
 			<li>+</li>
 		</ul>
@@ -62,7 +62,7 @@
   </div>
   <div class="box chapter" ng-repeat="chapter in book.chapters track by $index" ng-init="edit=true"ng-click="chooseChapter($index); edit=true" ng-class="{'active':$index==activeChapter}">
   	<div class="edit" change-edit ng-class="{'active': edit}"></div>
-  	<div class="close" ng-click="deleteChapter($index)"></div>
+  	<div class="close" ng-click="deleteChapter($index)" ng-if="book.chapters.length>1"></div>
   	<div class="controls" ng-show="book.chapters.length>1">
   		<span class="glyphicon glyphicon-arrow-down" ng-show="!$last" ng-click="moveDown($index)"></span>
   		<span class="glyphicon glyphicon-arrow-up" ng-show="!$first" ng-click="moveUp($index)"></span>
@@ -134,6 +134,8 @@
 
 <script>
 	$(window).scroll(function(){
-		
+		var sc = $("body").scrollTop()
+		sc = Math.max(0, 45-sc)
+		$("#toolbar").css({"margin-top": sc+"px"});
 	})
 </script>
