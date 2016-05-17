@@ -5,7 +5,7 @@
 body {
   padding-bottom: 40px;
   color: #e9f1f4;
-}
+} 
 
 
 
@@ -48,7 +48,7 @@ body {
 /* Declare heights because of positioning of img element */
 .carousel .item {
   height: 500px;
-  background-color: #fff;
+  background-color: #e9f1f4;
 }
 .carousel-inner > .item > img {
   position: absolute;
