@@ -55,7 +55,17 @@ angular.module "articleApp"
 
     $scope.deleteChapter = (index)->
       $scope.book.chapters.splice(index,1)
-    
+
+    $scope.deleteItem = (i, j)->
+      j=+j
+      console.log(i, j, $scope.book.chapters[i])
+      for el, it of $scope.book.chapters[i]
+        el = +el
+        if el == j
+          console.log el, it, 123
+          delete $scope.book.chapters[i][el]
+          return
+            
 
     $scope.createEmptyArticle = ()->
       $scope.book = {

@@ -64,8 +64,11 @@ angular.module "articleApp"
     $scope.objectLength = (obj)->
       res = 0
       for i of obj
-        res++
-      return res
+        console.log i, +i
+        if (+i)
+          res = Math.max(res, +i)
+      console.log res+1
+      return res+1
 
 
 

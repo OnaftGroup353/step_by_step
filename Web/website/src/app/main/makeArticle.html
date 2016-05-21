@@ -70,7 +70,7 @@
 	<h2 ng-show="!edit">{{chapter.name}}</h2>
 	<input ng-show="edit" type="text" class="chapter-title" ng-model="chapter.name">
     <table class="w100">
-		<tr ng-repeat="pr in chapter" >
+		<tr ng-repeat=" (key, pr) in chapter" >
 			<td ng-if="pr.type=='text'" colspan="2">
 				<input ng-show="edit" class="w100"  style="margin-bottom: 20px;" placeholder="Введите зоголовок (можно оставить пустым)" type="text" ng-model="pr.title">
 				<p ng-if="!edit" class="center">{{pr.title}}</p>
@@ -97,8 +97,8 @@
 			<td ng-if="pr.type=='video'" >
 				<iframe class="pull-right" width="200" height="160" src="{{trustSrc(pr.data)}}" frameborder="0" allowfullscreen></iframe>
 			</td>
-
-
+				
+			<td class="close td-close" ng-click="deleteItem($parent.$parent.$index, key)" ng-if="!$last"></td>
 		</tr>
 		
 	</table>
