@@ -7,7 +7,7 @@
 		top: 0;
 		left: 0;
 		margin-top: 45px;
-		background:#2d6b22;
+		//background:#2d6b22;
 	} 
 /* .tabs-below > .nav-tabs {
   border-bottom:0;
@@ -57,19 +57,17 @@
     }
   }
 } */
-.tabs-left {
- .nav-tabs {
+.tabs-left  >.nav-tabs {
   border-bottom:0;
   float:left;
   margin-right:19px;
   border-right:1px solid #216100;
-  background-color:#2d6b22 !important;
-   >li {
-  background:#2d6b22 !important;
+    >li {
+		background-color:#2d6b22;	
     >a:hover, > a:focus {
       border-color:#72ba3b #216100 #72ba3b #72ba3b;
 	  color: #99d578;
-	  background-color:#2d6b22;
+background-color:#2d6b22;
     }
     >a {
       min-width:74px;
@@ -80,22 +78,18 @@
       -moz-border-radius:4px 0 0 4px;
       border-radius:4px 0 0 4px;
 	  color: #f1f4fd;
-	  background-color:#2d6b22 !important;
+	 
     }
   }
-  .active {
-  color: #E41F1F;
-    > a, > a:hover {	color: #E41F1F;
-	}
-	> a:focus {
+  .active > a, > a:hover 	> a:focus {
       border-color:#216100 transparent #216100 #216100;
       border-right-color:#2f4d0e;
-	  background:#031c06
-	  text-color: #E41F1F !important;
+	  background:#031c06;
+	  color: #99d578;
     }
-  }
+  
 }
-}
+
 .tab-content > .tab-pane, .pill-content > .pill-pane {
   display:none;
   background-color:#2d6b22
