@@ -199,7 +199,7 @@ footer.main-footer {
 .application {
 	min-height: calc(~"100vh - 90px");
 	//height:100%;
-	background: #E8E8E8;
+	background: #E3d8E5;
 	margin-bottom: 0px !important;
 	position:relative;
 }
@@ -338,8 +338,9 @@ footer.main-footer {
 }
 .make-article {
 	width: 600px;
-	margin: 20px auto;
+	//margin: 20px auto;
 	padding: 40px;
+	
 	.box {
 		border: 1px solid #878787;
 		box-shadow: 0 0 2px 0 rgba(0,0,0,.6);
@@ -383,7 +384,7 @@ footer.main-footer {
 				box-shadow: 0 0 1px 0 rgba(0,0,0,.8);
 				border-radius: 50%;
 
-				background: #fff url(../assets/images/edit.png);
+				//background: #fff url(../assets/images/edit.png);
 				background-repeat: no-repeat;
 				background-size: 30px;
 				top: -20px;
@@ -391,7 +392,7 @@ footer.main-footer {
 				background-position: 5px;
 				cursor: pointer;
 				&.active {
-					background: #fff url(../assets/images/done.png);
+					//background: #fff url(../assets/images/done.png);
 					background-repeat: no-repeat;
 					background-size: 30px;
 					background-position: 5px;
@@ -437,68 +438,7 @@ footer.main-footer {
 			width: 200px;
 		}
 	}
-	@toolHeight: 40px;
-	#toolbar {
-
-		z-index: 2;
-		height: @toolHeight;
-		width: 100vw;
-		position: fixed;
-		background: #eee;
-		border: 1px solid #888;
-		// border-radius: 5px;
-		top: 0;
-		left: 0;
-		margin-top: 45px;
-		p {
-			margin: 0;
-		}
-		>ul {
-		 >li {
-			float: left;
-			padding: 0 40px;
-			
-			cursor: pointer;
-			display: inline-block;
-			height: @toolHeight - 2px;
-			line-height: @toolHeight;
-			border-right: 1px solid #888;
-			&:hover {
-				
-			}
-			&:last-child {
-				border-right: 0;
-			}
-			&#add-chapter {
-				color: #78cf1a;
-				font-size: 60px;
-				padding: 0 40px;
-				
-			}
-			>ul {
-				display: none;
-				
-				position: absolute;
-				
-				margin-left: -42px;
-				margin-top: -2px;
-				li {
-					display: inline-block;
-					text-align: center;
-					background: #cacaca;
-					width: 140px;
-					&:hover {
-						background: #aaa;
-					}
-				}
-				&.active {
-					display: block;
-				}
-			}
-			
-		 }
-		}
-	}
+	
 	.link-picker {
 		position: fixed;
 		width: 520px;

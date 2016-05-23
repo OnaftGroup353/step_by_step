@@ -1,0 +1,106 @@
+@toolHeight: 40px;
+	#toolbar {
+
+		z-index: 2;
+		height: @toolHeight;
+		position: fixed;
+		top: 0;
+		left: 0;
+		margin-top: 45px;
+		background:#2d6b22;
+	} 
+/* .tabs-below > .nav-tabs {
+  border-bottom:0;
+  border-top:1px solid #216100;
+  > li {
+    margin-top:-1px;
+    margin-bottom:0;
+    > a:hover, > a:focus {
+      border-top-color:#dddddd;
+      border-bottom-color:transparent;
+    }
+    > a {
+      -webkit-border-radius:0 0 4px 4px;
+      -moz-border-radius:0 0 4px 4px;
+      border-radius:0 0 4px 4px;
+    }
+  }
+  > .active {
+    > a, > a:hover, > a:focus {
+      border-color:transparent #dddddd #dddddd #dddddd;
+    }
+  }
+} */
+/* .tabs-right > .nav-tabs {
+  border-bottom:0;
+  float:right;
+  margin-left:19px;
+  border-left:1px solid #dddddd;
+  > li {
+    > a:hover, > a:focus {
+      border-color:#eeeeee #eeeeee #eeeeee #dddddd;
+    }
+    > a {
+      min-width:74px;
+      margin-right:0;
+      margin-bottom:3px;
+      margin-left:-1px;
+      -webkit-border-radius:0 4px 4px 0;
+      -moz-border-radius:0 4px 4px 0;
+      border-radius:0 4px 4px 0;
+    }
+  }
+  .active {
+    > a, > a:hover, > a:focus {
+      border-color:#dddddd #dddddd #dddddd transparent;
+      *border-left-color:#ffffff;
+    }
+  }
+} */
+.tabs-left > .nav-tabs {
+  border-bottom:0;
+  float:left;
+  margin-right:19px;
+  border-right:1px solid #216100;
+  background:#2d6b22;
+  > li {
+  background:#2d6b22;
+    > a:hover, > a:focus {
+      border-color:#72ba3b #216100 #72ba3b #72ba3b
+	  color: #99d578;
+	  background:#2d6b22;
+    }
+    > a {
+      min-width:74px;
+      margin-right:0;
+      margin-right:-1px;
+      margin-bottom:3px;
+      -webkit-border-radius:4px 0 0 4px;
+      -moz-border-radius:4px 0 0 4px;
+      border-radius:4px 0 0 4px;
+	  color: #f1f4fd;
+	  
+    }
+  }
+  .active {
+  color: #E41F1F;
+    > a, > a:hover {	color: #E41F1F;
+	}
+	> a:focus {
+      border-color:#216100 transparent #216100 #216100;
+      border-right-color:#2f4d0e;
+	  background:#031c06
+	  color: #E41F1F !important;
+    }
+  }
+}
+.tab-content > .tab-pane, .pill-content > .pill-pane {
+  display:none;
+}
+.tab-content > .active, .pill-content > .active {
+  display:block;
+}
+.tabs-left > .nav-tabs > li, .tabs-right > .nav-tabs > li {
+  float:none;
+}
+ 

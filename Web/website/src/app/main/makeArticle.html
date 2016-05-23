@@ -1,6 +1,9 @@
-﻿<div class="make-article">
-	<div id="toolbar">
-		<ul>
+﻿
+
+
+<div class="make-article container-fluid">
+	<div id="toolbar" class="row col-md-2">
+		<!-- <ul>
 			<li id="add-chapter" ng-click="addChapter()">+</li>
 			<li ng-click="textShow=!textShow;mediaShow=false">
 				<p>Текст</p>
@@ -21,8 +24,37 @@
 			<li ng-click="deteleArticle()">Очистить все</li>
 			<li>+</li>
 			<li>+</li>
-		</ul>
+		</ul> -->
+		 <!-- tabs left -->
+      <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+          <li ng-click="addChapter()"><a href="#a" data-toggle="tab" ><span class="glyphicon glyphicon-plus"></span></a></li>
+          <li ng-click="textShow=!textShow;mediaShow=false"><a href="#b" data-toggle="tab"><p>Текст</p></a></li>
+          <li ng-click="mediaShow=!mediaShow;textShow=false;"><a href="#c" data-toggle="tab"><p>Мультимедиа</p></a></li>
+		  <li class="active" ng-click="deteleArticle()"><a href="#d" data-toggle="tab"><p>Очистить все</p></a></li>
+        </ul>
+        <div class="tab-content">
+			<div class="tab-pane active" id="a"></div>
+			<div class="tab-pane" id="b" >
+					<ul class="nav nav-tabs" ng-class="{'active': textShow}">
+					<li ng-click="book.text='text';addText()"><a href="#" data-toggle="tab" ><p>Текст</p></a></li>
+					<li ng-click="book.text='code';addCode()"><a href="#" data-toggle="tab" ><p>Код</p></a></li>
+				</ul>
+			</div>
+			<div class="tab-pane" id="c">
+				<ul class="nav nav-tabs" ng-class="{'active': mediaShow}">
+					<li ng-click="book.media='picture';picturePick=true;link=''"><a href="#" data-toggle="tab" ><p>Картинка</p></a></li>
+					<li ng-click="book.media='video';videoPick=true;link=''"><a href="#" data-toggle="tab" ><p>Видео</p></a></li>
+					<li ng-click="book.media='audio';addAudio()"><a href="#" data-toggle="tab" ><p>Aудио</p></a></li>
+				</ul>
+			</div>
+        </div>
+      </div>
+      <!-- /tabs -->
+
 	</div>
+	
+	<!-- <div class="row col-md-8"> -->
   <div class="box header">
   	<div class="edit" ng-click="editHeader = !editHeader" ng-class="{'active': editHeader}"></div>
 	<h2>Заголовок </h2>
