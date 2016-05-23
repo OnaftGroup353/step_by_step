@@ -57,20 +57,21 @@
     }
   }
 } */
-.tabs-left > .nav-tabs {
+.tabs-left {
+ .nav-tabs {
   border-bottom:0;
   float:left;
   margin-right:19px;
   border-right:1px solid #216100;
-  background:#2d6b22;
-  > li {
-  background:#2d6b22;
-    > a:hover, > a:focus {
-      border-color:#72ba3b #216100 #72ba3b #72ba3b
+  background-color:#2d6b22 !important;
+   >li {
+  background:#2d6b22 !important;
+    >a:hover, > a:focus {
+      border-color:#72ba3b #216100 #72ba3b #72ba3b;
 	  color: #99d578;
-	  background:#2d6b22;
+	  background-color:#2d6b22;
     }
-    > a {
+    >a {
       min-width:74px;
       margin-right:0;
       margin-right:-1px;
@@ -79,7 +80,7 @@
       -moz-border-radius:4px 0 0 4px;
       border-radius:4px 0 0 4px;
 	  color: #f1f4fd;
-	  
+	  background-color:#2d6b22 !important;
     }
   }
   .active {
@@ -90,17 +91,21 @@
       border-color:#216100 transparent #216100 #216100;
       border-right-color:#2f4d0e;
 	  background:#031c06
-	  color: #E41F1F !important;
+	  text-color: #E41F1F !important;
     }
   }
 }
+}
 .tab-content > .tab-pane, .pill-content > .pill-pane {
   display:none;
+  background-color:#2d6b22
 }
 .tab-content > .active, .pill-content > .active {
   display:block;
+  background-color:#2d6b22
 }
 .tabs-left > .nav-tabs > li, .tabs-right > .nav-tabs > li {
   float:none;
+  background-color:#2d6b22
 }
  
