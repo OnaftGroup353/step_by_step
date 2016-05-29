@@ -3,35 +3,6 @@ angular.module "articleApp"
     $scope.user= {}
     $scope.search = {}
 
-
-
-    
-    $server.login {token: localStorage.token}, (data)->
-        console.log data, data.id
-        if data.error
-		    
-            #$scope.logout()
-        else
-            $scope.getManualsByUserId(data.id)
-            $server.getUserInfo {id: data.id}, (data2)->
-                $scope.user = data2
-
-    console.log $state.current.name,123
-    # Заглушка
-
-    $scope.submitProfile = ()->
-        delete $scope.user.banned
-        delete $scope.user.scope_name
-        delete $scope.user.scope_id
-        delete $scope.user.id
-        
-        
-        $scope.user.social_network_id = 1
-        $scope.user.social_network_type = 1
-        $server.updateUser $scope.user, (data)->
-            console.log data
-
-
     $scope.articleSearch = ()->
         $server.articleSearch {name: $scope.search.name}, (data)->
             console.log data
@@ -48,8 +19,10 @@ angular.module "articleApp"
     $scope.getManualById = (id)->
         $server.getManualById {id: id}, (data)->
             console.log data
+            $scope.$apply () ->
+              $scope.book = data
 
-    
+
 
     $scope.getManualsByUserId = (id)->
         $server.getManualsByUserId {id: id}, (data)->
@@ -61,5 +34,5 @@ angular.module "articleApp"
 
 
 
-    
+
 

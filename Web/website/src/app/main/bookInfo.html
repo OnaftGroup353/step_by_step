@@ -1,9 +1,36 @@
 <div class="book">
-	<ul>
-		<li>ID: {{book.id}}</li>
-		<li>Название: {{book.name}}</li>
-		<li>Направление: {{book.direction}}</li>
-		<li>Авторы: {{book.authors}}</li>
-		<li>Дата: {{formatDate(book.modified)}}</li>
-	</ul>
+  <ul>
+    <li>ID: {{book.id}}</li>
+    <li>Название: {{book.header.name}}</li>
+    <li>Направление: {{book.direction}}</li>
+    <li>Авторы:
+      <p ng-repeat="author in book.authors"> {{author.first_name}} {{author.last_name}} </p>
+    </li>
+    <li>Дата: {{formatDate(book.modified)}}</li>
+  </ul>
+  <div class="book_content">
+    <div class="chapter" ng-repeat="chapter in book.chapters">
+      <h1>{{chapter.name}}</h1>
+      <div ng-repeat="section in chapter.sections">
+        <h3>{{section.title}}</h3>
+        <div>
+          <table>
+            <tr>
+              <td ng-if="section.type=='text'" colspan="2">
+                <p>{{section.data}}</p>{{section.type}}
+              </td>
+
+              <td ng-if="section.type=='picture'">
+                <img class="image-box pull-right" ng-src="{{section.data}}" width="40%" `>
+              </td>
+              <td ng-if="false">asdfasfdafdasdfasdfasdfasdfasdfadf</td>
+            </tr>
+          </table>
+          <!--          <td ng-if="section.type=='video'" >
+                      <iframe class="pull-right" width="200" height="160" src="{{trustSrc(section.data)}}" frameborder="0" allowfullscreen></iframe>
+                    </td>-->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
