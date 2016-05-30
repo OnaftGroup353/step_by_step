@@ -8,11 +8,16 @@ angular.module "articleApp"
       $server.login {email:$scope.user.login, password: $scope.user.password}, (data)->
         console.log data
         if data.error
-          alert(data.error)
+          #alert(data.error)
         else
           $scope.cancel()
           localStorage.token = data.token
           console.log data.scope
+          if $rootScope.isArticleSubmit
+            $server.createManual JSON.parse(localStorage.article), (data)->
+              if data.error
+                console.log 'error', data
+              $rootScope.isArticleSubmit = false
           if data.scope == "User"
             $state.go("cabinet")
           else

@@ -5,14 +5,18 @@ angular.module "articleApp"
 
 
 
-
+    $rootScope.userId = 0
     $server.login {token: localStorage.token}, (data)->
         console.log data, data.id
         if data.error
 
-            #$scope.logout()
+            $scope.logout()
         else
+            $rootScope.$apply ()->
+                $rootScope.userId = data.id
             $scope.getManualsByUserId(data.id)
+            $rootScope.loggIn = true
+
             $server.getUserInfo {id: data.id}, (data2)->
                 $scope.user = data2
 
@@ -44,6 +48,8 @@ angular.module "articleApp"
                 $scope.books = data
                 for book in $scope.books
                     book.date = +book.date * 1000
+
+    
 
     $scope.getManualById = (id)->
         $server.getManualById {id: id}, (data)->

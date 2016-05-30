@@ -71,6 +71,11 @@ angular.module "articleApp"
       return res+1
 
 
+    $scope.articleSearch = ()->
+        $server.articleSearch {name: $scope.search.name}, (data)->
+            console.log data
+
+
 
 
 

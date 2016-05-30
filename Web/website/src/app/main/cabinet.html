@@ -1,4 +1,4 @@
-<div class="cabinet">
+<div class="cabinet" article-hide>
 	<div class="aside">
 		<p class="title">Мои методички</p>
 		<ul>
@@ -10,15 +10,17 @@
 			</li>
 
 		</ul>
-		<button class="green" ng-click="$state.go('makeArticle')">Создать методичку</button>
-		<button class="green" ng-click="$state.go('editArticle')">Редактировать методичку</button>
+		<button class="green" ng-click="$state.go('cabinet.makeArticle')">Создать методичку</button>
+		<!-- <button class="green" ng-click="$state.go('cabinet.makeArticle')">Редактировать методичку</button> -->
 	</div>
-
-	<div class="ui-view content">
+	
+	<div class="content" ng-class="{'article-container': $state.includes('cabinet.makeArticle')}" cabinet-article>
+		<div class="ui-view"></div>
 		<div class="no-select" ng-if="$state.is('cabinet')">
 			<img src="assets/images/empty_book.png" alt="">
 			<p>Вы не выбрали ни одной методички</p>
 
+			
 		</div>
 	</div>
 

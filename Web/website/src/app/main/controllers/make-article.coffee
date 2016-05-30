@@ -1,10 +1,39 @@
 angular.module "articleApp"
   .controller "MakeArticleCtrl", ($scope, $rootScope, $state, $server, $modal, $sce) ->
 
+
+
+    $scope.id = $state.params.id
+    if $scope.id 
+      if !+$scope.id
+        $state.go("^.")
+        return
+    if $scope.id
+      $server.getManualById {id: $scope.id}, (data)->
+            console.log data
+            $scope.$apply () ->
+              $scope.book = data
+              for chapter,i in data.chapters
+                console.log chapter, i
+                for section,j in chapter.sections
+                  $scope.book.chapters[i][j+1] = section
+                delete $scope.book.chapters[i].sections
+              $scope.book.literatures = $scope.book.literatures || []
+              $scope.book.tags = $scope.book.tags || []
+              localStorage.article = JSON.stringify(data)
+
     $scope.trustSrc = (src)->
       return $sce.trustAsResourceUrl(src)
 
-
+    $scope.getAuthors = ()->
+      res = ""
+      try
+        for name in $scope.book.authors
+          if name.first_name
+            res+=name.first_name+ " " + name.last_name + ","
+        if res.length
+          res = res.substr(0,res.length - 1)
+      return res
     $scope.chooseChapter = (index)->
       $scope.activeChapter = index
     $scope.addChapter = ()->
@@ -129,11 +158,27 @@ angular.module "articleApp"
 
 
     $scope.createManual = ()->
-      console.log "data: ", JSON.stringify($scope.book,null,4), $scope.book,
-      $server.createManual $scope.book, (data)->
-        console.log data
-        $scope.deteleArticle()
-        $state.go("cabinet")
+      #console.log "data: ", JSON.stringify($scope.book,null,4), $scope.book,
+      if !$scope.id
+        $server.createManual $scope.book, (data)->
+          if !data.error
+            console.log data
+            $scope.deteleArticle()
+            $scope.getManualsByUserId($scope.userId)
+            $state.go("cabinet")
+          else if !$rootScope.loggIn
+            $rootScope.isArticleSubmit = true
+            localStorage.article = JSON.stringify($scope.book)
+            $rootScope.showModal('login')
+
+      else
+        $scope.book.id = $scope.id
+        $server.updateManual $scope.book, (data)->
+            console.log data
+            $scope.deteleArticle()
+            $state.go("cabinet")
+            $scope.getManualsByUserId($rootScope.userId)
+
     updateBook = setInterval ()->
       localStorage.article = JSON.stringify($scope.book)
     ,5000

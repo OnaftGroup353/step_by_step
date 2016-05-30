@@ -1,7 +1,7 @@
 ﻿<div class="make-article container-fluid">
-	<div id="toolbar" class="row col-md-2">
-		<!-- <ul>
-			<li id="add-chapter" ng-click="addChapter()">+</li>
+	<div id="toolbar">
+		<ul>
+	        <li ng-click="addChapter()"><span class="glyphicon glyphicon-plus"></span></li>
 			<li ng-click="textShow=!textShow;mediaShow=false">
 				<p>Текст</p>
 				<ul ng-class="{'active': textShow}">
@@ -19,39 +19,8 @@
 				</ul>
 			</li>
 			<li ng-click="deteleArticle()">Очистить все</li>
-			<li>+</li>
-			<li>+</li>
-		</ul> -->
-		 <!-- tabs left -->
-      <div class="tabbable tabs-left">
-        <ul class="nav nav-tabs">
-          <li ng-click="addChapter()"><a href="#a" data-toggle="tab" ><span class="glyphicon glyphicon-plus"></span></a></li>
-          <li ng-click="textShow=!textShow;mediaShow=false"><a href="#b" data-toggle="tab"><p>Текст</p></a></li>
-          <li ng-click="mediaShow=!mediaShow;textShow=false;"><a href="#c" data-toggle="tab"><p>Мультимедиа</p></a></li>
-		  <li class="active" ng-click="deteleArticle()"><a href="#d" data-toggle="tab"><p>Очистить все</p></a></li>
         </ul>
-        <div class="tab-content">
-			<div class="tab-pane active" id="a"></div>
-			<div class="tab-pane" id="b" >
-					<ul class="nav nav-tabs" ng-class="{'active': textShow}">
-					<li ng-click="book.text='text';addText()"><a href="#" data-toggle="tab" ><p>Текст</p></a></li>
-					<li ng-click="book.text='code';addCode()"><a href="#" data-toggle="tab" ><p>Код</p></a></li>
-				</ul>
-			</div>
-			<div class="tab-pane" id="c">
-				<ul class="nav nav-tabs" ng-class="{'active': mediaShow}">
-					<li ng-click="book.media='picture';picturePick=true;link=''"><a href="#" data-toggle="tab" ><p>Картинка</p></a></li>
-					<li ng-click="book.media='video';videoPick=true;link=''"><a href="#" data-toggle="tab" ><p>Видео</p></a></li>
-					<li ng-click="book.media='audio';addAudio()"><a href="#" data-toggle="tab" ><p>Aудио</p></a></li>
-				</ul>
-			</div>
-        </div>
-      </div>
-      <!-- /tabs -->
-
 	</div>
-	
-	<!-- <div class="row col-md-8"> -->
   <div class="box header">
   	<div class="edit" ng-click="editHeader = !editHeader" ng-class="{'active': editHeader}"></div>
 	<h2>Заголовок </h2>
@@ -69,7 +38,7 @@
 		</tr>
 		<tr>
 			<td>Автор</td>
-			<td><p type="text" ng-bind='book.header.author'></p></td>
+			<td><p type="text" ng-bind='getAuthors()'></p></td>
 		</tr>
 
 	</table>
@@ -99,7 +68,7 @@
 	<h2 ng-show="!edit">{{chapter.name}}</h2>
 	<input ng-show="edit" type="text" class="chapter-title" ng-model="chapter.name">
     <table class="w100">
-		<tr ng-repeat=" (key, pr) in chapter" >
+		<tr ng-repeat=" (key, pr) in chapter" ng-hide="key=='name' || key=='id'">
 			<td ng-if="pr.type=='text'" colspan="2">
 				<input ng-show="edit" class="w100"  style="margin-bottom: 20px;" placeholder="Введите зоголовок (можно оставить пустым)" type="text" ng-model="pr.title">
 				<p ng-if="!edit" class="center">{{pr.title}}</p>
@@ -135,14 +104,14 @@
 	<div class="box table-of-contents">
 		<h2>Список литературы</h2>
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
-	    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a>
+	    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>
 		
 	</div>
 
 	<div class="box table-of-contents">
 		<h2>Список Тегов</h2>
 	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег">
-	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag}}</p>
+	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag.tag || tag}}</p>
 		
 	</div>
 	
@@ -158,13 +127,30 @@
 		<input type="text" ng-model="link">
 		<button class="green" ng-click="addVideo(link);videoPick=false">Добавить</button>
 	</div>
-	<button class="green" ng-click="createManual()">Создать</button>
+	<button class="green" ng-click="createManual()">{{id?'Редактировать':'Создать'}}</button>
 </div>
 
 <script>
-	$(window).scroll(function(){
+
+
+	function debounce(func, wait, immediate) {
+		var timeout;
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
+		};
+	};
+	$(window).scroll(debounce(function(){
 		var sc = $("body").scrollTop()
-		sc = Math.max(0, 45-sc)
+		// sc+=45
+		// sc = Math.max(0, 45-sc)
 		$("#toolbar").css({"margin-top": sc+"px"});
-	})
+	}, 4))
 </script>
