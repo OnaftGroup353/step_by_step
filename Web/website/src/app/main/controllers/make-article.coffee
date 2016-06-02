@@ -13,8 +13,8 @@ angular.module "articleApp"
     $scope.addLiterature = (link)->
       if link.length==0
         return
-      if link.indexOf("http") == -1
-        link = "http://"+link
+      #if link.indexOf("http") == -1
+      #  link = "http://"+link
       $scope.$apply ()->
         $scope.book.literatures.push(link)
 
@@ -22,12 +22,12 @@ angular.module "articleApp"
       $scope.$apply ()->
         $scope.book.tags.push(tag)
     $scope.addText = ()->
-      
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
       $scope.book.chapters[$scope.activeChapter][ind]={type:'text', title: '', data:''}
 
     $scope.addCode = ()->
-      
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
       $scope.book.chapters[$scope.activeChapter][ind]={type:'text', title: '', data:''}
 
@@ -48,7 +48,7 @@ angular.module "articleApp"
       $scope.book.chapters[$scope.activeChapter][ind]={type:'video', data: link, title: 'Видео'}
 
     $scope.addAudio = ()->
-      
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
       $scope.book.chapters[$scope.activeChapter][ind]={type:'audio', title: 'Аудио', data:''}
 
@@ -65,7 +65,7 @@ angular.module "articleApp"
           console.log el, it, 123
           delete $scope.book.chapters[i][el]
           return
-            
+
 
     $scope.createEmptyArticle = ()->
       $scope.book = {
@@ -96,7 +96,7 @@ angular.module "articleApp"
       }
       $scope.addChapter()
     window.s = $scope
-    
+
     $scope.deteleArticle = ()->
        $scope.createEmptyArticle()
 
@@ -109,7 +109,7 @@ angular.module "articleApp"
            'video':'Видео'
            'audio':'Аудио'
            'picture':'Картинка'
-           
+
         }
         return voc[text] || ''
 

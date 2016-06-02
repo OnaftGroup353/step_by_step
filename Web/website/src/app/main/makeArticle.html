@@ -50,7 +50,7 @@
       <!-- /tabs -->
 
 	</div>
-	
+
 	<!-- <div class="row col-md-8"> -->
   <div class="box header">
   	<div class="edit" ng-click="editHeader = !editHeader" ng-class="{'active': editHeader}"></div>
@@ -74,7 +74,7 @@
 
 	</table>
   </div>
-  
+
   <div class="box table-of-contents">
 	<h2>Содержание</h2>
     <table>
@@ -86,7 +86,7 @@
 			<td>{{chapter.name}}</td>
 			<td>{{$index+2}}</td>
 		</tr>
-		
+
 	</table>
   </div>
   <div class="box chapter" ng-repeat="chapter in book.chapters track by $index" ng-init="edit=true"ng-click="chooseChapter($index); edit=true" ng-class="{'active':$index==activeChapter}">
@@ -126,26 +126,35 @@
 			<td ng-if="pr.type=='video'" >
 				<iframe class="pull-right" width="200" height="160" src="{{trustSrc(pr.data)}}" frameborder="0" allowfullscreen></iframe>
 			</td>
-				
+
 			<td class="close td-close" ng-click="deleteItem($parent.$parent.$index, key)" ng-if="!$last"></td>
 		</tr>
-		
+
 	</table>
   </div>
 	<div class="box table-of-contents">
 		<h2>Список литературы</h2>
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
-	    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a>
-		
+		<div ng-repeat="link in book.literatures track by $index">
+			<div ng-if="link.indexOf('http') == 0">
+        <a style="display: block;" href="{{link}}">{{link}}</a>
+			</div>
+			<div ng-if="link.indexOf('http') != 0">
+        <p>{{link}}</p>
+			</div>
+		</div>
+
+	    <!-- <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a> -->
+
 	</div>
 
 	<div class="box table-of-contents">
 		<h2>Список Тегов</h2>
 	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег">
 	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag}}</p>
-		
+
 	</div>
-	
+
 	<div class="link-picker" ng-show="picturePick">
 		<div class="close" ng-click="picturePick=false;"></div>
 		<p>Введите ссылку фотографии</p>
