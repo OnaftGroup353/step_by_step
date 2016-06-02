@@ -15,7 +15,7 @@ function addFavorite()
 	$query="INSERT INTO favorite_manuals (`article_id`, `user_id`) VALUES ('$manual_id', '$user_id')";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 
@@ -34,7 +34,7 @@ function deleteFavorite()
 	$query="DELETE FROM `favorite_manuals` WHERE `article_id`='$manual_id'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 
