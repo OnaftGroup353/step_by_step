@@ -76,7 +76,7 @@ function createManual()
 		$query = "INSERT INTO `manual_tags` (`manual_id`, `tag`) VALUES (".$manual_article_article_id.", '".$v."')";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	}
-	$api->response("OK", 200, "text");
+	$api->send_error(000);
     /*
     {
 		"tableOfContents": {},
@@ -190,7 +190,7 @@ function deleteManualById()
 		$query="UPDATE `manual_articles` SET `isdeleted`='1' WHERE `id`=".$id;
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 		if ($r)
-			$api->response("OK", 200, "text");
+			$api->send_error(000);
 	}
 	$api->send_error(100);
 }
@@ -285,12 +285,12 @@ function getChildArticles($id)
 			if ($res["article_type_id"] == 2)
 			{
 				$c_child = getChildArticles($res["id"]);
-				$child = (object) array ("name" => $res["caption"], "id" => $res["id"]);
+				$child = (object) array ("name" => $res["caption"], "id" => $res["id"], "sections" => array());
 				$i = 1;
 				if (gettype($c_child) == "array")
 					foreach ($c_child as $k => $v)
 					{
-						$child->$i = $v;
+						$child->sections[] = $v;
 						$i++;
 					}
 				$ress[] = $child;
@@ -486,7 +486,7 @@ function updateManual()
 		$query = "INSERT INTO `manual_tags` (`manual_id`, `tag`) VALUES (".$manual_article_article_id.", '".$v->tag."')";
 		$r = $api->db_conn->query($query) or die($api->db_conn->error." ".__LINE__);
 	}
-	$api->response("OK", 200, "text");
+	$api->send_error(000);
 	
     /*
     {

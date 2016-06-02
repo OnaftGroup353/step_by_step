@@ -44,7 +44,7 @@ $message = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http
 								<div style="height: 26px; line-height:26px; font-size:23px;">&nbsp;</div>
 								<table border="0" cellspacing="0" cellpadding="0">
 									<tr><td align="center" width="217" height="39" >
-										<a href="http://m-creater.s-host.net?'.$confirmationCode.'"  target="_blank"><p style="color: #333333; font: 20px Arial, sans-serif; line-height: 30px; -webkit-text-size-adjust:none; display: block;" >Подтверждение</p></a>
+										<a href="http://m-creater.s-host.net/confirmRegistration'.$confirmationCode.'"  target="_blank"><p style="color: #333333; font: 20px Arial, sans-serif; line-height: 30px; -webkit-text-size-adjust:none; display: block;" >Подтверждение</p></a>
 									</td></tr>
 								</table>
 							</td></tr>

@@ -60,4 +60,9 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
         url: '/university',
         templateUrl: 'app/main/university.html'
 
+      .state 'confirmEmail',
+        url: '/confirmEmail{confirmationCode}',
+        templateUrl: 'app/main/confirmEmail.html',
+        controller: 'confirmEmailCtrl'
+
   ]
