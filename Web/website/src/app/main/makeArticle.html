@@ -135,8 +135,14 @@
 	<div class="box table-of-contents">
 		<h2>Список литературы</h2>
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
-	    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a>
-		
+		<div ng-repeat="link in book.literatures track by $index">
+		<div ng-if="link.indexOf('http')>-1" >
+		<a style="display: block;" href="{{link}}" >{{link}}</a>
+		</div>
+		<div ng-if="link.indexOf('http')==-1">
+		<p>{{link}}</p>
+		</div>
+		</div>
 	</div>
 
 	<div class="box table-of-contents">

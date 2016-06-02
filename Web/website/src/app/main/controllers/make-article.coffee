@@ -10,14 +10,27 @@ angular.module "articleApp"
     $scope.addChapter = ()->
       $scope.book.chapters.push({name: 'Раздел'})
       $scope.chooseChapter($scope.book.chapters.length-1)
+    
+    #$scope.addLiterature = (link)->
+      #if link.length==0
+        #return
+      #if link.indexOf("http") == -1
+         #link = "http://"+link
+       #$scope.$apply ()->
+         #$scope.book.literatures.push(link)
+ 
+
     $scope.addLiterature = (link)->
+      regtxt = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
       if link.length==0
         return
-      if link.indexOf("http") == -1
-        link = "http://"+link
-      $scope.$apply ()->
-        $scope.book.literatures.push(link)
-
+      if link.match regtxt
+        link = link
+      else
+        link = "**"+link
+       $scope.$apply ()->
+         $scope.book.literatures.push(link)
+    
     $scope.addTags = (tag)->
       $scope.$apply ()->
         $scope.book.tags.push(tag)
