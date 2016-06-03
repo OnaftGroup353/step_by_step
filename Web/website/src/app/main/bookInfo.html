@@ -1,6 +1,6 @@
-<div class="book">
-  <button class="red" ng-click="deleteManual()">Удалить</button>
-  <ul class="main-info">
+
+<div class="book" ng-show="book">
+  <ul>
     <li>ID: {{book.id}}</li>
     <li>Название: {{book.header.name}}</li>
     <!-- <li>Направление: {{book.direction}}</li> -->
@@ -35,4 +35,9 @@
     
   </div>
   <button class="green" ng-click="$state.go('cabinet.makeArticle.edit', {id: book.id})">Редактировать методичку</button>
+</div>
+
+
+<div class="no-books" ng-show="!book">
+  <p>Не выбрана ни одна методичка</p>
 </div>

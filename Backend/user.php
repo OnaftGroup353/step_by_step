@@ -168,7 +168,7 @@ function logout()
 		$api->send_error(205);
 	$query="UPDATE users SET session=NULL WHERE `session`='$token'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
-	$api->response("OK", 200, "text");
+	$api->send_error(000);
 }
 
 /*! \fn registrationCheckEmail()
@@ -416,7 +416,7 @@ function update_user_password()
 	$query="UPDATE users SET `password`='$password' WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 
@@ -454,7 +454,7 @@ function update_user_ban()
 	$query="UPDATE users SET `banned`='$banned' WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 
@@ -482,7 +482,7 @@ function update_user_scope()
 	$query="UPDATE users SET `scope_id`='$scope_id' WHERE id=$id";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 
@@ -518,7 +518,7 @@ function update_user_email()
 	if ($r)
 	{
 		send_mail($email, $confirmationCode);
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	}
 	$api->send_error(100);
 }
@@ -531,9 +531,6 @@ function confirmEmail()
 		}
 	*/
 	global $api;
-	if (trim(json_encode($api->_request)) == "\"\"")
-		$api->send_error(101);
-	$api->_request = json_decode($api->_request);
 	if (!isset($api->_request->confirmationCode))
 		$api->send_error(101);
 	$confirmationCode = $api->_request->confirmationCode;
@@ -549,7 +546,7 @@ function confirmEmail()
 	$query="UPDATE users SET `ismailconfirmed`='1'  WHERE `mailconfimationcode`='$confirmationCode'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 
@@ -588,7 +585,7 @@ function update_user()
 	$query="UPDATE users SET `first_name`='$first_name', `middle_name`='$middle_name', `last_name`='$last_name', `interest`='$interest', `position`='$position', `social_network_id`='$social_network_id', `social_network_type`='$social_network_type' WHERE id='$id'";
 	$r = $api->db_conn->query($query) or die($api->db_conn->error);
 	if ($r)
-		$api->response("OK", 200, "text");
+		$api->send_error(000);
 	$api->send_error(100);
 }
 

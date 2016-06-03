@@ -5,7 +5,12 @@ angular.module "articleApp"
 
 
 
+
     $rootScope.userId = 0
+
+    $scope.books = []
+    window.s = $scope
+
     $server.login {token: localStorage.token}, (data)->
         console.log data, data.id
         if data.error
@@ -54,18 +59,20 @@ angular.module "articleApp"
     $scope.getManualById = (id)->
         $server.getManualById {id: id}, (data)->
             console.log data
-            $scope.$apply () ->
-              $scope.book = data
+            if !data.error
+              $scope.$apply () ->
+                $scope.book = data
 
 
 
     $scope.getManualsByUserId = (id)->
         $server.getManualsByUserId {id: id}, (data)->
             console.log data
-            $scope.$apply ()->
-                $scope.books = data
-                for book in $scope.books
-                    book.date = +book.date * 1000
+            if !data.error
+              $scope.$apply ()->
+                  $scope.books = data
+                  for book in $scope.books
+                      book.date = +book.date * 1000
 
 
 

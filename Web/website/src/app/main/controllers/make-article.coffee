@@ -1,4 +1,4 @@
-angular.module "articleApp"
+﻿angular.module "articleApp"
   .controller "MakeArticleCtrl", ($scope, $rootScope, $state, $server, $modal, $sce) ->
 
 
@@ -36,14 +36,32 @@ angular.module "articleApp"
       return res
     $scope.chooseChapter = (index)->
       $scope.activeChapter = index
-    $scope.addChapter = ()->
-      $scope.book.chapters.push({name: 'Раздел'})
+	  
+    $scope.addChapter = (title)->
+      $scope.book.chapters.push({name: title})
       $scope.chooseChapter($scope.book.chapters.length-1)
+
+    #$scope.addLiterature = (link)->
+      #if link.length==0
+        #return
+      #if link.indexOf("http") == -1
+         #link = "http://"+link
+       #$scope.$apply ()->
+         #$scope.book.literatures.push(link)
+
+
     $scope.addLiterature = (link)->
+      regtxt = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
       if link.length==0
         return
-      if link.indexOf("http") == -1
-        link = "http://"+link
+      if link.match regtxt
+        link = link
+      else
+        link = "**"+link
+      $scope.$apply ()->
+         $scope.book.literatures.push(link)
+      #if link.indexOf("http") == -1
+      #  link = "http://"+link
       $scope.$apply ()->
         $scope.book.literatures.push(link)
 
@@ -51,12 +69,12 @@ angular.module "articleApp"
       $scope.$apply ()->
         $scope.book.tags.push(tag)
     $scope.addText = ()->
-      
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
       $scope.book.chapters[$scope.activeChapter][ind]={type:'text', title: '', data:''}
 
     $scope.addCode = ()->
-      
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
       $scope.book.chapters[$scope.activeChapter][ind]={type:'text', title: '', data:''}
 
@@ -77,7 +95,7 @@ angular.module "articleApp"
       $scope.book.chapters[$scope.activeChapter][ind]={type:'video', data: link, title: 'Видео'}
 
     $scope.addAudio = ()->
-      
+
       ind = $scope.objectLength($scope.book.chapters[$scope.activeChapter])
       $scope.book.chapters[$scope.activeChapter][ind]={type:'audio', title: 'Аудио', data:''}
 
@@ -94,7 +112,7 @@ angular.module "articleApp"
           console.log el, it, 123
           delete $scope.book.chapters[i][el]
           return
-            
+
 
     $scope.createEmptyArticle = ()->
       $scope.book = {
@@ -106,7 +124,7 @@ angular.module "articleApp"
         tableOfContents: {}
         metadata: {}
       }
-      $scope.addChapter()
+      $scope.addChapter('Введение')
       localStorage.article = JSON.stringify($scope.book)
 
 
@@ -123,7 +141,7 @@ angular.module "articleApp"
         tableOfContents: {}
         metadata: {}
       }
-      $scope.addChapter()
+      $scope.addChapter('Введение')
     window.s = $scope
     
     $scope.deteleArticle = ()->

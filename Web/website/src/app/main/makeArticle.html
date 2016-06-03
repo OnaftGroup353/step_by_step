@@ -19,8 +19,16 @@
 				</ul>
 			</li>
 			<li ng-click="deteleArticle()">Очистить все</li>
-        </ul>
+
+			<!-- <li>+</li>
+			<li>+</li> -->
+		</ul> 
 	</div>
+		 <!-- tabs left -->
+
+
+
+	<!-- <div class="row col-md-8"> -->
   <div class="box header">
   	<div class="edit" ng-click="editHeader = !editHeader" ng-class="{'active': editHeader}"></div>
 	<h2>Заголовок </h2>
@@ -43,7 +51,7 @@
 
 	</table>
   </div>
-  
+
   <div class="box table-of-contents">
 	<h2>Содержание</h2>
     <table>
@@ -55,7 +63,7 @@
 			<td>{{chapter.name}}</td>
 			<td>{{$index+2}}</td>
 		</tr>
-		
+
 	</table>
   </div>
   <div class="box chapter" ng-repeat="chapter in book.chapters track by $index" ng-init="edit=true"ng-click="chooseChapter($index); edit=true" ng-class="{'active':$index==activeChapter}">
@@ -95,25 +103,45 @@
 			<td ng-if="pr.type=='video'" >
 				<iframe class="pull-right" width="200" height="160" src="{{trustSrc(pr.data)}}" frameborder="0" allowfullscreen></iframe>
 			</td>
-				
+
 			<td class="close td-close" ng-click="deleteItem($parent.$parent.$index, key)" ng-if="!$last"></td>
 		</tr>
-		
+
 	</table>
   </div>
 	<div class="box table-of-contents">
 		<h2>Список литературы</h2>
+
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
 	    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>
 		
-	</div>
 
+	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку и нажмите Enter">
+		<div ng-repeat="link in book.literatures track by $index">
+      <div ng-if="link.indexOf('http')>-1" >
+        <a style="display: block;" href="{{link}}" >{{link}}</a>
+      </div>
+      <div ng-if="link.indexOf('http')==-1">
+        <p>{{link}}</p>
+			</div>
+		</div>
+
+	</div>
 	<div class="box table-of-contents">
 		<h2>Список Тегов</h2>
-	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег">
+
+
+	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег и нажмите Enter">
 	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag.tag || tag}}</p>
 		
+
 	</div>
+	<div class="center"><button class="green" ng-click="createManual()">Создать</button></div>
+	</div>
+
+	
+
+   	
 	
 	<div class="link-picker" ng-show="picturePick">
 		<div class="close" ng-click="picturePick=false;"></div>
@@ -128,6 +156,7 @@
 		<button class="green" ng-click="addVideo(link);videoPick=false">Добавить</button>
 	</div>
 	<button class="green" ng-click="createManual()">{{id?'Редактировать':'Создать'}}</button>
+
 </div>
 
 <script>

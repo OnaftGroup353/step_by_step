@@ -23,6 +23,7 @@ angular.module "articleApp"
       'deleteManualById',
       'confirmEmail',
       'getManualVersions'
+      'confirmEmail'
     ]
 
     addMethod = (methodName) ->
