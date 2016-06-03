@@ -113,7 +113,7 @@
       }
       $scope.addChapter()
     window.s = $scope
-
+    
     $scope.deteleArticle = ()->
        $scope.createEmptyArticle()
 
@@ -126,7 +126,7 @@
            'video':'Видео'
            'audio':'Аудио'
            'picture':'Картинка'
-
+           
         }
         return voc[text] || ''
 

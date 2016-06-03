@@ -30,6 +30,7 @@ class REST {
 	private function get_error($code)
 	{
         $errors = array(
+			000 => 'null',
             100 => 'Internal Server Error',
             101 => 'Bad Request',
             102 => 'Not authorized',
@@ -104,6 +105,7 @@ class REST {
 		switch($this->get_request_method()){
             case "POST":
                 //parse_str(file_get_contents("php://input"),$req);
+				
 				$req = array("0" => file_get_contents("php://input"));
                 $req = $this->cleanInputs($req);
 				foreach	($req as $k => $v)
