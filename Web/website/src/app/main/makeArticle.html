@@ -134,7 +134,7 @@
   </div>
 	<div class="box table-of-contents">
 		<h2>Список литературы</h2>
-	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
+	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку и нажмите Enter">
 		<div ng-repeat="link in book.literatures track by $index">
       <div ng-if="link.indexOf('http')>-1" >
         <a style="display: block;" href="{{link}}" >{{link}}</a>
@@ -151,7 +151,7 @@
 
 	<div class="box table-of-contents">
 		<h2>Список Тегов</h2>
-	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег">
+	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег и нажмите Enter">
 	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag}}</p>
 
 	</div>
