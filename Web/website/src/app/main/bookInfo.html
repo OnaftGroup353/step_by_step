@@ -1,4 +1,4 @@
-<div class="book">
+<div class="book" ng-show="book">
   <ul>
     <li>ID: {{book.id}}</li>
     <li>Название: {{book.header.name}}</li>
@@ -33,4 +33,9 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="no-books" ng-show="!book">
+  <p>Не выбрана ни одна методичка</p>
 </div>
