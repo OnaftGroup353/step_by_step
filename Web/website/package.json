@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "express": "^4.13.3",
-    "gulp-install": "^0.6.0",
     "request": "^2.65.0"
   },
   "scripts": {
