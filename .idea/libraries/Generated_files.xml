@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/confirm_registration.js" />
+        <item url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/book_info_controller.js" />
+        <item url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/cabinet_controller.js" />
+        <item url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/make-article.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/main_controller.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/main_controller.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/index.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/index.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/services/server.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/services/server.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/confirm_email.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/confirm_email.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/confirm_email.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/confirm_registration.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/book_info_controller.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/cabinet_controller.js" />
+      <root url="file://$PROJECT_DIR$/Web/website/src/app/main/controllers/make-article.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
