@@ -11,7 +11,7 @@
     $scope.addChapter = (title)->
       $scope.book.chapters.push({name: title})
       $scope.chooseChapter($scope.book.chapters.length-1)
-    
+
     #$scope.addLiterature = (link)->
       #if link.length==0
         #return
@@ -19,7 +19,7 @@
          #link = "http://"+link
        #$scope.$apply ()->
          #$scope.book.literatures.push(link)
- 
+
 
     $scope.addLiterature = (link)->
       regtxt = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
@@ -29,9 +29,8 @@
         link = link
       else
         link = "**"+link
-       $scope.$apply ()->
+      $scope.$apply ()->
          $scope.book.literatures.push(link)
-
       #if link.indexOf("http") == -1
       #  link = "http://"+link
       $scope.$apply ()->
@@ -115,7 +114,7 @@
       }
       $scope.addChapter('Введение')
     window.s = $scope
-
+    
     $scope.deteleArticle = ()->
        $scope.createEmptyArticle()
 
@@ -128,7 +127,7 @@
            'video':'Видео'
            'audio':'Аудио'
            'picture':'Картинка'
-
+           
         }
         return voc[text] || ''
 
