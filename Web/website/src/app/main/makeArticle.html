@@ -141,27 +141,20 @@
       </div>
       <div ng-if="link.indexOf('http')==-1">
         <p>{{link}}</p>
-<<<<<<< HEAD
 			</div>
 		</div>
-		<div class="box table-of-contents">
-=======
-      </div>
-    </div>
-
-	    <!-- <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a> -->
-
-
 	</div>
-
 	<div class="box table-of-contents">
->>>>>>> origin/dev
 		<h2>Список Тегов</h2>
 	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег и нажмите Enter">
 	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag}}</p>
 	</div>
+	<div class="center"><button class="green" ng-click="createManual()">Создать</button></div>
+	</div>
 
-   	</div>
+	
+
+   	
 	
 	<div class="link-picker" ng-show="picturePick">
 		<div class="close" ng-click="picturePick=false;"></div>
@@ -175,7 +168,7 @@
 		<input type="text" ng-model="link">
 		<button class="green" ng-click="addVideo(link);videoPick=false">Добавить</button>
 	</div>
-	<button class="green" ng-click="createManual()">Создать</button>
+
 </div>
 
 <script>
