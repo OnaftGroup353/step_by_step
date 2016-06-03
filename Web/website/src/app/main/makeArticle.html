@@ -25,7 +25,7 @@
 		 <!-- tabs left -->
       <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
-          <li ng-click="addChapter()"><a href="#a" data-toggle="tab" ><span class="glyphicon glyphicon-plus"></span></a></li>
+          <li ng-click="addChapter('Раздел №')"><a href="#a" data-toggle="tab" ><span class="glyphicon glyphicon-plus"></span></a></li>
           <li ng-click="textShow=!textShow;mediaShow=false"><a href="#b" data-toggle="tab"><p>Текст</p></a></li>
           <li ng-click="mediaShow=!mediaShow;textShow=false;"><a href="#c" data-toggle="tab"><p>Мультимедиа</p></a></li>
 		  <li class="active" ng-click="deteleArticle()"><a href="#d" data-toggle="tab"><p>Очистить все</p></a></li>
@@ -152,19 +152,14 @@
         <p>{{link}}</p>
 			</div>
 		</div>
-
-	    <!-- <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link}}</a> -->
-
-
-	</div>
-
-	<div class="box table-of-contents">
+		<div class="box table-of-contents">
 		<h2>Список Тегов</h2>
 	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег">
 	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag}}</p>
-
 	</div>
 
+   	</div>
+	
 	<div class="link-picker" ng-show="picturePick">
 		<div class="close" ng-click="picturePick=false;"></div>
 		<p>Введите ссылку фотографии</p>

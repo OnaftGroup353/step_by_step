@@ -7,8 +7,9 @@
 
     $scope.chooseChapter = (index)->
       $scope.activeChapter = index
-    $scope.addChapter = ()->
-      $scope.book.chapters.push({name: 'Раздел'})
+	  
+    $scope.addChapter = (title)->
+      $scope.book.chapters.push({name: title})
       $scope.chooseChapter($scope.book.chapters.length-1)
     
     #$scope.addLiterature = (link)->
@@ -95,7 +96,7 @@
         tableOfContents: {}
         metadata: {}
       }
-      $scope.addChapter()
+      $scope.addChapter('Введение')
       localStorage.article = JSON.stringify($scope.book)
 
 
@@ -112,7 +113,7 @@
         tableOfContents: {}
         metadata: {}
       }
-      $scope.addChapter()
+      $scope.addChapter('Введение')
     window.s = $scope
 
     $scope.deteleArticle = ()->
