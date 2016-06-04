@@ -29,7 +29,7 @@ angular.module "articleApp"
           url: "http://ulogin.ru/token.php?token="+token,
           method: 'GET',
           dataType: 'jsonp'
-          
+
         }
 
       request.done (data)->
@@ -46,7 +46,7 @@ angular.module "articleApp"
       request.fail (xhr)->
         console.log xhr.responseJSON
         #callback(xhr.responseJSON || {error:"empty server response"})
-      
+
       #$.get ("http://ulogin.ru/token.php?token="+token), (data)->
        # console.log data
         #$server.login data, (data)->
@@ -56,23 +56,24 @@ angular.module "articleApp"
         #  else
         #    console.log "Не удалось войти"
 
-       
 
 
 
-          
-        
+
+
+
   .controller "registerModalCtrl", ($scope, $rootScope, $state, $server, $modal, $modalInstance) ->
     $scope.cancel = () ->
       $modalInstance.dismiss 'cancel'
     $scope.register = ()->
       console.log "register here"
+      #if $scope.user.
       if $scope.user.password != $scope.user.password2
         alert("Пароли не совпадают")
       else
         if $scope.user.password.length < 3
           alert("Длина пароля не менее 3 символов")
-        else 
+        else
           delete localStorage.token
           $server.insertUser $scope.user, (data)->
             console.log data

@@ -10,17 +10,17 @@
 			</li>
 
 		</ul>
-		<button class="green" ng-click="$state.go('cabinet.makeArticle')">Создать методичку</button>
+		<button class="green" ng-click="makeNewArticle()">Создать методичку</button>
 		<!-- <button class="green" ng-click="$state.go('cabinet.makeArticle')">Редактировать методичку</button> -->
 	</div>
-	
+
 	<div class="content" ng-class="{'article-container': $state.includes('cabinet.makeArticle')}" cabinet-article>
 		<div class="ui-view"></div>
 		<div class="no-select" ng-if="$state.is('cabinet')">
 			<img src="assets/images/empty_book.png" alt="">
 			<p>Вы не выбрали ни одной методички</p>
 
-			
+
 		</div>
 	</div>
 

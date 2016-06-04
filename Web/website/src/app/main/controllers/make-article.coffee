@@ -4,7 +4,7 @@
 
 
     $scope.id = $state.params.id
-    if $scope.id 
+    if $scope.id
       if !+$scope.id
         $state.go("^.")
         return
@@ -36,7 +36,7 @@
       return res
     $scope.chooseChapter = (index)->
       $scope.activeChapter = index
-	  
+
     $scope.addChapter = (title)->
       $scope.book.chapters.push({name: title})
       $scope.chooseChapter($scope.book.chapters.length-1)
@@ -62,8 +62,8 @@
          $scope.book.literatures.push(link)
       #if link.indexOf("http") == -1
       #  link = "http://"+link
-      $scope.$apply ()->
-        $scope.book.literatures.push(link)
+      #$scope.$apply ()->
+       # $scope.book.literatures.push(link)
 
     $scope.addTags = (tag)->
       $scope.$apply ()->
@@ -111,6 +111,8 @@
         if el == j
           console.log el, it, 123
           delete $scope.book.chapters[i][el]
+          #normalizeChapter()
+
           return
 
 
@@ -128,9 +130,10 @@
       localStorage.article = JSON.stringify($scope.book)
 
 
-
     if localStorage.article
       $scope.book = JSON.parse(localStorage.article)
+    else
+      $scope.createEmptyArticle()
     if !$scope.book
       $scope.book = {
         date: moment().valueOf()
@@ -143,7 +146,7 @@
       }
       $scope.addChapter('Введение')
     window.s = $scope
-    
+
     $scope.deteleArticle = ()->
        $scope.createEmptyArticle()
 
@@ -156,7 +159,7 @@
            'video':'Видео'
            'audio':'Аудио'
            'picture':'Картинка'
-           
+
         }
         return voc[text] || ''
 
@@ -174,6 +177,22 @@
       $scope.book.chapters[i-1] = temp
 
 
+    $scope.moveDownItem = (i,j,e)->
+      e.preventDefault();
+      e.stopPropagation();
+      console.log "down", i, j
+      #temp = $scope.book.chapters[i][j]
+      #$scope.book.chapters[i][j] = $scope.book.chapters[i][j+1]
+      #$scope.book.chapters[i][j+1]
+      console.log temp,$scope.book
+
+      #$scope.book.chapters[i][j] = $scope.book.chapters[i-1]
+      #$scope.book.chapters[i-1] = temp
+
+    $scope.moveUpItem = (i,j,e)->
+      e.preventDefault();
+      e.stopPropagation();
+      console.log "up", i, j
 
     $scope.createManual = ()->
       #console.log "data: ", JSON.stringify($scope.book,null,4), $scope.book,
