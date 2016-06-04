@@ -29,8 +29,10 @@ class REST {
 	
 	private function get_error($code)
 	{
+		if ($code == 0)
+			return array("error" => null);
         $errors = array(
-			000 => 'null',
+			000 => null,
             100 => 'Internal Server Error',
             101 => 'Bad Request',
             102 => 'Not authorized',
@@ -167,7 +169,10 @@ class REST {
 	public function send_error($code)
 	{
 		$data = $this->get_error($code);
-		$this->response(json_encode($data), 400, "text");
+		if (isset($data->message))
+			$this->response(json_encode($data), 400, $this->json_content_type);
+		else
+			$this->response(json_encode($data), 200, $this->json_content_type);
 	}
 
     private function set_headers($format){
