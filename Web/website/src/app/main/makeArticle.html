@@ -22,7 +22,7 @@
 
 			<!-- <li>+</li>
 			<li>+</li> -->
-		</ul> 
+		</ul>
 	</div>
 		 <!-- tabs left -->
 
@@ -66,57 +66,61 @@
 
 	</table>
   </div>
-  <div class="box chapter" ng-repeat="chapter in book.chapters track by $index" ng-init="edit=true"ng-click="chooseChapter($index); edit=true" ng-class="{'active':$index==activeChapter}">
+  <div class="box chapter" ng-repeat="($$index,chapter) in book.chapters track by $index" ng-init="edit=true"ng-click="chooseChapter($index); edit=true" ng-class="{'active':$index==activeChapter}">
   	<div class="edit" change-edit ng-class="{'active': edit}"></div>
   	<div class="close" ng-click="deleteChapter($index)" ng-if="book.chapters.length>1"></div>
   	<div class="controls" ng-show="book.chapters.length>1">
   		<span class="glyphicon glyphicon-arrow-down" ng-show="!$last" ng-click="moveDown($index)"></span>
   		<span class="glyphicon glyphicon-arrow-up" ng-show="!$first" ng-click="moveUp($index)"></span>
   	</div>
-	<h2 ng-show="!edit">{{chapter.name}}</h2>
-	<input ng-show="edit" type="text" class="chapter-title" ng-model="chapter.name">
+    <h2 ng-show="!edit">{{chapter.name}}</h2>
+    <input ng-show="edit" type="text" class="chapter-title" ng-model="chapter.name">
     <table class="w100">
-		<tr ng-repeat=" (key, pr) in chapter" ng-hide="key=='name' || key=='id'">
-			<td ng-if="pr.type=='text'" colspan="2">
-				<input ng-show="edit" class="w100"  style="margin-bottom: 20px;" placeholder="Введите зоголовок (можно оставить пустым)" type="text" ng-model="pr.title">
-				<p ng-if="!edit" class="center">{{pr.title}}</p>
+      <tr ng-repeat=" (key, pr) in chapter" ng-if="key!='name' && key!='id'">
+        <td ng-if="pr.type=='text'" colspan="2">
+          <input ng-show="edit" class="w100"  style="margin-bottom: 20px;" placeholder="Введите зоголовок (можно оставить пустым)" type="text" ng-model="pr.title">
+          <p ng-if="!edit" class="center">{{pr.title}}</p>
 
-				<textarea  class="w100" ng-show="edit" type="text" placeholder="Введите текст" ng-model="pr.data"></textarea>
-				<p ng-show="!edit" class="center">{{pr.data}}</p>
-			</td>
-
-
-
-			<td ng-if="pr.type=='picture'">
-				<input ng-show="edit" type="text" ng-model="pr.title">
-				<p ng-show="!edit" >{{pr.title}}</p>
-			</td>
-			<td ng-if="pr.type=='picture'" >
-				<img class="image-box pull-right" ng-src="{{pr.data}}">
-			</td>
+          <textarea  class="w100" ng-show="edit" type="text" placeholder="Введите текст" ng-model="pr.data"></textarea>
+          <p ng-show="!edit" class="center">{{pr.data}}</p>
+        </td>
 
 
-			<td ng-if="pr.type=='video'">
-				<input ng-show="edit" type="text" ng-model="pr.title">
-				<p ng-show="!edit" >{{pr.title}}</p>
-			</td>
-			<td ng-if="pr.type=='video'" >
-				<iframe class="pull-right" width="200" height="160" src="{{trustSrc(pr.data)}}" frameborder="0" allowfullscreen></iframe>
-			</td>
 
-			<td class="close td-close" ng-click="deleteItem($parent.$parent.$index, key)" ng-if="!$last"></td>
-		</tr>
+        <td ng-if="pr.type=='picture'">
+          <input ng-show="edit" type="text" ng-model="pr.title">
+          <p ng-show="!edit" >{{pr.title}}</p>
+        </td>
+        <td ng-if="pr.type=='picture'" >
+          <img class="image-box pull-right" ng-src="{{pr.data}}">
+        </td>
 
-	</table>
+
+        <td ng-if="pr.type=='video'">
+          <input ng-show="edit" type="text" ng-model="pr.title">
+          <p ng-show="!edit" >{{pr.title}}</p>
+        </td>
+        <td ng-if="pr.type=='video'" >
+          <iframe class="pull-right" width="200" height="160" src="{{trustSrc(pr.data)}}" frameborder="0" allowfullscreen></iframe>
+        </td>
+
+        <td class="close td-close" ng-click="deleteItem($$index, key)" ng-if="!$last">
+          <span class="glyphicon glyphicon-menu-down" ng-click="moveDownItem($$index, key, $event)" ng-if="$index<objectLength(chapter)-3"></span>
+          <span class="glyphicon glyphicon-menu-up" ng-click="moveUpItem($$index, key, $event)"  ng-if="!$first"></span>
+        </td>
+      </tr>
+
+	  </table>
   </div>
 	<div class="box table-of-contents">
 		<h2>Список литературы</h2>
 
-	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">
-	    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>
-		
+	    <!--<input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку">-->
+
+
 
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку и нажмите Enter">
+    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>
 		<div ng-repeat="link in book.literatures track by $index">
       <div ng-if="link.indexOf('http')>-1" >
         <a style="display: block;" href="{{link}}" >{{link}}</a>
@@ -133,16 +137,16 @@
 
 	    <input class="w100" ng-model='tag2' add-tags placeholder="Введите тег и нажмите Enter">
 	    <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag.tag || tag}}</p>
-		
+
 
 	</div>
 	<div class="center"><button class="green" ng-click="createManual()">Создать</button></div>
 	</div>
 
-	
 
-   	
-	
+
+
+
 	<div class="link-picker" ng-show="picturePick">
 		<div class="close" ng-click="picturePick=false;"></div>
 		<p>Введите ссылку фотографии</p>

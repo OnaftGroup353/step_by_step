@@ -45,6 +45,9 @@ angular.module "articleApp"
         $server.articleSearch {name: $scope.search.name}, (data)->
             console.log data
 
+    $scope.makeNewArticle = ()->
+      delete localStorage.article
+      $state.go('cabinet.makeArticle')
 
     $scope.getManuals = ()->
         $server.getManuals {}, (data)->
@@ -54,7 +57,7 @@ angular.module "articleApp"
                 for book in $scope.books
                     book.date = +book.date * 1000
 
-    
+
 
     $scope.getManualById = (id)->
         $server.getManualById {id: id}, (data)->
@@ -62,6 +65,13 @@ angular.module "articleApp"
             if !data.error
               $scope.$apply () ->
                 $scope.book = data
+
+
+
+    $scope.getMyFavorites = ()->
+      $server.getMyFavorites {}, (data)->
+        console.log data
+    $scope.getMyFavorites()
 
 
 

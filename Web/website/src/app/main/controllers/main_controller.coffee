@@ -1,7 +1,7 @@
 angular.module "articleApp"
   .controller "MainController", ($scope, $rootScope, $state, $server, $modal) ->
     console.log "MainController"
-    
+
     closeModals = (callback)->
       if $scope.instance
         $scope.instance.dismiss "cancel"
@@ -50,7 +50,7 @@ angular.module "articleApp"
 
     $scope.formatDate = (timestamp)->
       return moment(timestamp).format("DD/MM/YYYY")
-      
+
     $scope.getTranslate = (text)->
         console.log text
         voc = {
@@ -64,10 +64,8 @@ angular.module "articleApp"
     $scope.objectLength = (obj)->
       res = 0
       for i of obj
-        console.log i, +i
         if (+i)
           res = Math.max(res, +i)
-      console.log res+1
       return res+1
 
 
