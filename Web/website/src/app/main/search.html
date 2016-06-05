@@ -1,0 +1,28 @@
+<div class="search-page">
+  <div class="data" ng-if="books.length && loaded" >
+    <table>
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>Название</td>
+          <td>Дата</td>
+          <td>Подробнее</td>
+          <td ng-if="canAdd()">Добавить в избранные</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="book in books track by $index" ng-if="showItem($index)">
+          <td>{{book.id}}</td>
+          <td>{{book.caption}}</td>
+          <td class="w100p">{{formatDate(book.date)}}</td>
+          <td class="pointer center w100p" ng-click="showArticle(book.id)"><span class="glyphicon glyphicon-search"></span></td>
+          <td class="pointer center w120p" ng-if="canAdd()" ng-click="addFavorite(book.id)"><span class="glyphicon glyphicon-plus" ng-class="{'glyphicon-ok': favorites[book.id]}"></span></td>
+        </tr>
+      </tbody>
+    </table>
+    <uib-pagination total-items="books.length" first-text="&laquo;" last-text="&raquo;" direction-links="false" boundary-links="true" ng-model="pag.currentPage" max-size="5"class="pagination-sm pag" items-per-page="pag.itemPerPage"></uib-pagination>
+  </div>
+  <div class="not-found" ng-if="!books.length && loaded">
+    <h2>По вашему запросу ничего не найдено</h2>
+  </div>
+</div>

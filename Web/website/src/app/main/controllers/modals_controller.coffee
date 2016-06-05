@@ -4,11 +4,13 @@ angular.module "articleApp"
     $scope.cancel = () ->
         $modalInstance.dismiss 'cancel'
     $scope.login = ()->
+      $scope.errorMessage = ""
       delete localStorage.token
       $server.login {email:$scope.user.login, password: $scope.user.password}, (data)->
         console.log data
         if data.error
-          #alert(data.error)
+          $scope.$apply ()->
+           $scope.errorMessage = $rootScope.errors[data.error]
         else
           $scope.cancel()
           localStorage.token = data.token
@@ -34,7 +36,6 @@ angular.module "articleApp"
 
       request.done (data)->
         delete localStorage.token
-        console.log 'data2', JSON.parse(data)
         $server.login JSON.parse(data), (data)->
           if !data.error
             $scope.cancel()
@@ -65,14 +66,24 @@ angular.module "articleApp"
   .controller "registerModalCtrl", ($scope, $rootScope, $state, $server, $modal, $modalInstance) ->
     $scope.cancel = () ->
       $modalInstance.dismiss 'cancel'
+    $scope.user = {password: "", password2: ""}
     $scope.register = ()->
       console.log "register here"
+      $scope.errorMessage = ""
+      $scope.invalid = {}
       #if $scope.user.
+      if !$scope.user.email || !$scope.user.email.match(/.+@.+\..+/)
+        $scope.errorMessage = "Неправильный email"
+        $scope.invalid.email = true
+        return
       if $scope.user.password != $scope.user.password2
-        alert("Пароли не совпадают")
+        $scope.errorMessage = "Пароли не совпадают"
+        $scope.invalid.password = true
+        $scope.invalid.password2 = true
       else
         if $scope.user.password.length < 3
-          alert("Длина пароля не менее 3 символов")
+          $scope.invalid.password = true
+          $scope.errorMessage = "Длина пароля не менее 3 символов"
         else
           delete localStorage.token
           $server.insertUser $scope.user, (data)->
@@ -90,6 +101,16 @@ angular.module "articleApp"
                   else
                     if data.scope == "Moderator" || data.scope=="Administrator"
                       $state.go("admin")
+            else
+              $scope.$apply ()->
+                $scope.errorMessage = $rootScope.errors[data.error]
+
+
+
+  .controller "defaultModalCtrl", ($scope, $rootScope, $state, $server, $modal, $modalInstance, data) ->
+    $scope.data = data
+    $scope.cancel = () ->
+      $modalInstance.dismiss 'cancel'
 
 
 

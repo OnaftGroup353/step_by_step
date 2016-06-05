@@ -57,7 +57,7 @@
       if link.match regtxt
         link = link
       else
-        link = "**"+link
+        link = link
       $scope.$apply ()->
          $scope.book.literatures.push(link)
       #if link.indexOf("http") == -1
@@ -103,6 +103,13 @@
     $scope.deleteChapter = (index)->
       $scope.book.chapters.splice(index,1)
 
+
+    normalizeChapter = (i)->
+      console.log $scope.book.chapters[i]
+      chap = {}
+      for item, j in $scope.book.chapters[i]
+        console.log item,j
+
     $scope.deleteItem = (i, j)->
       j=+j
       console.log(i, j, $scope.book.chapters[i])
@@ -111,18 +118,18 @@
         if el == j
           console.log el, it, 123
           delete $scope.book.chapters[i][el]
-          #normalizeChapter()
+          normalizeChapter(i)
 
           return
 
 
     $scope.createEmptyArticle = ()->
       $scope.book = {
-        date: moment().valueOf()
+        date: Math.floor(moment().valueOf() / 1000)
         chapters: []
         literatures: []
         tags: []
-        header: {}
+        header: {date: Math.floor(moment().valueOf() / 1000)}
         tableOfContents: {}
         metadata: {}
       }
@@ -136,11 +143,11 @@
       $scope.createEmptyArticle()
     if !$scope.book
       $scope.book = {
-        date: moment().valueOf()
+        date: Math.floor(moment().valueOf() / 1000)
         chapters: []
         literatures: []
         tags: []
-        header: {}
+        header: {date: Math.floor(moment().valueOf() / 1000)}
         tableOfContents: {}
         metadata: {}
       }
@@ -184,7 +191,7 @@
       #temp = $scope.book.chapters[i][j]
       #$scope.book.chapters[i][j] = $scope.book.chapters[i][j+1]
       #$scope.book.chapters[i][j+1]
-      console.log temp,$scope.book
+      #console.log temp,$scope.book
 
       #$scope.book.chapters[i][j] = $scope.book.chapters[i-1]
       #$scope.book.chapters[i-1] = temp
@@ -210,6 +217,12 @@
 
       else
         $scope.book.id = $scope.id
+        for el,i in $scope.book.tags
+          if !el.id
+            $scope.book.tags[i]={id:0, tag: el}
+        for el,i in $scope.book.literatures
+          if !el.id
+            $scope.book.tags[i]={id:0, data: el}
         $server.updateManual $scope.book, (data)->
             console.log data
             $scope.deteleArticle()

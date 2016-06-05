@@ -10,12 +10,18 @@
 *  The list of variables are listed here bower_components/bootstrap/less/variables.less
 */
 
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700&subset=latin,cyrillic-ext);
+
+
+
 @minWidth: 500px;
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
 * {
-	font-size: Arial Helvetica;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
 	margin: 0;
 	padding: 0;
 }
@@ -264,6 +270,7 @@ footer.main-footer {
 			height: 40px;
 			label {
 				float: left;
+        margin-top: 10px;
 			}
 		}
 		button {
@@ -343,7 +350,7 @@ footer.main-footer {
 		background: #E3d8E5;
 		&.article-container {
 			// overflow: hidden;
-			width: calc(~"100vw - 40px");
+			width: calc(~"100vw - 70px");
 			// transition:  margin  0.5s ease,  width  0.5s ease;
 			 margin-left: 40px;
 			-webkit-user-select: none;
@@ -535,7 +542,13 @@ footer.main-footer {
 		li {
 			font-size: 20px;
 		}
-	}
+
+
+  }
+  ul.ul-head {
+    width: 500px;
+    overflow: auto;
+  }
 	.book-content {
 		margin-bottom: 40px;
 		.chapter {
@@ -547,6 +560,22 @@ footer.main-footer {
 	}
 }
 
+.tabs-cabinet {
+  display: flex;
+  p {
+    //width: 148px;
+    width: 100%;
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+
+    &.active {
+      background: #494e50;
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+}
 
 @media (max-width: 730px){
 	body {

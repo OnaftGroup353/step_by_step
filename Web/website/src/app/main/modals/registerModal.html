@@ -5,10 +5,13 @@
 		<h3>Для работы с методичками необходимо зарегистрироваться.</h3>
 	</div>
 	<div class="modal-body">
-		<div class="wrap"><label for="email">Электронный адрес: </label><input type="text" id="email" ng-model="user.email"></div>
-		<div class="wrap"><label for="password">Пароль: </label><input type="password" id="password" ng-model="user.password"></div>
-		<div class="wrap"><label for="password2">Повторите пароль: </label><input type="password" id="password2" ng-model="user.password2"></div>
+		<div class="wrap"><label for="email">Электронный адрес: </label><input ng-class="{'error': invalid.email}" type="text" id="email" ng-model="user.email"></div>
+		<div class="wrap"><label for="password">Пароль: </label><input ng-class="{'error': invalid.password}" type="password" id="password" ng-model="user.password"></div>
+		<div class="wrap"><label for="password2">Повторите пароль: </label><input ng-class="{'error': invalid.password2}" type="password" id="password2" ng-model="user.password2"></div>
+    <div class="wrap">
+      <p class="error">{{errorMessage}}</p>
+    </div>
 		<div class="wrap"><button class="green" ng-click="register()">Зарегистрироваться</button></div>
 	</div>
-	
+
 </div>

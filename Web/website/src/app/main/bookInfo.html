@@ -1,13 +1,13 @@
 
 <div class="book" ng-show="book">
-  <ul>
+  <ul class="ul-head">
     <li>ID: {{book.id}}</li>
     <li>Название: {{book.header.name}}</li>
     <!-- <li>Направление: {{book.direction}}</li> -->
     <li>Авторы:
       <p ng-repeat="author in book.authors"> {{author.first_name}} {{author.last_name}} </p>
     </li>
-    <li>Дата: {{formatDate(book.modified)}}</li>
+    <li>Дата: {{formatDate(book.date)}}</li>
   </ul>
   <div class="book-content">
     <div class="chapter" ng-repeat="chapter in book.chapters">
@@ -32,7 +32,21 @@
         </div>
       </div>
     </div>
-    
+    <div class="chapter" >
+      <h3>Литература: </h3>
+      <div ng-repeat="link in book.literatures track by $index">
+        <div ng-if="link.indexOf('http')!=-1" >
+          <a style="display: block;" href="{{link.data || link}}" >{{link.data || link}}</a>
+        </div>
+        <div ng-if="link.indexOf('http')==-1">
+          <p>{{link.data || link}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="chapter">
+      <h3>Список Тегов</h3>
+      <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag.tag || tag}}</p>
+    </div>
   </div>
   <button class="green" ng-click="$state.go('cabinet.makeArticle.edit', {id: book.id})">Редактировать методичку</button>
 </div>

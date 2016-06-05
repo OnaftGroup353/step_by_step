@@ -2,7 +2,7 @@ angular.module "articleApp"
   .controller "cabinetCtrl", ($scope, $rootScope, $state, $server, $modal) ->
     $scope.user= {}
     $scope.search = {}
-
+    $scope.favorites = {}
 
 
 
@@ -25,7 +25,7 @@ angular.module "articleApp"
             $server.getUserInfo {id: data.id}, (data2)->
                 $scope.user = data2
 
-    console.log $state.current.name,123
+
     # Заглушка
 
     $scope.submitProfile = ()->
@@ -41,9 +41,8 @@ angular.module "articleApp"
             console.log data
 
 
-    $scope.articleSearch = ()->
-        $server.articleSearch {name: $scope.search.name}, (data)->
-            console.log data
+
+
 
     $scope.makeNewArticle = ()->
       delete localStorage.article
@@ -54,8 +53,6 @@ angular.module "articleApp"
             console.log data
             $scope.$apply ()->
                 $scope.books = data
-                for book in $scope.books
-                    book.date = +book.date * 1000
 
 
 
@@ -70,8 +67,28 @@ angular.module "articleApp"
 
     $scope.getMyFavorites = ()->
       $server.getMyFavorites {}, (data)->
-        console.log data
-    $scope.getMyFavorites()
+        if !data.error
+          $scope.$apply ()->
+            $scope.books = data
+#    $scope.getMyFavorites()
+
+    $scope.initFavorites = ()->
+      $server.getMyFavorites {}, (data)->
+        if !data.error
+          $scope.$apply ()->
+            for el in data
+              $scope.favorites[el.id] = true
+    $scope.initFavorites()
+    $scope.currentTab = 'my'
+    $scope.activeTab = (name)->
+      return $scope.currentTab == name
+
+    $scope.toggleTab = (name)->
+      $scope.currentTab = name
+      if name == 'my'
+        $scope.getManualsByUserId($rootScope.userId)
+      else if name == 'favorites'
+        $scope.getMyFavorites()
 
 
 
@@ -81,8 +98,6 @@ angular.module "articleApp"
             if !data.error
               $scope.$apply ()->
                   $scope.books = data
-                  for book in $scope.books
-                      book.date = +book.date * 1000
 
 
 

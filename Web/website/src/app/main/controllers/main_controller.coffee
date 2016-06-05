@@ -49,7 +49,7 @@ angular.module "articleApp"
         $state.go("index")
 
     $scope.formatDate = (timestamp)->
-      return moment(timestamp).format("DD/MM/YYYY")
+      return moment(+timestamp * 1000).format("DD/MM/YYYY")
 
     $scope.getTranslate = (text)->
         console.log text
@@ -70,8 +70,31 @@ angular.module "articleApp"
 
 
     $scope.articleSearch = ()->
-        $server.articleSearch {name: $scope.search.name}, (data)->
-            console.log data
+      console.log $scope.search
+      if $state.includes("cabinet")
+
+        $state.go("cabinet.search", {name: $scope.search.name})
+      else
+        $state.go("cabinet.search", {name: $scope.search.name})
+
+    $rootScope.errors = {
+      '000': 'null',
+      '100': 'Ошибка сервера',
+      '101': 'Неправильный запрос',
+      '102': 'Не авторизировано',
+      '103': 'Нет данных',
+      '104': 'Не найдено',
+      '105': 'Отказано в доступе',
+      '106': 'Ошибка входа через соц. сеть',
+      '107': 'Нет доступа',
+      '200': 'Неправильный код подтверждения',
+      '201': 'Неправильный email',
+      '202': 'Пользователь с таким Email уже существует',
+      '203': 'Такой пользователь не существует',
+      '204': 'Неверный пароль',
+      '205': 'Сессия истекла',
+      '206': 'Неверный uid'
+    }
 
 
 

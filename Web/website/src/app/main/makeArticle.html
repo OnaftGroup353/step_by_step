@@ -1,7 +1,7 @@
 ﻿<div class="make-article container-fluid">
 	<div id="toolbar">
 		<ul>
-	        <li ng-click="addChapter()"><span class="glyphicon glyphicon-plus"></span></li>
+	        <li ng-click="addChapter()">Добавить раздел</li>
 			<li ng-click="textShow=!textShow;mediaShow=false">
 				<p>Текст</p>
 				<ul ng-class="{'active': textShow}">
@@ -105,7 +105,7 @@
         </td>
 
         <td class="close td-close" ng-click="deleteItem($$index, key)" ng-if="!$last">
-          <span class="glyphicon glyphicon-menu-down" ng-click="moveDownItem($$index, key, $event)" ng-if="$index<objectLength(chapter)-3"></span>
+          <span class="glyphicon glyphicon-menu-down" ng-click="moveDownItem($$index, key, $event)" ng-if="$index<objectLength(chapter)-2"></span>
           <span class="glyphicon glyphicon-menu-up" ng-click="moveUpItem($$index, key, $event)"  ng-if="!$first"></span>
         </td>
       </tr>
@@ -120,13 +120,13 @@
 
 
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку и нажмите Enter">
-    <a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>
+    <!--<a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>-->
 		<div ng-repeat="link in book.literatures track by $index">
-      <div ng-if="link.indexOf('http')>-1" >
-        <a style="display: block;" href="{{link}}" >{{link}}</a>
+      <div ng-if="link.indexOf('http')!=-1" >
+        <a style="display: block;" href="{{link.data || link}}" >{{link.data || link}}</a>
       </div>
       <div ng-if="link.indexOf('http')==-1">
-        <p>{{link}}</p>
+        <p>{{link.data || link}}</p>
 			</div>
 		</div>
 
@@ -140,8 +140,8 @@
 
 
 	</div>
-	<div class="center"><button class="green" ng-click="createManual()">Создать</button></div>
-	</div>
+	<!--<div class="center"><button class="green" ng-click="createManual()">Создать</button></div>-->
+
 
 
 
@@ -182,8 +182,13 @@
 	};
 	$(window).scroll(debounce(function(){
 		var sc = $("body").scrollTop()
+    var h = $("body").height()
+    if(sc + 300 < h) {
+      $(".link-picker").css({"transform": 'translateY('+sc+ "px)"});
+      $("#toolbar").css({"margin-top": sc + "px"});
+    }
 		// sc+=45
 		// sc = Math.max(0, 45-sc)
-		$("#toolbar").css({"margin-top": sc+"px"});
-	}, 4))
+
+	}, 3))
 </script>

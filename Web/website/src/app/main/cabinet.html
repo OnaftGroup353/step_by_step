@@ -1,10 +1,17 @@
 <div class="cabinet" article-hide>
 	<div class="aside">
-		<p class="title">Мои методички</p>
+
+    <div class="tabs-cabinet">
+      <p ng-class="{'active': activeTab('my')}" ng-click="toggleTab('my')">Мои методички</p>
+      <p ng-class="{'active': activeTab('favorites')}" ng-click="toggleTab('favorites')">Избранные</p>
+    </div>
+
+
 		<ul>
 
 
 			<li ng-repeat="book in books" ng-click="$state.go('cabinet.bookInfo', {id: book.id})">
+        <p>ID: <span class="bold">{{book.id}}</span></p>
 				<p>Название: <span class="bold">{{book.caption}}</span></p>
 				<p>Дата: <span class="bold">{{formatDate(book.date)}}</span></p>
 			</li>

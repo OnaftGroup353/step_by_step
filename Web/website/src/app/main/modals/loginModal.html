@@ -8,9 +8,12 @@
 		<form ng-submit="login()">
 			<div class="wrap"><label for="email">Электронный адрес: </label><input type="text" id="email" ng-model="user.login"></div>
 			<div class="wrap"><label for="password">Пароль: </label><input type="password" id="password" ng-model="user.password"></div>
+      <div class="wrap" ng-if="errorMessage">
+        <p class="error">{{errorMessage}}</p>
+      </div>
 			<div class="wrap"><button class="green" type='submit'>Войти</button></div>
 		</form>
 		<div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name,email;providers=vkontakte,google,facebook;hidden=;redirect_uri=;callback=ulog"></div>
 	</div>
-	
+
 </div>

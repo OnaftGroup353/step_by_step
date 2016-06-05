@@ -41,12 +41,27 @@ angular.module 'articleApp', ['ui.router', 'ngRoute', 'ui.bootstrap', 'ngAnimate
       .state 'cabinet.makeArticle.edit',
         url: '/{id}',
 
+      .state 'cabinet.search',
+        url: '/search?{name}',
+        templateUrl: "app/main/search.html",
+        controller: "searchCtrl"
+
+      .state 'search',
+        url: '/search?{name}',
+        templateUrl: "app/main/search.html",
+        controller: "searchCtrl"
+
       .state 'makeArticle',
         url: '/article',
         templateUrl: 'app/main/makeArticle.html',
         controller: 'MakeArticleCtrl'
 
       .state 'cabinet.bookInfo',
+        url: '/book{id}',
+        templateUrl: 'app/main/bookInfo.html',
+        controller: 'bookInfoCtrl'
+
+      .state 'bookInfo',
         url: '/book{id}',
         templateUrl: 'app/main/bookInfo.html',
         controller: 'bookInfoCtrl'
