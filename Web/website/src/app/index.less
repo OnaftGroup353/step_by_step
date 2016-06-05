@@ -282,6 +282,16 @@ footer.main-footer {
 .bold {
 	font-weight: bold;
 }
+.delete-favorite {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  font-size: 14px;
+  color: #0b93d5;
+  &:hover {
+    color: #1b6386;
+  }
+}
 .search {
 	position: relative;
 	margin-top: -4px;
@@ -304,6 +314,8 @@ footer.main-footer {
 	}
 	input {
 		height: 30px;
+    padding-right: 43px;
+    width: 200px;
 	}
 }
 
@@ -326,9 +338,11 @@ footer.main-footer {
 		min-height: calc(~"100vh - 110px");
 		ul {
 			text-align: left;
+
 			li {
 				padding: 5px 20px;
 				border-bottom: 1px solid #acacac;
+        position: relative;
 				&:first-child {
 					border-top: 1px solid #acacac;
 				}
@@ -520,6 +534,7 @@ footer.main-footer {
 			// border: 1px solid #313131;
 			opacity: .8;
 			border-radius: 50%;
+
 
 			background:url(../assets/images/close.png);
 			background-repeat: no-repeat;

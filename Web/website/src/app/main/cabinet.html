@@ -11,6 +11,7 @@
 
 
 			<li ng-repeat="book in books" ng-click="$state.go('cabinet.bookInfo', {id: book.id})">
+        <span class="delete-favorite" ng-click="deleteFavorite(book.id, $event)" ng-if="activeTab('favorites')">Удалить</span>
         <p>ID: <span class="bold">{{book.id}}</span></p>
 				<p>Название: <span class="bold">{{book.caption}}</span></p>
 				<p>Дата: <span class="bold">{{formatDate(book.date)}}</span></p>

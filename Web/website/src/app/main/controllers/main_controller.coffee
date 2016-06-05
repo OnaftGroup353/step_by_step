@@ -60,7 +60,14 @@ angular.module "articleApp"
         return voc[text] || ''
 
 
+    $scope.isLoggined = ()->
+      return localStorage.token
 
+    $scope.articlePage = ()->
+      if $scope.isLoggined()
+        $state.go("cabinet.makeArticle")
+      else
+        $state.go('makeArticle')
     $scope.objectLength = (obj)->
       res = 0
       for i of obj

@@ -12,18 +12,22 @@ angular.module "articleApp"
     window.s = $scope
 
     $server.login {token: localStorage.token}, (data)->
-        console.log data, data.id
-        if data.error
+        console.log data, data.id,6667
+        $rootScope.$apply ()->
 
-            $scope.logout()
-        else
-            $rootScope.$apply ()->
-                $rootScope.userId = data.id
-            $scope.getManualsByUserId(data.id)
-            $rootScope.loggIn = true
+          if data.error
 
-            $server.getUserInfo {id: data.id}, (data2)->
-                $scope.user = data2
+              $scope.logout()
+          else
+
+              $rootScope.userId = data.id
+              $scope.getManualsByUserId(data.id)
+              $rootScope.loggIn = true
+
+              $server.getUserInfo {id: data.id}, (data2)->
+                  console.log data2
+                  $scope.$apply ()->
+                   $scope.user = data2
 
 
     # Заглушка
@@ -64,7 +68,12 @@ angular.module "articleApp"
                 $scope.book = data
 
 
-
+    $scope.deleteFavorite = (id, e)->
+      e.preventDefault()
+      e.stopPropagation()
+      $server.deleteFavorite {manual_id: id}, (data)->
+        if !data.error
+          $scope.getMyFavorites()
     $scope.getMyFavorites = ()->
       $server.getMyFavorites {}, (data)->
         if !data.error
