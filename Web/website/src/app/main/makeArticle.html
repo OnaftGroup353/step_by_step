@@ -180,15 +180,12 @@
 			if (callNow) func.apply(context, args);
 		};
 	};
-	$(window).scroll(debounce(function(){
-		var sc = $("body").scrollTop()
-    var h = $("body").height()
+	$(window).scroll(function(){
+		var sc = $(document).scrollTop()
+    var h = $("html").height()
     if(sc + 300 < h) {
       $(".link-picker").css({"transform": 'translateY('+sc+ "px)"});
       $("#toolbar").css({"margin-top": sc + "px"});
     }
-		// sc+=45
-		// sc = Math.max(0, 45-sc)
-
-	}, 3))
+	})
 </script>

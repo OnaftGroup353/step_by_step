@@ -43,7 +43,7 @@
         </li>
         <!-- <li><a href="" ui-sref='articles'>Все методички</a></li> -->
         <li><a href="" ng-click="articlePage()">Создать методичку</a></li>
-        <li><a href="" ng-click="$state.go('cabinet.profile')" ng-if="isLoggined">Мой профиль</a></li>
+        <li><a href="" ng-click="$state.go('cabinet.profile')" ng-if="isLoggined()">Мой профиль</a></li>
         <li><a href="" ng-click="logout()" ng-if="isLoggined()">Выход</a></li>
 
       </ul>
