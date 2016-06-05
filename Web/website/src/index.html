@@ -34,9 +34,9 @@
         <li><a href="" ng-click="showModal('register')" ng-if="$state.is('index')">Регистрация</a></li>
         <li>
           <div class="search">
-            
+
             <form  ng-submit="articleSearch()">
-              <input type="text" ng-model="search.name">
+              <input type="text" ng-model="search.name" placeholder="Поиск">
               <button class="glyphicon glyphicon-search btn-search" type="submit"></button>
             </form>
         </div>
@@ -47,7 +47,7 @@
         <li><a href="" ng-click="logout()" ng-if="$state.includes('cabinet') || $state.includes('admin')">Выход</a></li>
 
       </ul>
-    </div>  
+    </div>
   </header>
     <div ui-view class="application"></div>
 
@@ -89,7 +89,7 @@
     <script src="http://ulogin.ru/js/ulogin.js"></script>
     <script>
       function ulog(token) {
-        
+
       }
     </script>
   </body>
