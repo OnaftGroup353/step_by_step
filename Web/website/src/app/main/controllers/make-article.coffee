@@ -105,10 +105,15 @@
 
 
     normalizeChapter = (i)->
-      console.log $scope.book.chapters[i]
-      chap = {}
-      for item, j in $scope.book.chapters[i]
-        console.log item,j
+      chap = {name: $scope.book.chapters[i].name}
+      num = 1
+
+      for item,j  of $scope.book.chapters[i]
+        if item !='name'
+          chap[num] = j
+          num++
+      $scope.book.chapters[i]=chap
+      console.log chap
 
     $scope.deleteItem = (i, j)->
       j=+j
@@ -119,7 +124,6 @@
           console.log el, it, 123
           delete $scope.book.chapters[i][el]
           normalizeChapter(i)
-
           return
 
 
@@ -187,11 +191,14 @@
     $scope.moveDownItem = (i,j,e)->
       e.preventDefault();
       e.stopPropagation();
-      console.log "down", i, j
-      #temp = $scope.book.chapters[i][j]
-      #$scope.book.chapters[i][j] = $scope.book.chapters[i][j+1]
-      #$scope.book.chapters[i][j+1]
-      #console.log temp,$scope.book
+      j=+j
+      i=+i
+      temp = JSON.parse(JSON.stringify($scope.book.chapters[i][j]))
+      temp2 = JSON.parse(JSON.stringify($scope.book.chapters[i][j+1]))
+      $scope.book.chapters[i][j] = temp2
+      $scope.book.chapters[i][j+1] = temp
+
+      normalizeChapter(i)
 
       #$scope.book.chapters[i][j] = $scope.book.chapters[i-1]
       #$scope.book.chapters[i-1] = temp
@@ -199,7 +206,13 @@
     $scope.moveUpItem = (i,j,e)->
       e.preventDefault();
       e.stopPropagation();
-      console.log "up", i, j
+      j=+j
+      i=+i
+      temp = JSON.parse(JSON.stringify($scope.book.chapters[i][j]))
+      temp2 = JSON.parse(JSON.stringify($scope.book.chapters[i][j-1]))
+      $scope.book.chapters[i][j] = temp2
+      $scope.book.chapters[i][j-1] = temp
+      normalizeChapter(i)
 
     $scope.createManual = ()->
       #console.log "data: ", JSON.stringify($scope.book,null,4), $scope.book,
