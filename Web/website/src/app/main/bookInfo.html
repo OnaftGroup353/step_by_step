@@ -1,5 +1,10 @@
 
 <div class="book" ng-show="book">
+  <ol ng-if="$state.is('bookInfo')" class="breadcrumb" style="margin-bottom: 5px;">
+    <li><a href="" ui-sref="index">На главную</a></li>
+    <li><a href="" onclick="history.back()">Назад</a></li>
+    <li class="active">Методичка ID: {{book.id}}</li>
+  </ol>
   <ul class="ul-head">
     <li>ID: {{book.id}}</li>
     <li>Название: {{book.header.name}}</li>
@@ -48,7 +53,7 @@
       <p style="display: block;"ng-repeat="tag in book.tags track by $index">{{tag.tag || tag}}</p>
     </div>
   </div>
-  <button class="green" ng-click="$state.go('cabinet.makeArticle.edit', {id: book.id})">Редактировать методичку</button>
+  <button class="green" ng-click="$state.go('cabinet.makeArticle.edit', {id: book.id})" ng-if="$state.includes('cabinet')">Редактировать методичку</button>
 </div>
 
 

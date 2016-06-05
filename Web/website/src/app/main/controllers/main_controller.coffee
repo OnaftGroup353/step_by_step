@@ -75,7 +75,7 @@ angular.module "articleApp"
 
         $state.go("cabinet.search", {name: $scope.search.name})
       else
-        $state.go("cabinet.search", {name: $scope.search.name})
+        $state.go("search", {name: $scope.search.name})
 
     $rootScope.errors = {
       '000': 'null',
