@@ -1,7 +1,7 @@
 angular.module "articleApp"
   .controller "MainController", ($scope, $rootScope, $state, $server, $modal) ->
     console.log "MainController"
-
+    $scope.search = {name: ""}
     closeModals = (callback)->
       if $scope.instance
         $scope.instance.dismiss "cancel"
