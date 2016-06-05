@@ -122,11 +122,11 @@
 	    <input class="w100" ng-model='lit' add-literature placeholder="Введите ссылку и нажмите Enter">
     <!--<a style="display: block;" href="{{link}}" ng-repeat="link in book.literatures track by $index">{{link.data || link}}</a>-->
 		<div ng-repeat="link in book.literatures track by $index">
-      <div ng-if="link.indexOf('http')!=-1" >
-        <a style="display: block;" href="{{link.data || link}}" >{{link.data || link}}</a>
-      </div>
-      <div ng-if="link.indexOf('http')==-1">
-        <p>{{link.data || link}}</p>
+			<div ng-if="link.indexOf('http')!=-1" >
+				<a style="display: block;" href="{{link.data || link}}" >{{link.data || link}}</a>
+			</div>
+			<div ng-if="link.indexOf('http')==-1">
+				<p>{{link.data || link}}</p>
 			</div>
 		</div>
 

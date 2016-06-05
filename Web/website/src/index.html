@@ -30,22 +30,26 @@
     <div class="wrapper">
       <div class="logo"><a ui-sref="index">Методички Online</a></div>
       <ul>
-        <li><a href="" ng-click="enter()" ng-if="!isLoggined()">Вход</a></li>
-        <li><a href="" ng-click="showModal('register')" ng-if="!isLoggined()">Регистрация</a></li>
-        <li>
+	  <li>
           <div class="search">
-
             <form  ng-submit="articleSearch()">
               <input type="text" ng-model="search.name" placeholder="Поиск">
               <button class="glyphicon glyphicon-search btn-search" type="submit"></button>
             </form>
         </div>
         </li>
+		<!-- <li><a href="" ng-click="articlePage()">Создать методичку</a></li> -->
+		
+		<li ng-if="!isLoggined()">
+        <a href="" ng-click="enter()" >Вход</a>
+        <a href="" ng-click="showModal('register')" >Регистрация</a>
+		</li>
+		
+		<li ng-if="isLoggined()">
+        <a href="" ng-click="$state.go('cabinet.profile')" >Мой профиль</a>
+        <a href="" ng-click="logout()" >Выход</a>
+		</li>
         <!-- <li><a href="" ui-sref='articles'>Все методички</a></li> -->
-        <li><a href="" ng-click="articlePage()">Создать методичку</a></li>
-        <li><a href="" ng-click="$state.go('cabinet.profile')" ng-if="isLoggined()">Мой профиль</a></li>
-        <li><a href="" ng-click="logout()" ng-if="isLoggined()">Выход</a></li>
-
       </ul>
     </div>
   </header>
